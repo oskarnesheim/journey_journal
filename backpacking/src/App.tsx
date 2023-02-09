@@ -8,6 +8,7 @@ import { createBrowserRouter, createRoutesFromElements, Route, Link, Outlet, Rou
 import Profile from './pages/Profile'
 import About from './pages/About'
 import Login from './pages/Login'
+import { Root } from './components/Root'
 
 function App() {
     const router = createBrowserRouter(
@@ -17,11 +18,9 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/login" element={<Login />} />
-
             </Route>
         )
     )
-    
 
   return (
     <ChakraProvider>
@@ -32,17 +31,3 @@ function App() {
 
 export default App
 
-const Root = () => {
-    return (
-        <div>
-            <div>
-                <Link to={'/'}>Home</Link>
-                <Link to={'/profile'}>Profile</Link>
-                <Link to={'/about'}>AboutUs</Link>
-            </div>
-            <div>
-                <Outlet />
-            </div>
-        </div>
-    )
-}

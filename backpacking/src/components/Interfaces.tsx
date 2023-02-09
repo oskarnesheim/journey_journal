@@ -5,5 +5,6 @@ export interface Iuser{
     password: string,
     email: string,
     age: number,
-    isAdmin : boolean
+    isAdmin : boolean,
+    description : string | null
 }
