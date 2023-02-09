@@ -1,3 +1,4 @@
+import { SimpleGrid, Card, CardHeader, Heading, CardBody, CardFooter, Button } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Iuser } from "../components/Interfaces";
@@ -17,25 +18,32 @@ export default function Home() {
     getUsers();
     }, []);
 
-    const showUsers = () => {
-        const output: JSX.Element[] = []
-            users.forEach((user) =>
-            output.push(
-                <div key={user.firstname}>
-                    <div>Firstname: {user.firstname} </div>
-                    <div>Lastname: {user.lastname}</div>
-                    <div>Username: {user.username}</div>
-                    <div>Age: {user.age}</div>
-                    <br />
-                </div>) 
+    const showUsers = (usersIn:Iuser[]) => {
+        return (
+            usersIn.map((user) =>
+            <SimpleGrid key={user.firstname + " " + user.lastname} spacing={4} templateColumns='repeat(auto-fill, minmax(200px, 1fr))'>  
+                <Card paddingBottom={4} >
+                    <CardHeader >
+                        <Heading size='md'> {user.firstname} {user.lastname}</Heading>
+                    </CardHeader>
+                    <CardBody>
+                        <p>username : {user.username}</p>
+                        <p>age : {user.age}</p>
+                    </CardBody>
+                    <CardFooter>
+                        <Button>View profile</Button>
+                    </CardFooter>
+                 </Card>
+         </SimpleGrid>
     )
-    return output;
+
+    );
     } 
     return (
         <div>
         <h1>Home</h1>
         <div>
-            {showUsers()}
+            {showUsers(users)}
         </div>
         </div>
     )

@@ -26,8 +26,14 @@ export default function Login() {
         isAdmin : false}as Iuser)
         
     const addUser = ():void => {
-        setDoc(doc(database, 'users/' ,user.firstname + user.lastname), user)
-        setUser({} as Iuser)
+        setDoc(doc(database, 'users/' ,user.firstname + " " + user.lastname), user)
+        setUser({firstname: "",
+        lastname: "",
+        username: "",
+        password: "",
+        email: "",
+        age: 0,
+        isAdmin : false} as Iuser)
     }
 
     const handleClick = () => {
@@ -65,13 +71,15 @@ export default function Login() {
                     <br />
                     
                     <p>Age</p>
-                    <NumberInput defaultValue={18} min={0} max={169}>
+                    <NumberInput defaultValue={0} min={16} max={169} onChange={(e) => setUser(
+                    {...user, age: parseInt(e)})}>
                         <NumberInputField />
                             <NumberInputStepper>
                                 <NumberIncrementStepper />
                             <NumberDecrementStepper />
                         </NumberInputStepper>
-                    </NumberInput>
+                    <FormHelperText>You must be over 15 to join</FormHelperText>
+                    </NumberInput >
 
                     <FormLabel>Password</FormLabel>
                         <Input type='email' value={user.password} onChange={(e) => setUser(
@@ -85,5 +93,4 @@ export default function Login() {
             </div>
         </div>
       );
-    }   
-
+    } 
