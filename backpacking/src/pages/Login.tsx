@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { Iuser } from "../components/Interfaces"
 import {setDoc, doc} from "firebase/firestore"
-import {database} from "../firebase-config"
+import {auth, database, provider} from "../firebase-config"
 import { FormControl, FormLabel, Input, FormHelperText, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Button } from "@chakra-ui/react"
+import { signInWithPopup } from "firebase/auth"
 
 // export interface Iuser{
 //     firstname: string,
@@ -16,6 +17,7 @@ import { FormControl, FormLabel, Input, FormHelperText, NumberDecrementStepper, 
 
 
 export default function Login() {
+    const [createUserOrLogin, setcreateUserOrLogin] = useState(false);
     const [user, setUser] = useState<Iuser>({
         firstname: "",
         lastname: "",
@@ -39,19 +41,32 @@ export default function Login() {
     const handleClick = () => {
 
     }
+
+    const signInWithGoogle = async () => {
+        try{
+            const userDredentials = await signInWithPopup(auth,provider)
+            console.log('usercredentials: ' + userDredentials)
+
+        } catch (error){
+            console.log(error)
+        }
+    }
         
       
     
+    if (createUserOrLogin){
 
-    return (
-        <div>
+        return (
+            
+            <div>
             <h1>Login</h1>
 
+             
             <div>
                 <FormControl>
                     <FormLabel>Firstname</FormLabel>
                         <Input type='email' value={user.firstname} onChange={(e) => setUser(
-                    {...user, firstname: e.target.value})}/>
+                            {...user, firstname: e.target.value})}/>
 
 
                     <FormLabel>Lastname</FormLabel>
@@ -61,12 +76,12 @@ export default function Login() {
 
                     <FormLabel>Username</FormLabel>
                         <Input type='email' value={user.username} onChange={(e) => setUser(
-                    {...user, username: e.target.value})}/>
+                            {...user, username: e.target.value})}/>
 
 
                     <FormLabel>Email address</FormLabel>
                         <Input type='email' value={user.email} onChange={(e) => setUser(
-                    {...user, email: e.target.value})}/>
+                            {...user, email: e.target.value})}/>
                     <br />
                     <br />
                     
@@ -83,7 +98,7 @@ export default function Login() {
 
                     <FormLabel>Password</FormLabel>
                         <Input type='email' value={user.password} onChange={(e) => setUser(
-                    {...user, password: e.target.value})}/>
+                            {...user, password: e.target.value})}/>
                     <FormHelperText><b> We'll never share your password or email</b></FormHelperText>
                     <br />
                     <Button colorScheme='teal' variant='outline' onClick={addUser}>
@@ -91,6 +106,17 @@ export default function Login() {
                     </Button>
                 </FormControl>
             </div>
+            : 
+            
+
         </div>
       );
+    }
+    else{
+        return(
+            <div>
+                <button onClick={signInWithGoogle}>Login With Google</button>
+            </div>
+        )
+    }
     } 
