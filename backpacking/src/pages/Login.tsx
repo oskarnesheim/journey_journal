@@ -3,7 +3,7 @@ import { Iuser } from "../components/Interfaces"
 import {setDoc, doc} from "firebase/firestore"
 import {auth, database, provider} from "../firebase-config"
 import { FormControl, FormLabel, Input, FormHelperText, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Button } from "@chakra-ui/react"
-import { signInWithPopup } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
 
 // export interface Iuser{
 //     firstname: string,
@@ -17,7 +17,7 @@ import { signInWithPopup } from "firebase/auth"
 
 
 export default function Login() {
-    const [createUserOrLogin, setcreateUserOrLogin] = useState(false);
+    const [createUserOrLogin, setcreateUserOrLogin] = useState(true);
     const [user, setUser] = useState<Iuser>({
         firstname: "",
         lastname: "",
@@ -29,6 +29,7 @@ export default function Login() {
         
     const addUser = ():void => {
         setDoc(doc(database, 'users/' ,user.firstname + " " + user.lastname), user)
+        signUpUser();
         setUser({firstname: "",
         lastname: "",
         username: "",
@@ -36,16 +37,27 @@ export default function Login() {
         email: "",
         age: 0,
         isAdmin : false} as Iuser)
+
     }
 
-    const handleClick = () => {
-
+    const signUpUser = async () => {
+        const email = user.email;
+        const password = user.password;
+        try{
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            console.log(user)
+        } catch (error){
+            console.log(error);
+        }
     }
 
     const signInWithGoogle = async () => {
         try{
-            const userDredentials = await signInWithPopup(auth,provider)
-            console.log('usercredentials: ' + userDredentials)
+            const userCredential = await signInWithPopup(auth,provider)
+            const user =  userCredential.user;
+            console.log(userCredential)
+            console.log(user)
 
         } catch (error){
             console.log(error)
