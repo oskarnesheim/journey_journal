@@ -3,7 +3,7 @@ import { Iuser } from "../components/Interfaces"
 import {setDoc, doc} from "firebase/firestore"
 import {auth, database, provider} from "../firebase-config"
 import { FormControl, FormLabel, Input, FormHelperText, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Button } from "@chakra-ui/react"
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth"
+import { createUserWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth"
 
 // export interface Iuser{
 //     firstname: string,
@@ -63,6 +63,15 @@ export default function Login() {
             console.log(error)
         }
     }
+
+    const signOutUser = async () => {
+        try{
+            await signOut(auth);
+            alert("You have been signed out");
+        } catch (error){
+            console.log(error)
+        }
+    }
         
       
     
@@ -117,6 +126,7 @@ export default function Login() {
                         Button
                     </Button>
                 </FormControl>
+                <button onClick={signOutUser}>Logg out</button>
             </div>
             : 
             
