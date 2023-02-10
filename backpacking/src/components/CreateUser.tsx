@@ -81,7 +81,7 @@ const CreateUser = () =>{
                 <FormHelperText><b> We'll never share your password or email</b></FormHelperText>
                 <br />
                 <Button colorScheme='teal' variant='outline' onClick={addUser}>
-                    Button
+                    Create
                 </Button>
             </FormControl>
         </div>

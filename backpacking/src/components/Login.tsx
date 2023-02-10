@@ -1,8 +1,12 @@
 import { FormControl, FormLabel, Input, FormHelperText } from "@chakra-ui/react";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { useState } from "react";
 import { auth, provider } from "../firebase-config";
 
 const Login = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     const signInWithGoogle = async () => {
         try{
             const userCredential = await signInWithPopup(auth,provider)
@@ -16,26 +20,32 @@ const Login = () => {
     }
 
     const signInWithMailPassword = async () => {
-        
-        
+        try{
+            const emailSignIn = email;
+            const passwordSignIn = password;
+            const userCredential = await signInWithEmailAndPassword(auth, emailSignIn, passwordSignIn);
+            const user = userCredential.user;
+            console.log(user)
+        }catch(error){console.log(error);}  
     }
-
-
-    
 
     return(
         <div>
-            // form that takes in email and password
-
             <FormControl>
                 <FormLabel>Email address</FormLabel>
-                    <Input type='email' />
+                    <Input type='email' onChange={e => {
+                        setEmail(e.target.value)
+                    }}/>
                 <FormLabel>Password</FormLabel>
-                    <Input type='password' />
-                    <button onClick={signInWithMailPassword} type="submit"></button>
+                    <Input type='password' onChange={e =>{
+                        setPassword(e.target.value)
+                    }}/>
+                    <button onClick={signInWithMailPassword} type="submit">Sign in</button>
             </FormControl>
 
-            <button onClick={signInWithGoogle}>Login With Google</button>
+            <p>Or sign in with  
+                <button onClick={signInWithGoogle}> Google</button>
+            </p>
         </div>
     )
 }

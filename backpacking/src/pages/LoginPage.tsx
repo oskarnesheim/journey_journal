@@ -37,7 +37,7 @@ export default function LoginPage() {
             <div>
                 {createUserOrLogin ? <CreateUser/> : <Login/>}
             </div>
-            <button onClick={createUserOrLoginSwitcher}>{createUserOrLogin? "Create a user": "Back"}</button>
+            <button onClick={createUserOrLoginSwitcher}>{createUserOrLogin? "Login" : "Create a user"}</button>
             <button onClick={signOutUser}>Logg out</button>
         </div>
     )
