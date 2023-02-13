@@ -28,13 +28,13 @@ section{
     background-color: #C9EFC7;
 }
 
-#logo {
+/* #logo {
     background-image: url('../images/journey-journal-high-resolution-logo-color-on-transparent-background.png');
-}
+} */
 
 .Navbar {
     display: flex;
-    position: fixed;
+    position: static;
     top: 0;
     left: 0;
     right: 0;
@@ -69,10 +69,10 @@ section{
 .header {
     margin-top: 100px;
 }
-.feed-box {
+/* .feed-box {
     border: 1px solid #ccc;
     padding: 0px;
     width: 500px;
     height: 500px;
     overflow-y: scroll;
-}
+} */
