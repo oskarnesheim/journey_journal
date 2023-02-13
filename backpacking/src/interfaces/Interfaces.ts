@@ -8,3 +8,11 @@ export interface Iuser{
     isAdmin : boolean,
     description : string | null
 }
+
+export interface Ipost{
+    title: string,
+    startPlace: string,
+    finishplace: string,
+    cost: string,
+    story: string,
+}
