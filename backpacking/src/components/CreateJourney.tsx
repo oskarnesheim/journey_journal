@@ -1,67 +1,90 @@
 import { FormControl, FormLabel, Input, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText, Button } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
-import { database, auth, firestoreAutoId } from "../firebase-config";
+import { database, auth, firestoreAutoId, getUserProfile } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
 
 
 
 const CreateJourney = () =>{
-
+    const user = getAuth().currentUser;
+    const userProfile = getUserProfile(user?.uid!);
+    console.log(userProfile)
     const [journey, setJourney] = useState<Ijourney>({
+        title: "",
         distance: "",
         cost: 0,
         userID: "",
         journeyPath: [],
         description: ""
     })
+
+    const showPath = (journey:Ijourney) => {
+        return(
+            <div>
+                {journey.journeyPath.map((path) => 
+                    {
+                        return <li>{path.longitude},{path.latitude}</li>;
+                    } 
+                )}
+            </div>
+        )
+    }
         
         
     const addJourney = ():void => {
+        // setJourney({...journey, userID : "1232"})
         setDoc(doc(database, 'journeys/' ,firestoreAutoId()), journey)
-        setJourney({distance: "",
+        setJourney({
+        title: "",
+        distance: "",
         description: "",
         cost: 0,
         userID: "",
         journeyPath: [],} as Ijourney)
 
     }
-
-    // const createJourney = async () => {
-    //     const distanse = journey.distanse;
-    //     const kostnad = journey.kostnad;
-    //     const userID = journey.userID;
-    //     const journeyPath = journey.journeyPath;
-    // }
     return(
-      <FormControl>
-                <FormLabel>Distance in km</FormLabel>
-                    <Input type='text' value={journey.distanse} onChange={(e) => setJourney(
-                        {...journey, distanse: e.target.value})}/>
+        <div>
+        <FormControl>
+            <FormLabel colorScheme='#454545'>Trip name</FormLabel>
+                <Input placeholder = 'Trip name' type='text' value={journey.title} onChange={(e) => setJourney(
+                    {...journey, title: e.target.value})}/>
 
 
-                <FormLabel>Cost in NOK</FormLabel>
-                    <Input type='number' value={journey.kostnad} onChange={e => setJourney(
-                      {...journey, kostnad : parseInt(e.target.value)}
-                    )}/>
+            {/* <FormLabel colorScheme='#454545'>Place of start</FormLabel>
+                <Input placeholder = 'Startpoint' type='email' value={journey.startPlace} onChange={(e) => setPost(
+            {...journey, startPlace: e.target.value})}/> */}
 
 
-                <FormLabel>Who traveled</FormLabel>
-                <Input type='text' value={journey.userID} onChange={e => setJourney(
-                      {...journey, userID : e.target.value}
-                      )}/>
+            {/* <FormLabel colorScheme='#454545'>Place of end</FormLabel>
+                <Input placeholder = 'Endpoint' type='email' value={post.finishplace} onChange={(e) => setPost(
+                    {...post, finishplace: e.target.value})}/> */}
 
-                <FormLabel>Where did you travel</FormLabel>
-                <Input type='text' value={journey.journeyPath} onChange={e => setJourney(
-                      {...journey, journeyPath : e.target.value}
-                      )}/>
+            <br />
+            
+            <FormLabel colorScheme='pink'>Cost</FormLabel>
+                <Input placeholder = 'Cost' type='number' value={journey.cost} onChange={(e) => setJourney(
+                    {...journey, cost: parseInt(e.target.value)})}/>
+            <br />
+            <FormLabel colorScheme='pink'>Distance in km</FormLabel>
+                <Input placeholder = 'how far?' type='number' value={journey.distance} onChange={(e) => setJourney(
+                    {...journey, distance: e.target.value})}/>
+            <br />
+            <br />
+            <FormLabel colorScheme='#454545'> Tell about your trip!</FormLabel>
+                <Input placeholder = 'Write all your fun experiences!' type='text' value={journey.description} onChange={(e) => setJourney(
+                    {...journey, description: e.target.value})}/>
+            <br />
+            <br />
+            <Button colorScheme='#454545' background= '#C9EFC7' variant='outline' onClick={addJourney}>
+                Post
+            </Button>
+        </FormControl>
+    </div>
 
-
-                <Button colorScheme='teal' variant='outline' onClick={}>
-                    Create Journey
-                </Button>
-            </FormControl>
     )
-
   }
+
+  export default CreateJourney;

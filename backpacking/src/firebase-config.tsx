@@ -2,6 +2,7 @@ import { getFirestore, collection} from '@firebase/firestore'
 // Import the functions you need from the SDKs you need
 import { initializeApp,  } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { doc, getDoc } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -40,4 +41,16 @@ export const firestoreAutoId = (): string => {
     )
   }
   return autoId
+}
+
+export const getUserProfile = async (userId: string) => {
+    console.log(userId)
+    const userRef = doc(database, 'users', userId)
+    const docSnap = await getDoc(userRef)
+    
+    if (docSnap.exists()) {
+        return docSnap.data()
+    } else {
+        return null
+    }
 }

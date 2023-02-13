@@ -12,6 +12,7 @@ export interface Iuser{
 }
 
 export interface Ijourney{
+    title: string,
     distance: string,
     description: string,
     cost: number,
