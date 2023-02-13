@@ -1,7 +1,7 @@
 import { SimpleGrid, Card, CardHeader, Heading, CardBody, CardFooter, Button } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
-import { Iuser } from "../components/Interfaces";
+import { Iuser } from "../interfaces/Interfaces";
 import { getCollection } from "../firebase-config";
 
 export default function Home() {
