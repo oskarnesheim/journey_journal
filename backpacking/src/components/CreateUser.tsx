@@ -5,6 +5,19 @@ import { useState } from "react";
 import { database, auth } from "../firebase-config";
 import { Iuser } from "../interfaces/Interfaces";
 
+export const firestoreAutoId = (): string => {
+    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  
+    let autoId = ''
+  
+    for (let i = 0; i < 20; i++) {
+      autoId += CHARS.charAt(
+        Math.floor(Math.random() * CHARS.length)
+      )
+    }
+    return autoId
+}
+
 const CreateUser = () =>{
 
     const [user, setUser] = useState<Iuser>({
@@ -17,7 +30,7 @@ const CreateUser = () =>{
         isAdmin : false}as Iuser)
         
     const addUser = ():void => {
-        setDoc(doc(database, 'users/' ,user.firstname + " " + user.lastname), user)
+        setDoc(doc(database, 'users/' ,firestoreAutoId()), user)
         signUpUser();
         setUser({firstname: "",
         lastname: "",
