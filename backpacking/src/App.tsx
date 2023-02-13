@@ -1,29 +1,23 @@
 import './App.css'
-import {Button, ChakraProvider} from '@chakra-ui/react'
 import Home from './pages/Home'
-import { createBrowserRouter, createRoutesFromElements, Route, Link, Outlet, RouterProvider } from 'react-router-dom'
+import { Route, Routes, BrowserRouter } from 'react-router-dom'
 
 import Profile from './pages/Profile'
 import About from './pages/About'
 import LoginPage from './pages/LoginPage'
-import { Root } from './components/Root'
+import Navbar from './components/Navbar'
 
 function App() {
-    const router = createBrowserRouter(
-        createRoutesFromElements(
-            <Route path="/" element={<Root />}>
-                <Route index  element={<LoginPage />} />
+  return (
+        <BrowserRouter>
+        <Navbar/>
+            <Routes>
+                <Route path='/'  element={<LoginPage />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/home" element={<Home />} />
-            </Route>
-        )
-    )
-
-  return (
-    <ChakraProvider>
-        <RouterProvider router={router}/>
-    </ChakraProvider>
+            </Routes>
+        </BrowserRouter>
   )
 }
 

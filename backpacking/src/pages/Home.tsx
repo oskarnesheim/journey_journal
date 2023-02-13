@@ -3,6 +3,7 @@ import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Iuser } from "../interfaces/Interfaces";
 import { getCollection } from "../firebase-config";
+import '../components/components.css'
 
 export default function Home() {
     const [users, setUsers] = useState<Iuser[]>([]);
@@ -41,10 +42,12 @@ export default function Home() {
     } 
     return (
         <div>
-        <h1>Home</h1>
-        <div>
-            {showUsers(users)}
-        </div>
+            <body>
+                <div className="feed-box">
+                {showUsers(users)}
+                </div>
+
+            </body>
         </div>
     )
 }
