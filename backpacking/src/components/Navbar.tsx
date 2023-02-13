@@ -7,8 +7,8 @@ const Navbar = () => {
                 <li className="homebutton">
                     <Link to={'/home'}><img src='../images/journey-journal-high-resolution-logo-color-on-transparent-background.png'/></Link>
                 </li>
-                <li>
-                    <Link to={'/profile'}>Profile</Link>
+                <li className='hover:text-black'>
+                    <Link  to={'/profile'}>Profile</Link>
                 </li>
                 <li>
                     <Link to={'/about'}>About us</Link>
