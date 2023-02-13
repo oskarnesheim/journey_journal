@@ -2,21 +2,8 @@ import { FormControl, FormLabel, Input, NumberInput, NumberInputField, NumberInp
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { useState } from "react";
-import { database, auth } from "../firebase-config";
+import { database, auth, firestoreAutoId } from "../firebase-config";
 import { Iuser } from "../interfaces/Interfaces";
-
-export const firestoreAutoId = (): string => {
-    const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  
-    let autoId = ''
-  
-    for (let i = 0; i < 20; i++) {
-      autoId += CHARS.charAt(
-        Math.floor(Math.random() * CHARS.length)
-      )
-    }
-    return autoId
-}
 
 const CreateUser = () =>{
 

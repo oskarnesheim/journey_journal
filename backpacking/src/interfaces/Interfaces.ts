@@ -12,8 +12,9 @@ export interface Iuser{
 }
 
 export interface Ijourney{
-    distanse: string,
-    kostnad: string,
+    distance: string,
+    description: string,
+    cost: number,
     userID: string,
     journeyPath: Array<GeoPoint>,
 }

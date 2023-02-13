@@ -21,3 +21,7 @@
 ### [WIP] — work in progress
 
 ### [REMOVE] — when removing files or old, unnecessary code 
+
+# Hvordan
+
+Formatet på en git melding skal være: #branch nummer kodeord - beskrivelse
