@@ -11,8 +11,6 @@ const Login = () => {
         try{
             const userCredential = await signInWithPopup(auth,provider)
             const user =  userCredential.user;
-            console.log(userCredential)
-            console.log(user)
 
         } catch (error){
             console.log(error)
@@ -26,6 +24,7 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, emailSignIn, passwordSignIn);
             const user = userCredential.user;
             console.log(user)
+            
         }catch(error){console.log(error);}  
     }
 
