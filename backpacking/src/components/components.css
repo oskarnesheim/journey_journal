@@ -1,78 +1,82 @@
 body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 
-    
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #C9EFC7;
- 
-
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #c9efc7;
 }
 
-section{
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #c9efc7;
+}
 
-    
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-color: #C9EFC7;
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #c9efc7;
 }
 
 #logo {
-    background-image: url('../images/journey-journal-high-resolution-logo-color-on-transparent-background.png');
+  background-image: url("../images/journey-journal-high-resolution-logo-color-on-transparent-background.png");
 }
 
 .Navbar {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 100px;
-    line-height: 100px;
-    background-color: #C9EFC7;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  line-height: 100px;
+  background-color: #c9efc7;
 }
 
 .NavbarInline li {
-    font-size: 25px;
-    color: #454545;
-    display: inline;
-    float: left;
-    margin-right: 75px;
-    
-    font-weight: bold;
+  font-size: 25px;
+  color: #454545;
+  display: inline;
+  float: left;
+  margin-right: 75px;
+
+  font-weight: bold;
 }
 
 .homebutton {
-    list-style-type: none;
-    margin-top: 5px;
-    background-size: cover;
-    height: 100px;
-    width: 120px;
-    display: inline-block;
+  list-style-type: none;
+  margin-top: 5px;
+  background-size: cover;
+  height: 100px;
+  width: 120px;
+  display: inline-block;
 }
 
 .loginbutton {
-    margin-left: 750px;
+  margin-left: 750px;
 }
 
 .header {
-    margin-top: 100px;
+  margin-top: 100px;
 }
 .feed-box {
-    border: 1px solid #ccc;
-    padding: 0px;
-    width: 500px;
-    height: 500px;
-    overflow-y: scroll;
+  border: 1px solid #ccc;
+  padding: 0px;
+  width: 500px;
+  height: 500px;
+  overflow-y: scroll;
 }
