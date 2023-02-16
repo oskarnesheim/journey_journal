@@ -8,7 +8,8 @@ export interface Iuser{
     email: string,
     age: number,
     isAdmin : boolean,
-    description : string | null
+    description : string | null,
+    uid : string
 }
 
 export interface Ijourney{

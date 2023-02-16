@@ -1,5 +1,5 @@
 import { FormControl, FormLabel, Input, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText, Button } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 import { useState } from "react";
 import { database, auth, firestoreAutoId } from "../firebase-config";
@@ -11,41 +11,47 @@ import { useRecoilState } from "recoil";
 
 const CreateUser = () =>{
     const navigate = useNavigate();
-    const [user, setUser] = useState({
+    const [newUser, setUser] = useState({
         firstname: "",
         lastname: "",
         username: "",
         password: "",
         email: "",
         age: 0,
-        isAdmin : false}as Iuser)
+        isAdmin : false,
+        uid : ""}as Iuser)
         
     const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
     const addUser = ():void => {
         signUpUser().then((res)=>{
-            setDoc(doc(database, 'users/' ,res), globalUser)
+            setDoc(doc(database, 'users/' ,newUser.firstname + " " + newUser.lastname), newUser)
         });
-        setGlobalUser(user)
-        setUser({
-            firstname: "",
-            lastname: "",
-            username: "",
-            password: "",
-            email: "",
-            age: 0,
-            isAdmin : false} as Iuser)
+        setGlobalUser(newUser)
+        // setUser({
+        //     firstname: "",
+        //     lastname: "",
+        //     username: "",
+        //     password: "",
+        //     email: "",
+        //     age: 0,
+        //     isAdmin : false} as Iuser)
         navigate('/home');
     }
 
     const signUpUser = async ():Promise<string> => {
-        const email = user.email;
-        const password = user.password;
+        const email = newUser.email;
+        const password = newUser.password;
         try{
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
-            const uid = user.uid;
-            return uid;
+
+        // onAuthStateChanged(auth, (user) => {
+            
+        // });
+            const userCredentialUID = userCredential.user.uid;
+            setUser({...newUser, uid: userCredentialUID})
+            newUser.uid = userCredential.user.uid;
+            return userCredentialUID;
         } catch (error){
             console.log(error);
         }
@@ -55,29 +61,29 @@ const CreateUser = () =>{
         <div>
             <FormControl>
                 <FormLabel>Firstname</FormLabel>
-                    <Input type='email' value={user.firstname} onChange={(e) => setUser(
-                        {...user, firstname: e.target.value})}/>
+                    <Input type='email' value={newUser.firstname} onChange={(e) => setUser(
+                        {...newUser, firstname: e.target.value})}/>
 
 
                 <FormLabel>Lastname</FormLabel>
-                    <Input type='email' value={user.lastname} onChange={(e) => setUser(
-                {...user, lastname: e.target.value})}/>
+                    <Input type='email' value={newUser.lastname} onChange={(e) => setUser(
+                {...newUser, lastname: e.target.value})}/>
 
 
                 <FormLabel>Username</FormLabel>
-                    <Input type='email' value={user.username} onChange={(e) => setUser(
-                        {...user, username: e.target.value})}/>
+                    <Input type='email' value={newUser.username} onChange={(e) => setUser(
+                        {...newUser, username: e.target.value})}/>
 
 
                 <FormLabel>Email address</FormLabel>
-                    <Input type='email' value={user.email} onChange={(e) => setUser(
-                        {...user, email: e.target.value})}/>
+                    <Input type='email' value={newUser.email} onChange={(e) => setUser(
+                        {...newUser, email: e.target.value})}/>
                 <br />
                 <br />
                 
                 <p>Age</p>
                 <NumberInput defaultValue={0} min={16} max={169} onChange={(e) => setUser(
-                {...user, age: parseInt(e)})}>
+                {...newUser, age: parseInt(e)})}>
                     <NumberInputField />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
@@ -87,8 +93,8 @@ const CreateUser = () =>{
                 </NumberInput >
 
                 <FormLabel>Password</FormLabel>
-                    <Input type='password' value={user.password} onChange={(e) => setUser(
-                        {...user, password: e.target.value})}/>
+                    <Input type='password' value={newUser.password} onChange={(e) => setUser(
+                        {...newUser, password: e.target.value})}/>
                 <FormHelperText><b> We'll never share your password or email</b></FormHelperText>
                 <br />
                 <Button colorScheme='teal' variant='outline' onClick={addUser}>
