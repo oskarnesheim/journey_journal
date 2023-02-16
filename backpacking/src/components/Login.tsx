@@ -1,5 +1,5 @@
 import { FormControl, FormLabel, Input, FormHelperText } from "@chakra-ui/react";
-import { signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { getDocs, where,query } from "firebase/firestore";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [globalUser, setGlobalUser] = useRecoilState(UserState)
+    const auth = getAuth();
     
     const navigate = useNavigate();
 
@@ -20,15 +21,14 @@ const Login = () => {
         try{
             const userCredential = await signInWithPopup(auth,provider)
             const user =  userCredential.user;
-            const uid = user.uid;
-            console.log("🚀 ~ file: Login.tsx:24 ~ signInWithGoogle ~ uid", uid)
+            const userEmail = user.email;
 
             const getUsersRef = getCollection('users');
-            const q = query(getUsersRef,where('Document ID', '==', uid));
 
-
+            const q = query(getUsersRef,where('email', '==', userEmail));
             const querySnapshot = await getDocs(q);
             if (querySnapshot.empty) {
+                setErrorMessage("Invalid login - no users with that email");
                 console.log('No matching documents.');
                 return;
             } else{
@@ -54,9 +54,8 @@ const Login = () => {
 
             const getUsersRef = getCollection('users');
             const q = query(getUsersRef,where('__name__', '==', uid));
-            // const q = query(getUsersRef,where('Document ID', '==', uid));
-
             const querySnapshot = await getDocs(q);
+
             if (querySnapshot.empty) {
                 console.log('No matching documents.');
                 setErrorMessage("Invalid login - no users with that email");
@@ -66,6 +65,7 @@ const Login = () => {
                     querySnapshot.docs.map((person) => ({...person.data()} as Iuser))[0]
                 )
                 navigate('/home')
+                console.log(auth.currentUser?.displayName); //! Hvorfor får jeg null her!?
             }
         }catch(error){
             console.log(error);

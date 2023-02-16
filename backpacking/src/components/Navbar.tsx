@@ -1,12 +1,13 @@
 import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { Iuser } from "../interfaces/Interfaces";
 import { UserState } from "../recoil/atoms";
 
 const Navbar = () => {
     const [user, setUser] = useRecoilState(UserState);
+    const navigate = useNavigate();
 
     return(
         <div className="Navbar">
@@ -25,6 +26,16 @@ const Navbar = () => {
                 </li>
                 <li>
                      <p>{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
+                </li>
+                <li>
+                    {user ? 
+                    <button onClick={() => {
+                        setUser(undefined);
+                        getAuth().signOut();
+                        navigate('/');
+                        }}>Logout</button>
+                    : ""
+                    }
                 </li>
             </ul>
         </div>
