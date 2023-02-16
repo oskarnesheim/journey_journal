@@ -18,21 +18,26 @@ export default function Profile() {
     const getUser = async () => {
         const data = await getDocs(getUsersRef)
         const users = data.docs.map((person) => ({...person.data()} as Iuser))
-        const user = users.find((user) => user.email === userAuth?.email);
+        console.log(users)
+        const user = users.find((user) => 
+        {
+            console.log(user.email, userAuth?.email)
+            user.email === userAuth?.email
+
+        });
         setCurrentUser(user => user as Iuser)
     }
     
     useEffect(() => {
         try{
             getUser();
-            console.log(currentUser)
         }catch(error){
             console.log(error)
         }
-        // if (!userAuth) {
-        //     setErrorMessage("You are not logged in, and can therefor not post a message");
-        //     return;
-        // }
+        if (!userAuth) {
+            setErrorMessage("You are not logged in, and can therefor not post a message");
+            return;
+        }
         
 
         

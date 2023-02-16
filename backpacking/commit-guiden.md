@@ -24,4 +24,6 @@
 
 # Hvordan
 
-Formatet på en git melding skal være: #branch nummer kodeord - beskrivelse
+Formatet på en git melding skal være: #(branch nummer) kodeord - beskrivelse
+
+Her menes kodeord som en av kategoriene beskrevet over.

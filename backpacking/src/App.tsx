@@ -7,9 +7,12 @@ import Profile from './pages/Profile'
 import About from './pages/About'
 import LoginPage from './pages/LoginPage'
 import Navbar from './components/Navbar'
+import { useState } from 'react'
+
 
 function App() {
-  return (
+    
+    return (
       <BrowserRouter>
         <Navbar/>
         <div className='w-full h-[80vh] flex flex-col justify-center items-center'>

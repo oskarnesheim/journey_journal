@@ -5,10 +5,13 @@ import { useState } from "react";
 import { database, auth, firestoreAutoId } from "../firebase-config";
 import { Iuser } from "../interfaces/Interfaces";
 import "../index.css"
+import { useNavigate } from "react-router-dom";
+import { UserState } from "../recoil/atoms";
+import { useRecoilState } from "recoil";
 
 const CreateUser = () =>{
-
-    const [user, setUser] = useState<Iuser>({
+    const navigate = useNavigate();
+    const [user, setUser] = useState({
         firstname: "",
         lastname: "",
         username: "",
@@ -17,29 +20,36 @@ const CreateUser = () =>{
         age: 0,
         isAdmin : false}as Iuser)
         
-    const addUser = ():void => {
-        setDoc(doc(database, 'users/' ,firestoreAutoId()), user)
-        signUpUser();
-        setUser({firstname: "",
-        lastname: "",
-        username: "",
-        password: "",
-        email: "",
-        age: 0,
-        isAdmin : false} as Iuser)
+    const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
+    const addUser = ():void => {
+        signUpUser().then((res)=>{
+            setDoc(doc(database, 'users/' ,res), globalUser)
+        });
+        setGlobalUser(user)
+        setUser({
+            firstname: "",
+            lastname: "",
+            username: "",
+            password: "",
+            email: "",
+            age: 0,
+            isAdmin : false} as Iuser)
+        navigate('/home');
     }
 
-    const signUpUser = async () => {
+    const signUpUser = async ():Promise<string> => {
         const email = user.email;
         const password = user.password;
         try{
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-            console.log(user)
+            const uid = user.uid;
+            return uid;
         } catch (error){
             console.log(error);
         }
+        return "feil i bruker";
     }
     return(
         <div>

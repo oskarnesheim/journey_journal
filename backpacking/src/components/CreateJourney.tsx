@@ -10,7 +10,7 @@ import { Ijourney } from "../interfaces/Interfaces";
 const CreateJourney = () =>{
     const user = getAuth().currentUser;
     const userProfile = getUserProfile(user?.uid!);
-    console.log(userProfile)
+    // console.log(userProfile + "userprofile")
     const [journey, setJourney] = useState<Ijourney>({
         title: "",
         distance: "",

@@ -1,6 +1,13 @@
+import { getAuth } from "firebase/auth";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { Iuser } from "../interfaces/Interfaces";
+import { UserState } from "../recoil/atoms";
 
 const Navbar = () => {
+    const [user, setUser] = useRecoilState(UserState);
+
     return(
         <div className="Navbar">
             <ul className="NavbarInline">
@@ -15,6 +22,9 @@ const Navbar = () => {
                 </li>
                 <li className='hover:text-pink-500'>
                     <Link to={'/'}>Login</Link>
+                </li>
+                <li>
+                     <p>{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
                 </li>
             </ul>
         </div>
