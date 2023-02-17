@@ -4,6 +4,7 @@ import { setDoc, doc } from "firebase/firestore";
 import { useState } from "react";
 import { database, auth } from "../firebase-config";
 import { Iuser } from "../interfaces/Interfaces";
+import "../index.css"
 
 const CreateUser = () =>{
 
