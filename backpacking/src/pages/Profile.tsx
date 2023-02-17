@@ -79,7 +79,7 @@ export default function Profile() {
 
     return (
         <div className='w-full'>
-            <h1> {currentUser? "Welcome back"+ currentUser.firstname+ " " + currentUser.lastname: "Not Logged In"}</h1>
+            <h1> {currentUser? "Welcome back "+ currentUser.firstname+ " " + currentUser.lastname: "Not Logged In"}</h1>
             <h3>{errorMessage}</h3>
             <div>
                 {currentUser?.email}
