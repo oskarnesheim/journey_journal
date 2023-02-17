@@ -16,6 +16,9 @@ const Navbar = () => {
                     <Link to={'/home'}><img src='../images/journey-journal-high-resolution-logo-color-on-transparent-background.png'/></Link>
                 </li>
                 <li className='hover:text-pink-500'>
+                    <Link  to={'/home'}>Home</Link>
+                </li>
+                <li className='hover:text-pink-500'>
                     <Link  to={'/profile'}>Profile</Link>
                 </li>
                 <li className='hover:text-pink-500'>
