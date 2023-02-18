@@ -3,26 +3,29 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import CreateJourney from "../components/CreateJourney";
 import UseAuth from "../custom-hooks/UseAuth";
-import { getCollection } from "../firebase-config";
+import { auth, getCollection } from "../firebase-config";
 import { Ijourney, Iuser } from "../interfaces/Interfaces";
 import { UserState } from "../recoil/atoms";
 
 
 export default function Profile() {
-    const userAuth = UseAuth();
     const [newPostToggle, setNewPostToggle] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [currentUser, setCurrentUser] = useRecoilState(UserState);
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]);
+
+    useEffect(() => {
+        console.log(auth.currentUser?.displayName)
+        console.log(auth.currentUser?.uid)
+    }, [currentUser]);
     
     
     const getJourneyRef = getCollection('journeys');
 
     const getUserPosts = async () => {
-        if (userAuth) {
-            const q = query(getJourneyRef,where('userID', '==', userAuth.uid));
+        if (auth) {
+            const q = query(getJourneyRef,where('userID', '==', auth.currentUser?.uid));
             const data = await getDocs(q)
-            console.log("🚀 ~ file: Profile.tsx:25 ~ getUserPosts ~ data", data)
             setUserPosts(
                 data.docs.map((journey) => ({...journey.data()} as Ijourney))
             )
@@ -30,8 +33,8 @@ export default function Profile() {
     }
     
     useEffect(() => {
-        console.log(userAuth?.displayName)
-        if (!userAuth) {
+        console.log(auth.currentUser?.displayName)
+        if (!auth.currentUser) {
             setErrorMessage("You are not logged in, and can therefore not post a message");
             return;
         }
