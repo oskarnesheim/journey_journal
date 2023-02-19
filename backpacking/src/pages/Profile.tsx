@@ -13,28 +13,9 @@ export default function Profile() {
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [currentUser, setCurrentUser] = useRecoilState(UserState);
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]);
-
-    useEffect(() => {
-        console.log(auth.currentUser?.displayName)
-        console.log(auth.currentUser?.uid)
-    }, [currentUser]);
-    
-    
-    const getJourneyRef = getCollection('journeys');
-
-    const getUserPosts = async () => {
-        if (auth) {
-            const q = query(getJourneyRef,where('userID', '==', auth.currentUser?.uid));
-            const data = await getDocs(q)
-            setUserPosts(
-                data.docs.map((journey) => ({...journey.data()} as Ijourney))
-            )
-        }
-    }
     
     useEffect(() => {
-        console.log(auth.currentUser?.displayName)
-        if (!auth.currentUser) {
+        if (!auth) {
             setErrorMessage("You are not logged in, and can therefore not post a message");
             return;
         }
@@ -44,6 +25,17 @@ export default function Profile() {
             console.log(error)
         }
     },[]);
+    
+    const getJourneyRef = getCollection('journeys/');
+
+    const getUserPosts = async () => {
+        const q = query(getJourneyRef,where('uid', '==', auth.currentUser?.uid));
+        const data = await getDocs(q)
+        setUserPosts(
+            data.docs.map((journey) => ({...journey.data()} as Ijourney))
+        )
+    }
+    
 
     
     const CreateJourneyFunc = () => {

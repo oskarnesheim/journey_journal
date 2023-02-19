@@ -45,7 +45,7 @@ export default function Home() {
     const showJourneys = () => {
         return (
             journeys.map((journey) =>
-                <Card key={journey.title + " " + journey.userID} paddingBottom={4} >
+                <Card key={journey.title + " " + journey.uid} paddingBottom={4} >
                     <CardHeader >
                         <Heading size='md'> {journey.title}</Heading>
                     </CardHeader>
@@ -61,12 +61,9 @@ export default function Home() {
             ));} 
             
     return (
-        <div>
-            <div className="h-56 grid grid-cols-2 gap-10 content-evenly p-16">
-                {viewUsers && showUsers()}
-            </div>
-            <div className="h-56 grid grid-cols-2 gap-10 content-evenly p-16">
-                {!viewUsers && showJourneys()}
+        <div className='relative'>
+            <div className="h-56 grid grid-cols-2 gap-10 content-evenly p-16 relative">
+                {viewUsers ? showUsers() : showJourneys()}
             </div>
             <div>
                 <button onClick={e => setviewUsers(!viewUsers)}>{viewUsers? "View journeys": "View users"}</button>

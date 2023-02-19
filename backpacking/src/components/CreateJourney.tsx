@@ -11,11 +11,11 @@ const CreateJourney = () =>{
     const user = getAuth().currentUser;
     const userProfile = getUserProfile(user?.uid!);
     // console.log(userProfile + "userprofile")
-    const [journey, setJourney] = useState<Ijourney>({
+    const [journeyForm, setJourneyForm] = useState<Ijourney>({
         title: "",
         distance: "",
         cost: 0,
-        userID: "",
+        uid: "",
         journeyPath: [],
         description: ""
     })
@@ -34,15 +34,21 @@ const CreateJourney = () =>{
         
         
     const addJourney = ():void => {
-        console.log(auth.currentUser?.uid!)
-        setJourney({...journey, userID : auth.currentUser?.uid!})
-        setDoc(doc(database, 'journeys/' ,firestoreAutoId()), journey)
-        setJourney({
+        const newJourneyPost = {
+            title: journeyForm.title,
+            distance: journeyForm.distance,
+            description: journeyForm.description,
+            cost: journeyForm.cost,
+            userID: auth.currentUser?.uid!,
+            journeyPath: []
+        }
+        setDoc(doc(database, 'journeys/' ,journeyForm.title), newJourneyPost)
+        setJourneyForm({
         title: "",
         distance: "",
         description: "",
         cost: 0,
-        userID: "",
+        uid: "",
         journeyPath: [],} as Ijourney)
 
     }
@@ -50,8 +56,8 @@ const CreateJourney = () =>{
         <div>
         <FormControl>
             <FormLabel colorScheme='#454545'>Trip name</FormLabel>
-                <Input placeholder = 'Trip name' type='text' value={journey.title} onChange={(e) => setJourney(
-                    {...journey, title: e.target.value})}/>
+                <Input placeholder = 'Trip name' type='text' value={journeyForm.title} onChange={(e) => setJourneyForm(
+                    {...journeyForm, title: e.target.value})}/>
 
 
             {/* <FormLabel colorScheme='#454545'>Place of start</FormLabel>
@@ -66,17 +72,17 @@ const CreateJourney = () =>{
             <br />
             
             <FormLabel colorScheme='pink'>Cost</FormLabel>
-                <Input placeholder = 'Cost' type='number' value={journey.cost} onChange={(e) => setJourney(
-                    {...journey, cost: parseInt(e.target.value)})}/>
+                <Input placeholder = 'Cost' type='number' value={journeyForm.cost} onChange={(e) => setJourneyForm(
+                    {...journeyForm, cost: parseInt(e.target.value)})}/>
             <br />
             <FormLabel colorScheme='pink'>Distance in km</FormLabel>
-                <Input placeholder = 'how far?' type='number' value={journey.distance} onChange={(e) => setJourney(
-                    {...journey, distance: e.target.value})}/>
+                <Input placeholder = 'how far?' type='number' value={journeyForm.distance} onChange={(e) => setJourneyForm(
+                    {...journeyForm, distance: e.target.value})}/>
             <br />
             <br />
             <FormLabel colorScheme='#454545'> Tell about your trip!</FormLabel>
-                <Input placeholder = 'Write all your fun experiences!' type='text' value={journey.description} onChange={(e) => setJourney(
-                    {...journey, description: e.target.value})}/>
+                <Input placeholder = 'Write all your fun experiences!' type='text' value={journeyForm.description} onChange={(e) => setJourneyForm(
+                    {...journeyForm, description: e.target.value})}/>
             <br />
             <br />
             <Button colorScheme='#454545' background= '#C9EFC7' variant='outline' onClick={addJourney}>

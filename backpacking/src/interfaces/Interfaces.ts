@@ -17,6 +17,6 @@ export interface Ijourney{
     distance: string,
     description: string,
     cost: number,
-    userID: string,
+    uid: string,
     journeyPath: Array<GeoPoint>,
 }
