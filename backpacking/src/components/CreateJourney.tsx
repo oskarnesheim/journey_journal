@@ -17,7 +17,8 @@ const CreateJourney = () =>{
         cost: 0,
         uid: "",
         journeyPath: [],
-        description: ""
+        description: "",
+        journeyID: "",
     })
 
     const showPath = (journey:Ijourney) => {
@@ -34,13 +35,14 @@ const CreateJourney = () =>{
         
         
     const addJourney = ():void => {
-        const newJourneyPost = {
+        const newJourneyPost: Ijourney = {
             title: journeyForm.title,
             distance: journeyForm.distance,
             description: journeyForm.description,
             cost: journeyForm.cost,
-            userID: auth.currentUser?.uid!,
-            journeyPath: []
+            uid: auth.currentUser?.uid!,
+            journeyPath: [],
+            journeyID: firestoreAutoId(),
         }
         setDoc(doc(database, 'journeys/' ,journeyForm.title), newJourneyPost)
         setJourneyForm({
@@ -49,7 +51,8 @@ const CreateJourney = () =>{
         description: "",
         cost: 0,
         uid: "",
-        journeyPath: [],} as Ijourney)
+        journeyPath: [],
+        journeyID: ""} as Ijourney)
 
     }
     return(

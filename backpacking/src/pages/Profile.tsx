@@ -15,11 +15,11 @@ export default function Profile() {
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]);
     
     useEffect(() => {
-        if (!auth) {
-            setErrorMessage("You are not logged in, and can therefore not post a message");
-            return;
-        }
         try{
+            if (!auth) {
+                setErrorMessage("You are not logged in, and can therefore not post a message");
+                return;
+            }
             getUserPosts();
         }catch(error){
             console.log(error)

@@ -19,4 +19,5 @@ export interface Ijourney{
     cost: number,
     uid: string,
     journeyPath: Array<GeoPoint>,
+    journeyID : string
 }
