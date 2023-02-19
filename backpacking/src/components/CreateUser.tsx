@@ -11,7 +11,7 @@ import { useRecoilState } from "recoil";
 
 const CreateUser = () =>{
     const navigate = useNavigate();
-    const [newUser, setUser] = useState({
+    const [formUser, setFormUser] = useState({
         firstname: "",
         lastname: "",
         username: "",
@@ -24,66 +24,64 @@ const CreateUser = () =>{
     const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
     const addUser = ():void => {
-        signUpUser().then((res)=>{
-            setDoc(doc(database, 'users/' ,newUser.firstname + " " + newUser.lastname), newUser)
-        });
-        setGlobalUser(newUser)
-        // setUser({
-        //     firstname: "",
-        //     lastname: "",
-        //     username: "",
-        //     password: "",
-        //     email: "",
-        //     age: 0,
-        //     isAdmin : false} as Iuser)
-        navigate('/home');
+        try {
+            signUpUser();
+            navigate('/home');
+        } catch (error) {
+            console.log(error)
+        }
     }
-
-    const signUpUser = async ():Promise<string> => {
-        const email = newUser.email;
-        const password = newUser.password;
-        try{
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-        // onAuthStateChanged(auth, (user) => {
-            
-        // });
-            const userCredentialUID = userCredential.user.uid;
-            setUser({...newUser, uid: userCredentialUID})
-            newUser.uid = userCredential.user.uid;
-            return userCredentialUID;
+    
+    const signUpUser = async () => {
+    const email = formUser.email;
+    const password = formUser.password;
+    try{
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const userCredentialUID = userCredential.user.uid;
+        const user:Iuser = {
+            email : formUser.email,
+            password : formUser.password,
+            firstname : formUser.firstname,
+            lastname : formUser.lastname,
+            username : formUser.username,
+            age : formUser.age,
+            isAdmin : formUser.isAdmin,
+            uid : userCredentialUID,
+            description : "",
+        }
+            setDoc(doc(database, 'users' ,user.firstname + " " + user.lastname), user)
+            setGlobalUser(user)
         } catch (error){
             console.log(error);
         }
-        return "feil i bruker";
     }
     return(
         <div>
             <FormControl>
                 <FormLabel>Firstname</FormLabel>
-                    <Input type='email' value={newUser.firstname} onChange={(e) => setUser(
-                        {...newUser, firstname: e.target.value})}/>
+                    <Input type='email' value={formUser.firstname} onChange={(e) => setFormUser(
+                        {...formUser, firstname: e.target.value})}/>
 
 
                 <FormLabel>Lastname</FormLabel>
-                    <Input type='email' value={newUser.lastname} onChange={(e) => setUser(
-                {...newUser, lastname: e.target.value})}/>
+                    <Input type='email' value={formUser.lastname} onChange={(e) => setFormUser(
+                {...formUser, lastname: e.target.value})}/>
 
 
                 <FormLabel>Username</FormLabel>
-                    <Input type='email' value={newUser.username} onChange={(e) => setUser(
-                        {...newUser, username: e.target.value})}/>
+                    <Input type='email' value={formUser.username} onChange={(e) => setFormUser(
+                        {...formUser, username: e.target.value})}/>
 
 
                 <FormLabel>Email address</FormLabel>
-                    <Input type='email' value={newUser.email} onChange={(e) => setUser(
-                        {...newUser, email: e.target.value})}/>
+                    <Input type='email' value={formUser.email} onChange={(e) => setFormUser(
+                        {...formUser, email: e.target.value})}/>
                 <br />
                 <br />
                 
                 <p>Age</p>
-                <NumberInput defaultValue={0} min={16} max={169} onChange={(e) => setUser(
-                {...newUser, age: parseInt(e)})}>
+                <NumberInput defaultValue={0} min={16} max={169} onChange={(e) => setFormUser(
+                {...formUser, age: parseInt(e)})}>
                     <NumberInputField />
                         <NumberInputStepper>
                             <NumberIncrementStepper />
@@ -93,8 +91,8 @@ const CreateUser = () =>{
                 </NumberInput >
 
                 <FormLabel>Password</FormLabel>
-                    <Input type='password' value={newUser.password} onChange={(e) => setUser(
-                        {...newUser, password: e.target.value})}/>
+                    <Input type='password' value={formUser.password} onChange={(e) => setFormUser(
+                        {...formUser, password: e.target.value})}/>
                 <FormHelperText><b> We'll never share your password or email</b></FormHelperText>
                 <br />
                 <Button colorScheme='teal' variant='outline' onClick={addUser}>

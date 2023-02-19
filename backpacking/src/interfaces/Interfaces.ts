@@ -8,7 +8,7 @@ export interface Iuser{
     email: string,
     age: number,
     isAdmin : boolean,
-    description : string | null,
+    description : string | undefined,
     uid : string
 }
 
