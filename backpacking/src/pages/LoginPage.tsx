@@ -1,26 +1,20 @@
 import { useState } from "react"
-import { Iuser } from "../interfaces/Interfaces"
 import {auth} from "../firebase-config"
 import { signOut } from "firebase/auth"
 import CreateUser from "../components/CreateUser"
 import Login from "../components/Login"
+import { UserState } from "../recoil/atoms"
+import { useRecoilState } from "recoil"
 
 
 export default function LoginPage() {
     const [createUserOrLogin, setcreateUserOrLogin] = useState(false);
-
-    const [user, setUser] = useState<Iuser>({
-        firstname: "",
-        lastname: "",
-        username: "",
-        password: "",
-        email: "",
-        age: 0,
-        isAdmin : false}as Iuser)
+    const [globalUser, setGlobalUser] = useRecoilState(UserState);
     
     const signOutUser = async () => {
         try{
             await signOut(auth);
+            setGlobalUser(undefined);
             alert("You have been signed out");
         } catch (error){
             console.log(error)
@@ -32,8 +26,8 @@ export default function LoginPage() {
     }
     
     return(
-        <div>
-            <h1>Welcome to Journey Journal</h1>
+        <div className='w-1/2 content-evenly' >
+            <h1 className="font-extrabold ">Welcome to Journey Journal</h1>
             <div>
                 {createUserOrLogin ? <CreateUser/> : <Login/>}
             </div>

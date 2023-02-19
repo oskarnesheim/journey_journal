@@ -1,3 +1,5 @@
+import { GeoPoint } from "firebase/firestore";
+
 export interface Iuser{
     firstname: string,
     lastname: string,
@@ -6,5 +8,15 @@ export interface Iuser{
     email: string,
     age: number,
     isAdmin : boolean,
-    description : string | null
+    description : string | undefined,
+    uid : string
+}
+
+export interface Ijourney{
+    title: string,
+    distance: string,
+    description: string,
+    cost: number,
+    uid: string,
+    journeyPath: Array<GeoPoint>,
 }

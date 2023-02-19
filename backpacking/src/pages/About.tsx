@@ -4,8 +4,7 @@ import '../index.css'
 export default function About() {
     return (
         <div className=''>
-        <h1>About</h1>
-        <InformationCard/>
+            <h1>Her kommer det et skriv om oss</h1>
         </div>
     )
     }
