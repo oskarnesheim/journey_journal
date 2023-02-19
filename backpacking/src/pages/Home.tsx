@@ -1,9 +1,17 @@
-import { SimpleGrid, Card, CardHeader, Heading, CardBody, CardFooter, Button } from "@chakra-ui/react";
+import {
+  SimpleGrid,
+  Card,
+  CardHeader,
+  Heading,
+  CardBody,
+  CardFooter,
+  Button,
+} from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Ijourney, Iuser } from "../interfaces/Interfaces";
 import { getCollection } from "../firebase-config";
-import '../components/components.css'
+import "../components/components.css";
 
 export default function Home() {
     const [viewUsers, setviewUsers] = useState(false);
