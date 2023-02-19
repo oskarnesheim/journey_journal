@@ -2,15 +2,12 @@ import { FormControl, FormLabel, Input, NumberInput, NumberInputField, NumberInp
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
-import { database, auth, firestoreAutoId, getUserProfile } from "../firebase-config";
+import { database, auth, firestoreAutoId } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
 
 
 
 const CreateJourney = () =>{
-    const user = getAuth().currentUser;
-    const userProfile = getUserProfile(user?.uid!);
-    // console.log(userProfile + "userprofile")
     const [journeyForm, setJourneyForm] = useState<Ijourney>({
         title: "",
         distance: "",
@@ -21,6 +18,7 @@ const CreateJourney = () =>{
         journeyID: "",
     })
 
+    //todo add journey path. 
     const showPath = (journey:Ijourney) => {
         return(
             <div>

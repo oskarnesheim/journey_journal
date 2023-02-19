@@ -1,3 +1,4 @@
+import { Card, CardHeader, Heading, CardBody, CardFooter, Button } from "@chakra-ui/react";
 import { getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -24,16 +25,20 @@ export default function Profile() {
         }catch(error){
             console.log(error)
         }
-    },[]);
+    },[userPosts]);
     
     const getJourneyRef = getCollection('journeys/');
 
     const getUserPosts = async () => {
-        const q = query(getJourneyRef,where('uid', '==', auth.currentUser?.uid));
-        const data = await getDocs(q)
-        setUserPosts(
-            data.docs.map((journey) => ({...journey.data()} as Ijourney))
-        )
+        try {
+            const q = query(getJourneyRef,where('uid', '==', auth.currentUser?.uid));
+            const data = await getDocs(q)
+            setUserPosts(
+                data.docs.map((journey) => ({...journey.data()} as Ijourney))
+            )
+        } catch (error) {
+            console.log(error);
+        }
     }
     
 
@@ -44,48 +49,43 @@ export default function Profile() {
             <div>
                 <CreateJourney />
             </div>
-        )
+            )
         }
     }
 
-    const viewUserPosts = () => {
-        if (userPosts.length > 0) {
-            return (
-                <div>
-                    {userPosts.map((post) => {
-                        return (
-                            <div key={post.title}>
-                                <h1>{post.title}</h1>
-                                <p>{post.description}</p>
-                            </div>
-                        )
-                    })}
-                </div>
-            )
-        } else {
-            return (
-                <div>
-                    <p>You have not created any journeys yet</p>
-                </div>
-            )
-        }
-    }
+    const showJourneys = () => {
+        return (
+            userPosts.map((journey) =>
+                <Card key={journey.title + " " + journey.uid} paddingBottom={4} >
+                    <CardHeader >
+                        <Heading size='md'> {journey.title}</Heading>
+                    </CardHeader>
+                    <CardBody>
+                        <p>Description : {journey.description}</p>
+                        <p>Distance : {journey.distance}</p>
+                        <p>Cost : {journey.cost}</p>
+                    </CardBody>
+                    <CardFooter>
+                        <Button>View journey</Button>
+                    </CardFooter>
+                 </Card>
+            ));} 
 
 
     return (
-        <div className='w-full'>
-            <h1> {currentUser? "Welcome back "+ currentUser.firstname+ " " + currentUser.lastname: "Not Logged In"}</h1>
-            <h3>{errorMessage}</h3>
+        <div className='w-full relative' >
+                <h1> {currentUser? "Welcome back "+ currentUser.firstname+ " " + currentUser.lastname: "Not Logged In"}</h1>
+                <h3>{errorMessage}</h3>
             <div>
                 {currentUser?.email}
             </div>
-            <div>
+            <div className="relative">
                 {CreateJourneyFunc()}
             </div>
-            <div>
-                {viewUserPosts()}
+            <div className="h-56 grid grid-cols-2 gap-10 content-evenly p-16 relative">
+                {showJourneys()}
             </div>
-            <div>
+            <div className="relative">
                 <button onClick={e => setNewPostToggle(!newPostToggle)}>{!newPostToggle ? "Click here to create a new journey" : "Back"}</button>
             </div>
         </div>

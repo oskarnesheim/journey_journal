@@ -42,15 +42,3 @@ export const firestoreAutoId = (): string => {
   }
   return autoId
 }
-
-export const getUserProfile = async (userId: string) => {
-    // console.log(userId)
-    const userRef = doc(database, 'users', userId)
-    const docSnap = await getDoc(userRef)
-    
-    if (docSnap.exists()) {
-        return docSnap.data()
-    } else {
-        return null
-    }
-}
