@@ -13,19 +13,20 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [globalUser, setGlobalUser] = useRecoilState(UserState)
-    // const auth = getAuth();
     
     const navigate = useNavigate();
-    const getUsersRef = getCollection('users');
+    const getUsersRef = getCollection('users/');
 
     const signInWithGoogle = async () => {
         try{
             const userCredential = await signInWithPopup(auth,provider)
             const user =  userCredential.user;
             const userID = user.uid;
+            console.log("🚀 ~ file: Login.tsx:26 ~ signInWithGoogle ~ userID", userID)
+            
 
 
-            const q = query(getUsersRef,where('userID', '==', userID));
+            const q = query(getUsersRef,where('uid', '==', userID));
             const querySnapshot = await getDocs(q);
             if (querySnapshot.empty) {
                 setErrorMessage("Invalid login - no users with that email");
@@ -50,8 +51,9 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, emailSignIn, passwordSignIn);
             const user =  userCredential.user;
             const userID = user.uid;
+            console.log("🚀 ~ file: Login.tsx:54 ~ signInWithMailPassword ~ userID", userID)
 
-            const q = query(getUsersRef,where('userID', '==', userID));
+            const q = query(getUsersRef,where('uid', '==', userID));
             const querySnapshot = await getDocs(q);
 
             if (querySnapshot.empty) {
