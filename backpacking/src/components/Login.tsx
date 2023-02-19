@@ -13,19 +13,20 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [globalUser, setGlobalUser] = useRecoilState(UserState)
-    const auth = getAuth();
     
     const navigate = useNavigate();
+    const getUsersRef = getCollection('users/');
 
     const signInWithGoogle = async () => {
         try{
             const userCredential = await signInWithPopup(auth,provider)
             const user =  userCredential.user;
-            const userEmail = user.email;
+            const userID = user.uid;
+            console.log("🚀 ~ file: Login.tsx:26 ~ signInWithGoogle ~ userID", userID)
+            
 
-            const getUsersRef = getCollection('users');
 
-            const q = query(getUsersRef,where('email', '==', userEmail));
+            const q = query(getUsersRef,where('uid', '==', userID));
             const querySnapshot = await getDocs(q);
             if (querySnapshot.empty) {
                 setErrorMessage("Invalid login - no users with that email");
@@ -49,11 +50,10 @@ const Login = () => {
             const passwordSignIn = password;
             const userCredential = await signInWithEmailAndPassword(auth, emailSignIn, passwordSignIn);
             const user =  userCredential.user;
-            const uid = user.uid;
-            console.log("🚀 ~ file: Login.tsx:53 ~ signInWithMailPassword ~ uid", uid)
+            const userID = user.uid;
+            console.log("🚀 ~ file: Login.tsx:54 ~ signInWithMailPassword ~ userID", userID)
 
-            const getUsersRef = getCollection('users');
-            const q = query(getUsersRef,where('__name__', '==', uid));
+            const q = query(getUsersRef,where('uid', '==', userID));
             const querySnapshot = await getDocs(q);
 
             if (querySnapshot.empty) {
@@ -65,7 +65,6 @@ const Login = () => {
                     querySnapshot.docs.map((person) => ({...person.data()} as Iuser))[0]
                 )
                 navigate('/home')
-                console.log(auth.currentUser?.displayName); //! Hvorfor får jeg null her!?
             }
         }catch(error){
             console.log(error);

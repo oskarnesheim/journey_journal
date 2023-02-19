@@ -34,7 +34,8 @@ const CreateJourney = () =>{
         
         
     const addJourney = ():void => {
-        // setJourney({...journey, userID : "1232"})
+        console.log(auth.currentUser?.uid!)
+        setJourney({...journey, userID : auth.currentUser?.uid!})
         setDoc(doc(database, 'journeys/' ,firestoreAutoId()), journey)
         setJourney({
         title: "",
