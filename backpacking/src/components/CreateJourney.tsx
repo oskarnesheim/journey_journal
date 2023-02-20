@@ -4,6 +4,8 @@ import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
 import { database, auth, firestoreAutoId } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
+import "css/components.css";
+
 
 
 
