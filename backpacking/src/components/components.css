@@ -126,4 +126,23 @@ section {
   transform: translate(-50%, -50%);
 }
 
+.createUser {
+  margin-top: 180px;
+}
+
+.aboutUs {
+  margin-top: 180px;
+}
+
+.createPost {
+  margin-top: 1000px;
+}
+
+.createJourney {
+  margin-top: 250px;
+}
+
+.buttonProfilePage {
+  position: center;
+}
 

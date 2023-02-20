@@ -28,7 +28,7 @@ const CreatePost = () => {
 
 
     return (
-        <div>
+        <div className="createPost">
         <FormControl>
             <FormLabel colorScheme='#454545'>Trip name</FormLabel>
                 <Input placeholder = 'Trip name' type='text' value={post.title} onChange={(e) => setPost(

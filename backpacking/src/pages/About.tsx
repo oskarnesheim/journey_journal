@@ -3,7 +3,7 @@ import '../index.css'
 
 export default function About() {
     return (
-        <div className=''>
+        <div className='aboutUs'>
         <InformationCard/>
         </div>
     )
