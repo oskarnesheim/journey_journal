@@ -4,7 +4,7 @@ import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
 import { database, auth, firestoreAutoId } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
-import "css/components.css";
+import "./css/components.css";
 
 
 
@@ -44,7 +44,7 @@ const CreateJourney = () =>{
             journeyPath: [],
             journeyID: firestoreAutoId(),
         }
-        setDoc(doc(database, 'journeys/' ,journeyForm.title), newJourneyPost)
+        setDoc(doc(database, 'journeys/' ,newJourneyPost.journeyID), newJourneyPost)
         setJourneyForm({
         title: "",
         distance: "",
@@ -56,10 +56,10 @@ const CreateJourney = () =>{
 
     }
     return(
-        <div>
+        <div className="createJourney">
         <FormControl>
-            <FormLabel colorScheme='#454545'>Trip name</FormLabel>
-                <Input placeholder = 'Trip name' type='text' value={journeyForm.title} onChange={(e) => setJourneyForm(
+            <FormLabel colorScheme='#454545' marginLeft={'160'}>Trip name</FormLabel>
+                <Input placeholder = 'Trip name' type='text' width = '80%' value={journeyForm.title} onChange={(e) => setJourneyForm(
                     {...journeyForm, title: e.target.value})}/>
 
 
@@ -73,18 +73,19 @@ const CreateJourney = () =>{
                     {...post, finishplace: e.target.value})}/> */}
 
             <br />
-            
-            <FormLabel colorScheme='pink'>Cost</FormLabel>
-                <Input placeholder = 'Cost' type='number' value={journeyForm.cost} onChange={(e) => setJourneyForm(
+            <br />
+            <FormLabel colorScheme='pink' marginLeft={'160'}>Cost</FormLabel>
+                <Input placeholder = 'Cost' type='number' width = '80%' value={journeyForm.cost} onChange={(e) => setJourneyForm(
                     {...journeyForm, cost: parseInt(e.target.value)})}/>
             <br />
-            <FormLabel colorScheme='pink'>Distance in km</FormLabel>
-                <Input placeholder = 'how far?' type='number' value={journeyForm.distance} onChange={(e) => setJourneyForm(
+            <br />
+            <FormLabel colorScheme='pink' marginLeft={'160'}>Distance in km</FormLabel>
+                <Input placeholder = 'how far?' type='number' width = '80%' value={journeyForm.distance} onChange={(e) => setJourneyForm(
                     {...journeyForm, distance: e.target.value})}/>
             <br />
             <br />
-            <FormLabel colorScheme='#454545'> Tell about your trip!</FormLabel>
-                <Input placeholder = 'Write all your fun experiences!' type='text' value={journeyForm.description} onChange={(e) => setJourneyForm(
+            <FormLabel colorScheme='#454545' marginLeft={'160'}> Tell about your trip!</FormLabel>
+                <Input placeholder = 'Write all your fun experiences!' type='text' width = '80%' value={journeyForm.description} onChange={(e) => setJourneyForm(
                     {...journeyForm, description: e.target.value})}/>
             <br />
             <br />
