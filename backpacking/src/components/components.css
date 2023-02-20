@@ -1,0 +1,148 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #c9efc7;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #c9efc7;
+}
+
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-color: #c9efc7;
+}
+
+/* #logo {
+    background-image: url('../images/journey-journal-high-resolution-logo-color-on-transparent-background.png');
+} */
+
+.Navbar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  line-height: 100px;
+  background-color: #c9efc7;
+  z-index:3
+}
+
+.NavbarInline li {
+  font-size: 25px;
+  color: #454545;
+  display: inline;
+  float: left;
+  margin-right: 75px;
+
+  font-weight: bold;
+}
+
+.homebutton {
+  list-style-type: none;
+  margin-top: 5px;
+  background-size: cover;
+  height: 100px;
+  width: 120px;
+  display: inline-block;
+}
+
+.loginbutton {
+  margin-left: 750px;
+}
+
+.header {
+  margin-top: 100px;
+}
+.feed-box {
+  border: 1px solid #ccc;
+  padding: 0px;
+  width: 500px;
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.about {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.aboutsub {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  font-size: x-large;
+  font-weight: bold;
+  color: #454545;
+}
+
+.aboutbackground {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 200px;
+  height:100vh;
+  background-color: #ffffff;
+}
+
+.aboutheader {
+  scroll-margin-top: 200px;
+  position: relative;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.backgroundimg {
+  opacity: 0.5;
+  width: 100vw;
+}
+
+.backgroundimgtitle {
+  font-size: 50px;
+  font-weight: bold;
+  position: absolute;
+  color: #454545;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.createUser {
+  margin-top: 180px;
+}
+
+.aboutUs {
+  margin-top: 180px;
+}
+
+.createPost {
+  margin-top: 1000px;
+}
+
+.createJourney {
+  margin-top: 250px;
+}
+
+.buttonProfilePage {
+  position: center;
+}
+
