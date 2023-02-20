@@ -32,9 +32,9 @@ section {
   background-color: #c9efc7;
 }
 
-#logo {
-  background-image: url("../images/journey-journal-high-resolution-logo-color-on-transparent-background.png");
-}
+/* #logo {
+    background-image: url('../images/journey-journal-high-resolution-logo-color-on-transparent-background.png');
+} */
 
 .Navbar {
   display: flex;

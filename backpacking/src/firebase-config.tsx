@@ -2,6 +2,7 @@ import { getFirestore, collection} from '@firebase/firestore'
 // Import the functions you need from the SDKs you need
 import { initializeApp,  } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
+import { doc, getDoc } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -28,3 +29,16 @@ export const provider = new GoogleAuthProvider();
 export const getCollection = (path:string) => {
   return collection(database,path)
 } 
+
+export const firestoreAutoId = (): string => {
+  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+  let autoId = ''
+
+  for (let i = 0; i < 20; i++) {
+    autoId += CHARS.charAt(
+      Math.floor(Math.random() * CHARS.length)
+    )
+  }
+  return autoId
+}
