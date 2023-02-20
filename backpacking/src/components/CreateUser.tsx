@@ -27,9 +27,11 @@ const CreateUser = () =>{
         try {
             signUpUser();
             navigate('/home');
+            alert("You have successfully registered a user");
         } catch (error) {
             console.log(error)
         }
+        
     }
     
     const signUpUser = async () => {
@@ -56,7 +58,7 @@ const CreateUser = () =>{
         }
     }
     return(
-        <div>
+        <div className="regUser">
             <FormControl>
                 <FormLabel>Firstname</FormLabel>
                     <Input type='email' value={formUser.firstname} onChange={(e) => setFormUser(
