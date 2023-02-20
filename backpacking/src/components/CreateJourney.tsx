@@ -42,7 +42,7 @@ const CreateJourney = () =>{
             journeyPath: [],
             journeyID: firestoreAutoId(),
         }
-        setDoc(doc(database, 'journeys/' ,journeyForm.title), newJourneyPost)
+        setDoc(doc(database, 'journeys/' ,newJourneyPost.journeyID), newJourneyPost)
         setJourneyForm({
         title: "",
         distance: "",
