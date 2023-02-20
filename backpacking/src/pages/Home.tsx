@@ -11,7 +11,7 @@ import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Ijourney, Iuser } from "../interfaces/Interfaces";
 import { getCollection } from "../firebase-config";
-import "../components/components.css";
+import "../components/css/components.css";
 
 export default function Home() {
     const [viewUsers, setviewUsers] = useState(false);
