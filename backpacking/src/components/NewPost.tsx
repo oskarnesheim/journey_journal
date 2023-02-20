@@ -1,4 +1,5 @@
 import { FormControl, FormLabel, Input, NumberInput, NumberInputField, NumberInputStepper, NumberIncrementStepper, NumberDecrementStepper, FormHelperText, Button } from "@chakra-ui/react";
+import "css/components.css";
 
 const NewPost = ({...user} as Iuser) => {
 
