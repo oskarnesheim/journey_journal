@@ -17,9 +17,9 @@ export default function Profile() {
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]); //? Henter alle brukerens poster
 
     const [editJourney, setEditJourney] = useState<Ijourney>({
-        title: "",
-        distance: "",
-        description: "",
+        title: "9ijku8ujhy67ygt5tfre4",
+        distance: "9ijku8ujhy67ygt5tfre4",
+        description: "9ijku8ujhy67ygt5tfre4",
         cost: -69,
         uid: "",
         journeyPath: [],
@@ -148,10 +148,10 @@ export default function Profile() {
                                             colorScheme='blue' 
                                             mr={3} 
                                             onClick={() => saveChanges({...journey, 
-                                            title : editJourney.title === "" ? journey.title:editJourney.title , 
+                                            title : editJourney.title === "9ijku8ujhy67ygt5tfre4" ? journey.title:editJourney.title , 
                                             cost : editJourney.cost === -69 ? journey.cost:editJourney.cost,
-                                            description : editJourney.description === "" ? journey.description:editJourney.description, 
-                                            distance : editJourney.distance === "" ? journey.distance:editJourney.distance
+                                            description : editJourney.description === "9ijku8ujhy67ygt5tfre4" ? journey.description:editJourney.description, 
+                                            distance : editJourney.distance === "9ijku8ujhy67ygt5tfre4" ? journey.distance:editJourney.distance
                                             })}>
                                         Lagre og lukk
                                         </Button>
