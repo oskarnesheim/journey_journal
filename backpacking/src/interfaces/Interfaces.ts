@@ -21,3 +21,11 @@ export interface Ijourney{
     journeyPath: Array<GeoPoint>,
     journeyID : string
 }
+
+export interface Ipost{
+    title: string,
+    startPlace: string,
+    finishplace: string,
+    cost: string,
+    story: string,
+}
