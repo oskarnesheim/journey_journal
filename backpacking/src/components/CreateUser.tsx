@@ -56,7 +56,7 @@ const CreateUser = () =>{
         }
     }
     return(
-        <div>
+        <div className="createUser">
             <FormControl>
                 <FormLabel>Firstname</FormLabel>
                     <Input type='email' value={formUser.firstname} onChange={(e) => setFormUser(

@@ -25,20 +25,18 @@ const Navbar = () => {
                     <Link to={'/about'}>About us</Link>
                 </li>
                 <li className='hover:text-pink-500'>
-                    <Link to={'/'}>Login</Link>
-                </li>
-                <li>
-                     <p>{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
-                </li>
-                <li>
-                    {user ? 
+                    <p>{user ? 
                     <button onClick={() => {
                         setUser(undefined);
                         getAuth().signOut();
                         navigate('/');
                         }}>Logout</button>
-                    : ""
-                    }
+                    :
+                    <Link to={'/'}>Login</Link>}
+                    </p>
+                </li>
+                <li>
+                     <p>{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
                 </li>
             </ul>
         </div>

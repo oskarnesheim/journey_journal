@@ -85,7 +85,7 @@ export default function Profile() {
             <div className="h-56 grid grid-cols-2 gap-10 content-evenly p-16 relative">
                 {showJourneys()}
             </div>
-            <div className="relative">
+            <div className="buttonProfilePage">
                 <button onClick={e => setNewPostToggle(!newPostToggle)}>{!newPostToggle ? "Click here to create a new journey" : "Back"}</button>
             </div>
         </div>
