@@ -26,7 +26,7 @@ export default function LoginPage() {
     }
     
     return(
-        <div className='w-1/2 content-evenly' >
+        <div className='authUser' >
             <h1 className="font-extrabold ">Welcome to Journey Journal</h1>
             <div>
                 {createUserOrLogin ? <CreateUser/> : <Login/>}
