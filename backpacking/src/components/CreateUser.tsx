@@ -8,6 +8,7 @@ import "../index.css"
 import { useNavigate } from "react-router-dom";
 import { UserState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
+import "./css/components.css";
 
 const CreateUser = () =>{
     const navigate = useNavigate();

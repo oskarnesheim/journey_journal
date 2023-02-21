@@ -7,6 +7,7 @@ import { useRecoilState } from "recoil";
 import { auth, getCollection, provider } from "../firebase-config";
 import { Iuser } from "../interfaces/Interfaces";
 import { UserState } from "../recoil/atoms";
+import "./css/components.css"
 
 const Login = () => {
     const [email, setEmail] = useState('');

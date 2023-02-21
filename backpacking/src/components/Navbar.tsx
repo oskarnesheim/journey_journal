@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { Iuser } from "../interfaces/Interfaces";
 import { UserState } from "../recoil/atoms";
+import "./css/components.css";
 
 const Navbar = () => {
     const [user, setUser] = useRecoilState(UserState);

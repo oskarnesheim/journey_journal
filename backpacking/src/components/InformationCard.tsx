@@ -1,4 +1,5 @@
 import '../index.css'
+import "./css/components.css";
 
 const InformationCard = () => {
     return(
