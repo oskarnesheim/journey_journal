@@ -171,11 +171,11 @@ export default function Profile() {
 
     return (
         <div className='w-full relative' >
+            <div>
                 <h1> {currentUser? "Welcome back "+ currentUser.firstname+ " " + currentUser.lastname: "Not Logged In"}</h1>
                 <h3>{errorMessage}</h3>
-            <div>
-                {currentUser?.email}
             </div>
+                {currentUser?.email}
             <div className="relative">
                 {CreateJourneyFunc()}
             </div>
