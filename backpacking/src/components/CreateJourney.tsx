@@ -56,7 +56,7 @@ const CreateJourney = () =>{
 
     }
     return(
-        <div className="createJourney">
+        <div className="">
         <FormControl>
             <FormLabel colorScheme='#454545' marginLeft={'160'}>Trip name</FormLabel>
                 <Input placeholder = 'Trip name' type='text' width = '80%' value={journeyForm.title} onChange={(e) => setJourneyForm(

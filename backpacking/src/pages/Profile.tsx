@@ -56,9 +56,7 @@ export default function Profile() {
     const CreateJourneyFunc = () => {
     if(newPostToggle){
         return (
-            <div>
                 <CreateJourney />
-            </div>
             )
         }
     }
@@ -95,7 +93,7 @@ export default function Profile() {
     const showJourneys = () => {
         return (
             userPosts.map((journey) =>
-                <Card key={journey.journeyID} paddingBottom={4} >
+                <Card key={journey.journeyID} paddingBottom={4} margin={10} boxShadow={"2xl"}>
                     <CardHeader >
                         <Heading size='md'> {journey.title}</Heading>
                     </CardHeader>
@@ -107,6 +105,7 @@ export default function Profile() {
                             <ModalOverlay />
                                 <ModalContent>
                                     <ModalHeader>
+                                        Title:
                                         <Editable  onChange={(e:string) => setEditJourney({
                                             ...editJourney, title: e
                                         })}
@@ -170,17 +169,12 @@ export default function Profile() {
 
 
     return (
-        <div className='w-full relative' >
+        <div className='w-full relative mt-36' >
             <div>
-                <h1> {currentUser? "Welcome back "+ currentUser.firstname+ " " + currentUser.lastname: "Not Logged In"}</h1>
-                <h3>{errorMessage}</h3>
+                <h1> {!newPostToggle? "Welcome back "+ currentUser?.firstname+ " " + currentUser?.lastname: ""}</h1>
             </div>
-                {currentUser?.email}
             <div className="relative">
                 {CreateJourneyFunc()}
-            </div>
-            <div className="h-56 grid grid-cols-2 gap-10 content-evenly p-16 relative">
-                {showJourneys()}
             </div>
             <div className="buttonProfilePage">
                 <p> {currentUser ? 
@@ -189,9 +183,9 @@ export default function Profile() {
                         {!newPostToggle ? "Click here to create a new journey" : "Back"}
                     </button>
                     :
-                    ''
-                    }</p>
+                    ''}</p>
             </div>
+            {!newPostToggle && showJourneys()}
         </div>
     )
     }

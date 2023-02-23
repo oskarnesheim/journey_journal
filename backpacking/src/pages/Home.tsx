@@ -47,7 +47,7 @@ export default function Home() {
   }
 
   return (
-    <div className="content-container position:relative" >
+    <div className="content-container relative mt-44" >
       <div className="left-panel">
       </div>
       <div className="middle-panel">
