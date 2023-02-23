@@ -126,23 +126,32 @@ section {
   transform: translate(-50%, -50%);
 }
 
-.createUser {
-  margin-top: 180px;
+.content-container {
+  margin-top: auto;
+  padding: 5%;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
-.aboutUs {
-  margin-top: 180px;
+.left-panel {
+  display: inline-block;
+  width: 25%;
+}
+.middle-panel {
+  display: inline-block;
+  width: 50%;
+}
+.right-panel {
+  display: inline-block;
+  width: 25%
 }
 
-/* .createPost {
-  margin-top: 1000px;
-} */
 
-.createJourney {
-  margin-top: 250px;
-}
 
-.buttonProfilePage {
-  position: center;
-}
+
+
+
+
+
 
