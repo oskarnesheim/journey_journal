@@ -19,19 +19,19 @@ const Navbar = () => {
                 <li className='hover:text-pink-500'>
                     <Link  to={'/home'}>Home</Link>
                 </li>
-                <li className='hover:text-pink-500'>
+                {user && <li className='hover:text-pink-500'>
                     <Link  to={'/profile'}>Profile</Link>
-                </li>
+                </li>}
                 <li className='hover:text-pink-500'>
                     <Link to={'/about'}>About us</Link>
                 </li>
-                <li className='hover:text-pink-500'>
+                {/* <li className='hover:text-pink-500'>
                     <Link to={'/'}>Login</Link>
-                </li>
-                <li>
-                     <p>{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
-                </li>
-                <li>
+                </li> */}
+                { user && <li>
+                     <p>{'Welcome back ' + user.firstname}</p>
+                </li>}
+                <li className='hover:text-pink-500'>
                     {user ? 
                     <button onClick={() => {
                         setUser(undefined);
@@ -41,9 +41,9 @@ const Navbar = () => {
                     :
                     <Link to={'/'}>Login</Link>}
                 </li>
-                <li>
+                {/* <li>
                      <p className="welcomeBack">{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
-                </li>
+                </li> */}
             </ul>
         </div>
     )
