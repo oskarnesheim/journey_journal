@@ -3,7 +3,6 @@ import { getDocs, query, where, deleteDoc, doc, setDoc } from "firebase/firestor
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import CreateJourney from "../components/CreateJourney";
-import UseAuth from "../custom-hooks/UseAuth";
 import { auth, database, getCollection } from "../firebase-config";
 import { Ijourney, Iuser } from "../interfaces/Interfaces";
 import { UserState } from "../recoil/atoms";
@@ -91,6 +90,7 @@ export default function Profile() {
             console.log(error);
         }
     }
+
 
     const showJourneys = () => {
         return (
@@ -183,7 +183,14 @@ export default function Profile() {
                 {showJourneys()}
             </div>
             <div className="buttonProfilePage">
-                <button onClick={e => setNewPostToggle(!newPostToggle)}>{!newPostToggle ? "Click here to create a new journey" : "Back"}</button>
+                <p> {currentUser ? 
+                    <button
+                    onClick={e => setNewPostToggle(!newPostToggle)}>
+                        {!newPostToggle ? "Click here to create a new journey" : "Back"}
+                    </button>
+                    :
+                    ''
+                    }</p>
             </div>
         </div>
     )
