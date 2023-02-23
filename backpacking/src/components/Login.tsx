@@ -86,13 +86,13 @@ const Login = () => {
                     <Input type='password' onChange={e =>{
                         setPassword(e.target.value)
                     }}/>
-                    <button onClick={signInWithMailPassword} type="submit">Sign in</button>
+                    <button onClick={signInWithMailPassword} className="m-2 hover:text-pink-500 border-solid shadow-lg order-slate-500 rounded-md pl-4 pr-4" type="submit">Sign in</button>
             </FormControl>
 
             <p>Or sign in with  
-                <button onClick={signInWithGoogle}> Google</button>
+                <button className=" m-2 hover:text-pink-500 border-solid pl-4 pr-4 " onClick={signInWithGoogle}> Google</button>
             </p>
-        </div>
+        </div>  
     )
 }
 

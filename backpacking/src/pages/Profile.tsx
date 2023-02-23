@@ -92,15 +92,18 @@ export default function Profile() {
 
     const showJourneys = () => {
         return (
-            userPosts.map((journey) =>
+            <div className="mt-24">
+                {/* Todo! Her må vi lage en egen component.  */}
+                {/* {userPosts.map((journey) => */}
+                {userPosts.length === 0 ? <p>No posts yet</p> : userPosts.map((journey) =>
                 <Card key={journey.journeyID} paddingBottom={4} margin={10} boxShadow={"2xl"}>
                     <CardHeader >
                         <Heading size='md'> {journey.title}</Heading>
                     </CardHeader>
                     <CardBody>
                         <p>Description : {journey.description}</p>
-                        <p>Distance : {journey.distance}</p>
-                        <p>Cost : {journey.cost}</p>
+                        <p>Distance : {journey.distance} km</p>
+                        <p>Cost : {journey.cost} kr</p>
                         <Modal blockScrollOnMount={false} size={"md"} closeOnEsc={false} isOpen={isOpen} onClose={onClose}>
                             <ModalOverlay />
                                 <ModalContent>
@@ -128,7 +131,7 @@ export default function Profile() {
                                     {/* </div> */}
                                     Cost:
                                     <Editable onChange={(e:string) => setEditJourney({
-                                            ...editJourney, cost: parseInt(e)
+                                        ...editJourney, cost: parseInt(e)
                                         })} defaultValue={journey.cost.toString()} className='border-dotted border-2 border-sky-500 rounded-md'>
                                         <EditablePreview />
                                         <EditableTextarea />    
@@ -147,10 +150,10 @@ export default function Profile() {
                                             colorScheme='blue' 
                                             mr={3} 
                                             onClick={() => saveChanges({...journey, 
-                                            title : editJourney.title === "9ijku8ujhy67ygt5tfre4" ? journey.title:editJourney.title , 
-                                            cost : editJourney.cost === -69 ? journey.cost:editJourney.cost,
-                                            description : editJourney.description === "9ijku8ujhy67ygt5tfre4" ? journey.description:editJourney.description, 
-                                            distance : editJourney.distance === "9ijku8ujhy67ygt5tfre4" ? journey.distance:editJourney.distance
+                                                title : editJourney.title === "9ijku8ujhy67ygt5tfre4" ? journey.title:editJourney.title , 
+                                                cost : editJourney.cost === -69 ? journey.cost:editJourney.cost,
+                                                description : editJourney.description === "9ijku8ujhy67ygt5tfre4" ? journey.description:editJourney.description, 
+                                                distance : editJourney.distance === "9ijku8ujhy67ygt5tfre4" ? journey.distance:editJourney.distance
                                             })}>
                                         Lagre og lukk
                                         </Button>
@@ -159,13 +162,14 @@ export default function Profile() {
                                 </ModalContent>
                         </Modal>
                     </CardBody>
-                    <CardFooter>
+                    <CardFooter alignContent={"center"}>
                         <Button onClick={onOpen}>Edit post</Button>
                         <Button onClick={() => deletePost(journey)}>Delete</Button>
-
                     </CardFooter>
                  </Card>
-            ));} 
+                )}
+            </div>
+            );} 
 
 
     return (

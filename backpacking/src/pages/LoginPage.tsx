@@ -31,8 +31,8 @@ export default function LoginPage() {
             <div>
                 {createUserOrLogin ? <CreateUser/> : <Login/>}
             </div>
-            <button onClick={createUserOrLoginSwitcher}>{createUserOrLogin? "Login" : "Create a user"}</button>
-            <button onClick={signOutUser}>Logg out</button>
+            <button className="m-10 hover:text-pink-500 border-solid border-lime-500 order-slate-500 rounded-md pl-4 pr-4" onClick={createUserOrLoginSwitcher}>{createUserOrLogin? "Login" : "Create a user"}</button>
+            <button className="m-10 hover:text-pink-500 border-solid border-lime-500  order-slate-500 rounded-md pl-4 pr-4" onClick={signOutUser}>Logg out</button>
         </div>
     )
     } 

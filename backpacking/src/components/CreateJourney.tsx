@@ -10,6 +10,7 @@ import "./css/components.css";
 
 
 const CreateJourney = () =>{
+    const [statusMessage, setStatusMessage] = useState<string>("");
     const [journeyForm, setJourneyForm] = useState<Ijourney>({
         title: "",
         distance: "",
@@ -35,8 +36,10 @@ const CreateJourney = () =>{
         
         
     const addJourney = ():void => {
-        const newJourneyPost: Ijourney = {
-            title: journeyForm.title,
+        try {
+            
+            const newJourneyPost: Ijourney = {
+                title: journeyForm.title,
             distance: journeyForm.distance,
             description: journeyForm.description,
             cost: journeyForm.cost,
@@ -46,35 +49,28 @@ const CreateJourney = () =>{
         }
         setDoc(doc(database, 'journeys/' ,newJourneyPost.journeyID), newJourneyPost)
         setJourneyForm({
-        title: "",
-        distance: "",
-        description: "",
-        cost: 0,
-        uid: "",
-        journeyPath: [],
-        journeyID: ""} as Ijourney)
-
+            title: "",
+            distance: "",
+            description: "",
+            cost: 0,
+            uid: "",
+            journeyPath: [],
+            journeyID: ""} as Ijourney)
+            setStatusMessage("You have successfully posted a journey\n You can check it out under profile");
+        } catch (error) {
+            setStatusMessage("Something went wrong, please try again");
+        }
     }
     return(
         <div className="">
+        {statusMessage}
         <FormControl>
             <FormLabel colorScheme='#454545' marginLeft={'160'}>Trip name</FormLabel>
                 <Input placeholder = 'Trip name' type='text' width = '80%' value={journeyForm.title} onChange={(e) => setJourneyForm(
                     {...journeyForm, title: e.target.value})}/>
-
-
-            {/* <FormLabel colorScheme='#454545'>Place of start</FormLabel>
-                <Input placeholder = 'Startpoint' type='email' value={journey.startPlace} onChange={(e) => setPost(
-            {...journey, startPlace: e.target.value})}/> */}
-
-
-            {/* <FormLabel colorScheme='#454545'>Place of end</FormLabel>
-                <Input placeholder = 'Endpoint' type='email' value={post.finishplace} onChange={(e) => setPost(
-                    {...post, finishplace: e.target.value})}/> */}
-
             <br />
             <br />
-            <FormLabel colorScheme='pink' marginLeft={'160'}>Cost</FormLabel>
+            <FormLabel colorScheme='pink' marginLeft={'160'}>Cost in kr</FormLabel>
                 <Input placeholder = 'Cost' type='number' width = '80%' value={journeyForm.cost} onChange={(e) => setJourneyForm(
                     {...journeyForm, cost: parseInt(e.target.value)})}/>
             <br />
