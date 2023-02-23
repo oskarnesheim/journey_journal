@@ -38,8 +38,11 @@ const Navbar = () => {
                         getAuth().signOut();
                         navigate('/');
                         }}>Logout</button>
-                    : ""
-                    }
+                    :
+                    <Link to={'/'}>Login</Link>}
+                </li>
+                <li>
+                     <p className="welcomeBack">{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
                 </li>
             </ul>
         </div>
