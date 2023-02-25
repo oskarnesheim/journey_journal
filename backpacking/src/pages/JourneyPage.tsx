@@ -52,6 +52,10 @@ const JourneyPage = (props: JourneyProps) => {
         }
     }
 
+    const goToProfile = () => {
+        navigate('/profile');
+    }
+
     const [editJourney, setEditJourney] = useState<Ijourney>({
         title: "9ijku8ujhy67ygt5tfre4",
         distance: "9ijku8ujhy67ygt5tfre4",
@@ -64,77 +68,73 @@ const JourneyPage = (props: JourneyProps) => {
 
     
     return(
-        <Card key={journey?.journeyID} paddingBottom={4} margin={10} boxShadow={"2xl"}>
-                    <CardHeader >
-                        <Heading size='md'> {journey?.title}</Heading>
-                    </CardHeader>
-                    <CardBody>
-                        <p>Description : {journey?.description}</p>
-                        <p>Distance : {journey?.distance} km</p>
-                        <p>Cost : {journey?.cost} kr</p>
-                        <Modal blockScrollOnMount={false} size={"md"} closeOnEsc={false} isOpen={isOpen} onClose={onClose}>
-                            <ModalOverlay />
-                                <ModalContent>
-                                    <ModalHeader>
-                                        Title:
-                                        <Editable  onChange={(e:string) => setEditJourney({
-                                            ...editJourney, title: e
-                                        })}
-                                            defaultValue={journey?.title} 
-                                            className='border-dotted border-2 border-sky-500 rounded-md'>
-                                            <EditablePreview />
-                                            <EditableTextarea />    
-                                        </Editable>
-                                    </ModalHeader>
-                                    <ModalCloseButton />
-                                    <ModalBody>
-                                    Description:
-                                    {/* <div className="border-dotted border-2 border-sky-500 rounded-md w-full"> */}
-                                    <Editable onChange={(e:string) => setEditJourney({
-                                            ...editJourney, description: e
-                                        })} defaultValue={journey?.description} className='border-dotted border-2 border-sky-500 rounded-md'>
-                                        <EditablePreview />
-                                        <EditableTextarea />    
-                                    </Editable>
-                                    {/* </div> */}
-                                    Cost:
-                                    <Editable onChange={(e:string) => setEditJourney({
-                                        ...editJourney, cost: parseInt(e)
-                                        })} defaultValue={journey?.cost.toString()} className='border-dotted border-2 border-sky-500 rounded-md'>
-                                        <EditablePreview />
-                                        <EditableTextarea />    
-                                    </Editable>
-                                    Distance:
-                                    <Editable onChange={(e:string) => setEditJourney({
-                                            ...editJourney, distance: e
-                                        })} defaultValue={journey?.distance} className='border-dotted border-2 border-sky-500 rounded-md'>
-                                        <EditablePreview />
-                                        <EditableTextarea />    
-                                    </Editable>
-                                    </ModalBody>
+        <div>
+            <h1>Title : {journey?.title}</h1>
+            <p>Description : {journey?.description}</p>
+            <p>Distance : {journey?.distance} km</p>
+            <p>Cost : {journey?.cost} kr</p>
 
-                                    <ModalFooter>
-                                        <Button 
-                                            colorScheme='blue' 
-                                            mr={3} 
-                                            onClick={() => saveChanges({...journey!, 
-                                                title : editJourney.title === "9ijku8ujhy67ygt5tfre4" ? journey?.title!:editJourney.title , 
-                                                cost : editJourney.cost === -69 ? journey?.cost!:editJourney.cost,
-                                                description : editJourney.description === "9ijku8ujhy67ygt5tfre4" ? journey?.description!:editJourney.description, 
-                                                distance : editJourney.distance === "9ijku8ujhy67ygt5tfre4" ? journey?.distance!:editJourney.distance
-                                            })}>
-                                        Lagre og gå oversikt
-                                        </Button>
-                                        <Button variant='ghost' onClick={onClose}>Avbryt</Button>
-                                    </ModalFooter>
-                                </ModalContent>
-                        </Modal>
-                    </CardBody>
-                    <CardFooter alignContent={"center"}>
-                        <Button onClick={onOpen}>Edit post</Button>
-                        <Button onClick={() => deletePost(journey!)}>Delete</Button>
-                    </CardFooter>
-                 </Card>
+            <Modal blockScrollOnMount={false} size={"full"} closeOnEsc={true} isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader boxSize={"3xl"}>
+                        Title:
+                        <Editable boxSize={'-webkit-max-content'}  onChange={(e:string) => setEditJourney({
+                            ...editJourney, title: e
+                        })}
+                            defaultValue={journey?.title} 
+                            className='border-dotted border-2 border-sky-500 rounded-md'>
+                            <EditablePreview />
+                            <EditableTextarea minBlockSize={'24'} />    
+                        </Editable>
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody boxSize={"3xl"}>
+                    Description:
+                    {/* <div className="border-dotted border-2 border-sky-500 rounded-md w-full"> */}
+                    <Editable onChange={(e:string) => setEditJourney({
+                            ...editJourney, description: e
+                        })} defaultValue={journey?.description} className='border-dotted border-2 border-sky-500 rounded-md'>
+                        <EditablePreview />
+                        <EditableTextarea />    
+                    </Editable>
+                    {/* </div> */}
+                    Cost:
+                    <Editable onChange={(e:string) => setEditJourney({
+                        ...editJourney, cost: parseInt(e)
+                        })} defaultValue={journey?.cost.toString()} className='border-dotted border-2 border-sky-500 rounded-md'>
+                        <EditablePreview />
+                        <EditableTextarea />    
+                    </Editable>
+                    Distance:
+                    <Editable onChange={(e:string) => setEditJourney({
+                            ...editJourney, distance: e
+                        })} defaultValue={journey?.distance} className='border-dotted border-2 border-sky-500 rounded-md'>
+                        <EditablePreview />
+                        <EditableTextarea />    
+                    </Editable>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button 
+                            colorScheme='blue' 
+                            mr={3} 
+                            onClick={() => saveChanges({...journey!, 
+                                title : editJourney.title === "9ijku8ujhy67ygt5tfre4" ? journey?.title!:editJourney.title , 
+                                cost : editJourney.cost === -69 ? journey?.cost!:editJourney.cost,
+                                description : editJourney.description === "9ijku8ujhy67ygt5tfre4" ? journey?.description!:editJourney.description, 
+                                distance : editJourney.distance === "9ijku8ujhy67ygt5tfre4" ? journey?.distance!:editJourney.distance
+                            })}>
+                        Lagre og gå oversikt
+                        </Button>
+                        <Button variant='ghost' onClick={onClose}>Avbryt</Button>
+                    </ModalFooter>
+                </ModalContent>
+            </Modal>
+            <Button onClick={onOpen}>Edit post</Button>
+            <Button onClick={() => deletePost(journey!)}>Delete</Button>
+            <Button onClick={goToProfile}>To Profile</Button>
+        </div>
     )
 }
 

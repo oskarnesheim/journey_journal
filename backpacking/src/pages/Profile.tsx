@@ -53,7 +53,10 @@ export default function Profile() {
 
     const showJourneys = () => {
         return (
-            <div className="mt-24">
+            <div className="p-5 bg-slate-500">
+                <h3 className="font-semibold text-xl">
+                    Overview:
+                </h3>
                 {userPosts.length === 0 ? <p>No posts yet</p> : userPosts.map((journey) =>
                     <JourneyCard key={journey.journeyID} journey={journey}/>)}
                 </div>
@@ -62,23 +65,18 @@ export default function Profile() {
 
 
     return (
-        <div className='w-full relative mt-36' >
+        <div className='w-full absolute top-40' >
             <div>
-                <h1> {!newPostToggle? "Welcome back "+ currentUser?.firstname+ " " + currentUser?.lastname: ""}</h1>
-            </div>
-            <div className="relative">
+                <h1 className="font-semibold text-xl"> {!newPostToggle? "Welcome back "+ currentUser?.firstname+ " " + currentUser?.lastname: ""}</h1>
                 {CreateJourneyFunc()}
             </div>
-            <div className="buttonProfilePage">
-                <p> {currentUser ? 
-                    <button
-                    onClick={e => setNewPostToggle(!newPostToggle)}>
-                        {!newPostToggle ? "Click here to create a new journey" : "Back"}
-                    </button>
-                    :
-                    ''}</p>
+            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+                onClick={e => setNewPostToggle(!newPostToggle)}>
+                {!newPostToggle ? "Click here to create a new journey" : "Back"}
+            </button>
+            <div className="journeyOverview">
+                {!newPostToggle && showJourneys()}
             </div>
-            {!newPostToggle && showJourneys()}
         </div>
     )
     }

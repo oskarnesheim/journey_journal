@@ -14,6 +14,7 @@ const JourneyCard = (props : JourneyCardProps) => {
     const navigate = useNavigate();
     const [editJourney, setEditJourney] = useRecoilState(JourneyState);
 
+
     const showJourneyPage = () => {
         setEditJourney(props.journey)
         navigate('/journey');
@@ -30,7 +31,10 @@ const JourneyCard = (props : JourneyCardProps) => {
             <p>Cost : {props.journey.cost}</p>
           </CardBody>
           <CardFooter>
-            {auth.currentUser?.uid === props.journey.uid ? <Button onClick={showJourneyPage}>View journey</Button> : <p>Cannot edit</p>}
+            {auth.currentUser?.uid === props.journey.uid ? <Button marginRight={5} onClick={showJourneyPage}>View journey</Button> :  <p className="mr-5">Cannot edit</p>}
+            <br />
+            <br />
+            <p>Author: {props.journey.uid}</p>
           </CardFooter>
         </Card>
     )

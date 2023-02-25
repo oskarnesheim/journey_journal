@@ -2,6 +2,7 @@ import { getAuth } from "firebase/auth";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { auth } from "../firebase-config";
 import { Iuser } from "../interfaces/Interfaces";
 import { UserState } from "../recoil/atoms";
 import "./css/components.css";
@@ -25,11 +26,8 @@ const Navbar = () => {
                 <li className='hover:text-pink-500'>
                     <Link to={'/about'}>About us</Link>
                 </li>
-                {/* <li className='hover:text-pink-500'>
-                    <Link to={'/'}>Login</Link>
-                </li> */}
-                { user && <li>
-                     <p>{'Welcome back ' + user.firstname}</p>
+                {user && <li>
+                     <p>{'Welcome back ' + user?.firstname}</p>
                 </li>}
                 <li className='hover:text-pink-500'>
                     {user ? 
@@ -41,9 +39,6 @@ const Navbar = () => {
                     :
                     <Link to={'/'}>Login</Link>}
                 </li>
-                {/* <li>
-                     <p className="welcomeBack">{user ? 'Welcome back ' + user.firstname : "You are not logged in"}</p>
-                </li> */}
             </ul>
         </div>
     )
