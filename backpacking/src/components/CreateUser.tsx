@@ -32,34 +32,33 @@ const CreateUser = () =>{
         } catch (error) {
             console.log(error)
         }
-        
     }
     
     const signUpUser = async () => {
-    const email = formUser.email;
-    const password = formUser.password;
-    try{
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const userCredentialUID = userCredential.user.uid;
-        const user:Iuser = {
-            email : formUser.email,
-            password : formUser.password,
-            firstname : formUser.firstname,
-            lastname : formUser.lastname,
-            username : formUser.username,
-            age : formUser.age,
-            isAdmin : formUser.isAdmin,
-            uid : userCredentialUID,
-            description : "",
-        }
-            setDoc(doc(database, 'users' ,user.firstname + " " + user.lastname), user)
-            setGlobalUser(user)
-        } catch (error){
-            console.log(error);
-        }
+        const email = formUser.email;
+        const password = formUser.password;
+        try{
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const userCredentialUID = userCredential.user.uid;
+
+            const userToBeWritten:Iuser = {
+                email : formUser.email,
+                password : formUser.password,
+                firstname : formUser.firstname,
+                lastname : formUser.lastname,
+                username : formUser.username,
+                age : formUser.age,
+                isAdmin : formUser.isAdmin,
+                uid : userCredentialUID,
+                description : "",
+            }
+                setDoc(doc(database, 'users' ,userToBeWritten.uid), userToBeWritten)
+                setGlobalUser(userToBeWritten)
+            } catch (error){
+                console.log(error);
+            }
     }
     return(
-        <div className="regUser">
             <FormControl marginTop={230}>
                 <FormLabel>Firstname</FormLabel>
                     <Input type='email' value={formUser.firstname} onChange={(e) => setFormUser(
@@ -102,7 +101,6 @@ const CreateUser = () =>{
                     Create
                 </Button>
             </FormControl>
-        </div>
     )
 }
     

@@ -1,6 +1,7 @@
 import { Card, CardHeader, Heading, CardBody, CardFooter, Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, useDisclosure, Editable, EditablePreview, EditableTextarea } from "@chakra-ui/react";
 import { getDocs, query, where, deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import CreateJourney from "../components/CreateJourney";
 import { auth, database, getCollection } from "../firebase-config";
@@ -14,7 +15,9 @@ export default function Profile() {
     const [errorMessage, setErrorMessage] = useState<string>("");  //? Error message
     const [currentUser, setCurrentUser] = useRecoilState(UserState); //? Henter bruker fra recoil
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]); //? Henter alle brukerens poster
-
+    const [refreshPosts, setRefreshPosts] = useState<boolean>(false);
+    const navigate = useNavigate();
+    
     const [editJourney, setEditJourney] = useState<Ijourney>({
         title: "9ijku8ujhy67ygt5tfre4",
         distance: "9ijku8ujhy67ygt5tfre4",
@@ -27,16 +30,16 @@ export default function Profile() {
     const getJourneyRef = getCollection('journeys/');
     
     useEffect(() => {
+        if (!auth.currentUser) {
+            navigate('/');
+            return;
+        }
         try{
-            if (!auth) {
-                setErrorMessage("You are not logged in, and can therefore not post a message");
-                return;
-            }
             getUserPosts();
         }catch(error){
             console.log(error)
         }
-    },[userPosts]);
+    },[refreshPosts]);
     
 
     const getUserPosts = async () => {
@@ -51,16 +54,14 @@ export default function Profile() {
         }
     }
     
-
-    
     const CreateJourneyFunc = () => {
     if(newPostToggle){
         return (
-                <CreateJourney />
+                <CreateJourney refreshPosts={refreshPosts} setRefreshPosts={setRefreshPosts}/>
             )
         }
     }
- 
+
     const saveChanges = async (journey: Ijourney) => {
         onClose();
         const journeyToBeSaved:Ijourney = {
