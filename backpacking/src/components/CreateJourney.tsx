@@ -6,10 +6,15 @@ import { database, auth, firestoreAutoId } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
 import "./css/components.css";
 
+type CreateJourneyProps = {
+    setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
+    refreshPosts: boolean;
+}
 
 
 
-const CreateJourney = () =>{
+const CreateJourney = (props: CreateJourneyProps) =>{
+
     const [statusMessage, setStatusMessage] = useState<string>("");
     const [journeyForm, setJourneyForm] = useState<Ijourney>({
         title: "",
@@ -57,10 +62,12 @@ const CreateJourney = () =>{
             journeyPath: [],
             journeyID: ""} as Ijourney)
             setStatusMessage("You have successfully posted a journey\n You can check it out under profile");
+            props.setRefreshPosts(!props.refreshPosts);
         } catch (error) {
             setStatusMessage("Something went wrong, please try again");
         }
     }
+    
     return(
         <div className="">
         {statusMessage}
