@@ -11,10 +11,7 @@ type CreateJourneyProps = {
     refreshPosts: boolean;
 }
 
-
-
 const CreateJourney = (props: CreateJourneyProps) =>{
-
     const [statusMessage, setStatusMessage] = useState<string>("");
     const [journeyForm, setJourneyForm] = useState<Ijourney>({
         title: "",
@@ -41,10 +38,9 @@ const CreateJourney = (props: CreateJourneyProps) =>{
         
         
     const addJourney = ():void => {
-        try {
-            
-            const newJourneyPost: Ijourney = {
-                title: journeyForm.title,
+        try {    
+        const newJourneyPost: Ijourney = {
+            title: journeyForm.title,
             distance: journeyForm.distance,
             description: journeyForm.description,
             cost: journeyForm.cost,
@@ -69,9 +65,8 @@ const CreateJourney = (props: CreateJourneyProps) =>{
     }
     
     return(
-        <div className="">
-        {statusMessage}
         <FormControl>
+            {statusMessage}
             <FormLabel colorScheme='#454545' marginLeft={'160'}>Trip name</FormLabel>
                 <Input placeholder = 'Trip name' type='text' width = '80%' value={journeyForm.title} onChange={(e) => setJourneyForm(
                     {...journeyForm, title: e.target.value})}/>
@@ -96,8 +91,6 @@ const CreateJourney = (props: CreateJourneyProps) =>{
                 Post
             </Button>
         </FormControl>
-    </div>
-
     )
   }
 
