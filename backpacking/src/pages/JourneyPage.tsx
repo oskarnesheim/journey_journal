@@ -16,12 +16,12 @@ const JourneyPage = (props: JourneyProps) => {
     const navigate = useNavigate();
 
 
-    useEffect(() => {
-        if (!auth.currentUser) {
-            navigate('/home');
-            return;
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (!auth.currentUser) {
+    //         navigate('/home');
+    //         return;
+    //     }
+    // }, []);
 
 
     const saveChanges = async (journey: Ijourney) => {
@@ -52,8 +52,8 @@ const JourneyPage = (props: JourneyProps) => {
         }
     }
 
-    const goToProfile = () => {
-        navigate('/profile');
+    const navigateTo = (path : string) => {
+        navigate(path);
     }
 
     const [editJourney, setEditJourney] = useState<Ijourney>({
@@ -131,9 +131,22 @@ const JourneyPage = (props: JourneyProps) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <Button onClick={onOpen}>Edit post</Button>
-            <Button onClick={() => deletePost(journey!)}>Delete</Button>
-            <Button onClick={goToProfile}>To Profile</Button>
+            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+                onClick={() => navigateTo('/home')}>
+                Home
+            </button>
+            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+                onClick={() => navigateTo('/profile')}>
+                Profile 
+            </button>: null}
+            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+                onClick={onOpen}>
+                Edit 
+            </button>: null}
+            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+                onClick={() => deletePost(journey!)}>
+                Delete
+            </button>: null}
         </div>
     )
 }

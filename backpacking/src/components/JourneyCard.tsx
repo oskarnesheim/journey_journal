@@ -31,10 +31,13 @@ const JourneyCard = (props : JourneyCardProps) => {
             <p>Cost : {props.journey.cost}</p>
           </CardBody>
           <CardFooter>
-            {auth.currentUser?.uid === props.journey.uid ? <Button marginRight={5} onClick={showJourneyPage}>View journey</Button> :  <p className="mr-5">Cannot edit</p>}
+            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+                onClick={showJourneyPage}>
+                View journey
+            </button>
             <br />
             <br />
-            <p>Author: {props.journey.uid}</p>
+            <p>Author: {auth.currentUser?.uid === props.journey.uid ? 'You!':props.journey.uid}</p>
           </CardFooter>
         </Card>
     )
