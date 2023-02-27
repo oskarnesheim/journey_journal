@@ -6,13 +6,14 @@ import CreateJourney from "../components/CreateJourney";
 import JourneyCard from "../components/JourneyCard";
 import { auth, getCollection } from "../firebase-config";
 import { Ijourney} from "../interfaces/Interfaces";
-import { UserState } from "../recoil/atoms";
+import { AllJourneysState, UserState } from "../recoil/atoms";
 
 
 export default function Profile() {
     const [newPostToggle, setNewPostToggle] = useState(false); //? Velger om man skal lage en ny post eller ikke
     const [errorMessage, setErrorMessage] = useState<string>("");  //? Error message
     const [currentUser, setCurrentUser] = useRecoilState(UserState); //? Henter bruker fra recoil
+    // const [userPosts, setUserPosts] = useRecoilState(AllJourneysState);
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]); //? Henter alle brukerens poster
     const [refreshPosts, setRefreshPosts] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function Profile() {
             navigate('/');
             return;
         }
+        // if (userPosts) return;
         try{
             getUserPosts();
         }catch(error){
@@ -32,6 +34,7 @@ export default function Profile() {
     
 
     const getUserPosts = async () => {
+        // console.log('retreiving user posts')
         try {
             const q = query(getJourneyRef,where('uid', '==', auth.currentUser?.uid));
             const data = await getDocs(q)
@@ -52,12 +55,13 @@ export default function Profile() {
     }
 
     const showJourneys = () => {
+        const ownJourney = userPosts?.filter((journey) => journey.uid === auth.currentUser?.uid);
         return (
-            <div className="p-5 bg-slate-500">
+            <div className="p-5 bg-slate-500 w-full h-screen">
                 <h3 className="font-semibold text-xl">
                     Overview:
                 </h3>
-                {userPosts.length === 0 ? <p>No posts yet</p> : userPosts.map((journey) =>
+                {userPosts?.length === 0 ? <p>No posts yet</p> : ownJourney?.map((journey) =>
                     <JourneyCard key={journey.journeyID} journey={journey}/>)}
                 </div>
             );} 
@@ -74,7 +78,7 @@ export default function Profile() {
                 onClick={e => setNewPostToggle(!newPostToggle)}>
                 {!newPostToggle ? "Click here to create a new journey" : "Back"}
             </button>
-            <div className="journeyOverview">
+            <div className="journeyOverview w-full h-screen">
                 {!newPostToggle && showJourneys()}
             </div>
         </div>
