@@ -5,8 +5,8 @@ import { useRecoilState } from "recoil";
 import CreateJourney from "../components/CreateJourney";
 import JourneyCard from "../components/JourneyCard";
 import { auth, getCollection } from "../firebase-config";
-import { Ijourney} from "../interfaces/Interfaces";
-import { AllJourneysState, UserState } from "../recoil/atoms";
+import { Ijourney, IStoredJourney} from "../interfaces/Interfaces";
+import { UserState } from "../recoil/atoms";
 
 
 export default function Profile() {
@@ -18,6 +18,9 @@ export default function Profile() {
     const [refreshPosts, setRefreshPosts] = useState<boolean>(false);
     const navigate = useNavigate();
     const getJourneyRef = getCollection('journeys/');
+    const getStoredJourneysRef = getCollection('storedJourneys/');
+    const [OwnJourneysToggle, setOwnJourneysToggle] = useState<boolean>(true);
+    const [storedJourneys, setStoredJourneys] = useState<Ijourney[]>({} as Ijourney[]);
     
     useEffect(() => {
         if (!auth.currentUser) {
@@ -27,6 +30,7 @@ export default function Profile() {
         // if (userPosts) return;
         try{
             getUserPosts();
+            // getStoredJourneys();
         }catch(error){
             console.log(error)
         }
@@ -34,17 +38,42 @@ export default function Profile() {
     
 
     const getUserPosts = async () => {
-        // console.log('retreiving user posts')
         try {
-            const q = query(getJourneyRef,where('uid', '==', auth.currentUser?.uid));
+
+            //? Henter alle brukerens poster
+            const q = query(getJourneyRef);
             const data = await getDocs(q)
+            const journeys : Ijourney[] = data.docs.map((journeyData) => ({...journeyData.data()} as Ijourney))
+
+            const userJourneys : Ijourney[] = journeys.filter((journey) => journey.uid === auth.currentUser?.uid);
             setUserPosts(
-                data.docs.map((journey) => ({...journey.data()} as Ijourney))
+                userJourneys.map((journey) => ({...journey} as Ijourney))
             )
+            
+            
+            // //? Henter alle lagrede reiser sine IDer, hvem som la de ut og hvem som lagret dem
+            const q2 = query(getStoredJourneysRef,where('uid', '==', auth.currentUser?.uid));
+            const data2 = await getDocs(q2)
+            const storedJourneysData : IStoredJourney[] = data2.docs.map((journeyData) => ({...journeyData.data()} as IStoredJourney))
+
+            const newStoredJourneys : Ijourney[] = [];
+            storedJourneysData.forEach(storeData => {
+                journeys.forEach(journey => {
+                    if (journey.journeyID === storeData.journeyID){
+                        newStoredJourneys.push(journey)
+                    }
+                });
+            });
+            
+            setStoredJourneys(
+                newStoredJourneys.map((journey) => ({...journey} as Ijourney))
+            )
+
         } catch (error) {
             console.log(error);
         }
     }
+
     
     const CreateJourneyFunc = () => {
     if(newPostToggle){
@@ -55,18 +84,28 @@ export default function Profile() {
     }
 
     const showJourneys = () => {
-        const ownJourney = userPosts?.filter((journey) => journey.uid === auth.currentUser?.uid);
+        // const ownJourney = userPosts?.filter((journey) => journey.uid === auth.currentUser?.uid);
+        if (userPosts?.length === 0){
+            return <p>No posts yet</p>
+        }
         return (
-            <div className="p-5 bg-slate-500 w-full h-screen">
+            <div className="p-5  w-full h-screen bg-slate-500">
                 <h3 className="font-semibold text-xl">
                     Overview:
                 </h3>
-                {userPosts?.length === 0 ? <p>No posts yet</p> : ownJourney?.map((journey) =>
+                <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5" onClick={() => setOwnJourneysToggle(OwnJourneysToggle ? true : true)}>Own Journeys</button>
+                <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5" onClick={() => setOwnJourneysToggle(false)}>Stored Journeys</button>
+
+                {OwnJourneysToggle ? userPosts.map((journey) =>
+                    <JourneyCard key={journey.journeyID} journey={journey}/>) 
+
+                    :
+
+                storedJourneys.map((journey) =>
                     <JourneyCard key={journey.journeyID} journey={journey}/>)}
                 </div>
-            );} 
-            
-
+            );
+        } 
 
     return (
         <div className='w-full absolute top-40' >
@@ -78,7 +117,7 @@ export default function Profile() {
                 onClick={e => setNewPostToggle(!newPostToggle)}>
                 {!newPostToggle ? "Click here to create a new journey" : "Back"}
             </button>
-            <div className="journeyOverview w-full h-screen">
+            <div className="journeyOverview w-full h-full bg-slate-500">
                 {!newPostToggle && showJourneys()}
             </div>
         </div>

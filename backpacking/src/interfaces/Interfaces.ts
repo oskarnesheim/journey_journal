@@ -21,3 +21,9 @@ export interface Ijourney{
     journeyPath: Array<GeoPoint>,
     journeyID : string
 }
+
+export type IStoredJourney = {
+    uid : string,
+    author : string,
+    journeyID : string
+}

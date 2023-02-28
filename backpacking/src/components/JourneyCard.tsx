@@ -22,7 +22,6 @@ const JourneyCard = (props : JourneyCardProps) => {
     }
 
     const storeJourneyToUser = async () => {
-        console.log(auth.currentUser?.uid, props.journey.uid, props.journey.journeyID)
         const data = {
             uid : auth.currentUser?.uid, 
             authorID : props.journey.uid, 
@@ -34,10 +33,6 @@ const JourneyCard = (props : JourneyCardProps) => {
         } catch (error) {
             console.log(error)
         }
-
-        const journeyRef = await getDoc(doc(database, "journeys", props.journey.journeyID));
-        const journeyData = journeyRef.data();
-        console.log("🚀 ~ file: JourneyCard.tsx:29 ~ storeJourneyToUser ~ journeyData:", journeyData)
     }
     
     return (
