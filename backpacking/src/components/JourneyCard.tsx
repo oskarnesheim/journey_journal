@@ -12,7 +12,6 @@ type JourneyCardProps = {
     journey: Ijourney;
     usersThatStoredJourney: IStoredJourney[];
     fromWhatPage: string;
-    // setJourney: React.Dispatch<React.SetStateAction<Ijourney>>;
 }
 
 const JourneyCard = (props : JourneyCardProps) => {
@@ -20,6 +19,7 @@ const JourneyCard = (props : JourneyCardProps) => {
     const [editJourney, setEditJourney] = useRecoilState(JourneyState);
     const [journey, setJourney] = useState<Ijourney>({} as Ijourney);
     const [isJourneyStored, setIsJourneyStored] = useState<boolean>();
+    const [storeCount, setStoreCount] = useState<number>(0);
 
     const [updateMessage, setUpdateMessage] = useState<string>("");
 
@@ -32,6 +32,7 @@ const JourneyCard = (props : JourneyCardProps) => {
     useEffect(() => {
         setJourney(props.journey)
         setIsJourneyStored(currentUserHaveStoredJourney())
+        setStoreCount(numberOfUsersThatStoredJourney())
     }, [])
     
 
@@ -42,8 +43,9 @@ const JourneyCard = (props : JourneyCardProps) => {
             journeyID : journey.journeyID
         }
         try {
-            setDoc(doc(database, 'storedJourneys/' ,journey.journeyID),data)
+            setDoc(doc(database, 'storedJourneys/' ,data.journeyID+ ':' + data.uid),data)
             setIsJourneyStored(true)
+            setStoreCount(storeCount + 1)
             setUpdateMessage('')
         } catch (error) {
             console.log(error)
@@ -51,9 +53,15 @@ const JourneyCard = (props : JourneyCardProps) => {
     }
     
     const unstoreJourneyToUser = async () => {
+        const data = {
+            uid : auth.currentUser?.uid,
+            authorID : journey.uid,
+            journeyID : journey.journeyID
+        }
         try {
-            deleteDoc(doc(database, 'storedJourneys/' ,journey.journeyID))
+            deleteDoc(doc(database, 'storedJourneys/' ,data.journeyID+ ':' + data.uid))
             setIsJourneyStored(false)
+            setStoreCount(storeCount - 1)
             if (props.fromWhatPage === 'profile') setUpdateMessage('The journey will be away when reloading the page');
         } catch (error) {
             console.log(error)
@@ -65,12 +73,20 @@ const JourneyCard = (props : JourneyCardProps) => {
         return currentUserHaveStoredJourney.length > 0;
     }
 
+    const numberOfUsersThatStoredJourney = () => {
+        return props.usersThatStoredJourney.length;
+    }
+
+    const editJourneyButton = (path: string, alternative : string) => {
+        return <img className="max-h-8" src={path} alt={alternative} />
+    }
+
     const storeJourneyButton = () => {
         if (auth.currentUser?.uid === journey.uid) return (<></>);
         return(
             <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
                 onClick={isJourneyStored? unstoreJourneyToUser : storeJourneyToUser}>
-               {isJourneyStored ? 'Unstore journey' : 'Store journey'}
+               {isJourneyStored ? editJourneyButton("../../public/images/cancelIcon.png","Cancel"): editJourneyButton("../../public/images/likeIcon.png", "Store")}
             </button>
         )
     }
@@ -84,6 +100,7 @@ const JourneyCard = (props : JourneyCardProps) => {
             <p>Description : {journey.description}</p>
             <p>Distance : {journey.distance}</p>
             <p>Cost : {journey.cost}</p>
+            <p>Number of users that stored this journey : {storeCount}</p>
           </CardBody>
           <CardFooter>
             <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
