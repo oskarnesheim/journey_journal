@@ -6,38 +6,41 @@ import CreateJourney from "../components/CreateJourney";
 import JourneyCard from "../components/JourneyCard";
 import { auth, getCollection } from "../firebase-config";
 import { Ijourney, IStoredJourney} from "../interfaces/Interfaces";
-import { UserState } from "../recoil/atoms";
+import { StoredUserJourneys, UserState } from "../recoil/atoms";
 
 
 export default function Profile() {
     const [newPostToggle, setNewPostToggle] = useState(false); //? Velger om man skal lage en ny post eller ikke
     const [errorMessage, setErrorMessage] = useState<string>("");  //? Error message
     const [currentUser, setCurrentUser] = useRecoilState(UserState); //? Henter bruker fra recoil
-    // const [userPosts, setUserPosts] = useRecoilState(AllJourneysState);
+
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]); //? Henter alle brukerens poster
+    const [storedJData, setStoredJData] = useState<IStoredJourney[]>([]);
+    const [storedJourneys, setStoredJourneys] = useState<Ijourney[]>({} as Ijourney[]);
+
     const [refreshPosts, setRefreshPosts] = useState<boolean>(false);
+    const [OwnJourneysToggle, setOwnJourneysToggle] = useState<boolean>(true);
+    
     const navigate = useNavigate();
+    
     const getJourneyRef = getCollection('journeys/');
     const getStoredJourneysRef = getCollection('storedJourneys/');
-    const [OwnJourneysToggle, setOwnJourneysToggle] = useState<boolean>(true);
-    const [storedJourneys, setStoredJourneys] = useState<Ijourney[]>({} as Ijourney[]);
+
     
     useEffect(() => {
         if (!auth.currentUser) {
             navigate('/');
             return;
         }
-        // if (userPosts) return;
         try{
-            getUserPosts();
-            // getStoredJourneys();
+            getJourneys();
         }catch(error){
             console.log(error)
         }
     },[refreshPosts]);
     
 
-    const getUserPosts = async () => {
+    const getJourneys = async () => {
         try {
 
             //? Henter alle brukerens poster
@@ -55,6 +58,8 @@ export default function Profile() {
             const q2 = query(getStoredJourneysRef,where('uid', '==', auth.currentUser?.uid));
             const data2 = await getDocs(q2)
             const storedJourneysData : IStoredJourney[] = data2.docs.map((journeyData) => ({...journeyData.data()} as IStoredJourney))
+
+
 
             const newStoredJourneys : Ijourney[] = [];
             storedJourneysData.forEach(storeData => {
@@ -84,7 +89,6 @@ export default function Profile() {
     }
 
     const showJourneys = () => {
-        // const ownJourney = userPosts?.filter((journey) => journey.uid === auth.currentUser?.uid);
         if (userPosts?.length === 0){
             return <p>No posts yet</p>
         }
@@ -93,19 +97,24 @@ export default function Profile() {
                 <h3 className="font-semibold text-xl">
                     Overview:
                 </h3>
-                <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5" onClick={() => setOwnJourneysToggle(OwnJourneysToggle ? true : true)}>Own Journeys</button>
+                <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5" onClick={() => setOwnJourneysToggle(true)}>Own Journeys</button>
                 <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5" onClick={() => setOwnJourneysToggle(false)}>Stored Journeys</button>
 
                 {OwnJourneysToggle ? userPosts.map((journey) =>
-                    <JourneyCard key={journey.journeyID} journey={journey}/>) 
+                    <JourneyCard key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>) 
 
                     :
 
                 storedJourneys.map((journey) =>
-                    <JourneyCard key={journey.journeyID} journey={journey}/>)}
+                    <JourneyCard key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>)}
                 </div>
             );
         } 
+
+        const whoHaveStoredJourney = (journey : Ijourney) => {
+            return storedJData.filter((storedJ) => storedJ.journeyID === journey.journeyID)
+                .map((storedJ) => storedJ);
+            }
 
     return (
         <div className='w-full absolute top-40' >
@@ -118,7 +127,7 @@ export default function Profile() {
                 {!newPostToggle ? "Click here to create a new journey" : "Back"}
             </button>
             <div className="journeyOverview w-full h-full bg-slate-500">
-                {!newPostToggle && showJourneys()}
+                {!newPostToggle && userPosts && storedJData && storedJourneys && showJourneys()}
             </div>
         </div>
     )

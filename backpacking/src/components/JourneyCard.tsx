@@ -1,14 +1,15 @@
 import { Card, CardHeader, Heading, CardBody, CardFooter, Button } from "@chakra-ui/react";
-import { getDoc, doc, setDoc } from "firebase/firestore";
+import { getDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { auth, database } from "../firebase-config";
-import { Ijourney } from "../interfaces/Interfaces";
+import { Ijourney, IStoredJourney } from "../interfaces/Interfaces";
 import JourneyPage from "../pages/JourneyPage";
 import { JourneyState } from "../recoil/atoms";
 
 type JourneyCardProps = {
     journey: Ijourney;
+    usersThatStoredJourney: IStoredJourney[];
 }
 
 const JourneyCard = (props : JourneyCardProps) => {
@@ -34,7 +35,36 @@ const JourneyCard = (props : JourneyCardProps) => {
             console.log(error)
         }
     }
-    
+
+    const unstoreJourneyToUser = async () => {
+        try {
+            deleteDoc(doc(database, 'storedJourneys/' ,props.journey.journeyID))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const currentUserHaveStoredJourney = () => {
+        const currentUserHaveStoredJourney = props.usersThatStoredJourney.filter((storedJ) => storedJ.uid === auth.currentUser?.uid);
+        return currentUserHaveStoredJourney.length > 0;
+    }
+
+    const storeJourneyButton = () => {
+        if (auth.currentUser?.uid === props.journey.uid) return (<></>);
+        if(!currentUserHaveStoredJourney()){
+            return <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+            onClick={storeJourneyToUser}>
+            Store journey
+        </button>
+        } 
+        return (
+            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+            onClick={unstoreJourneyToUser}>
+            Unstore journey
+        </button>
+        )
+    }
+
     return (
         <Card paddingBottom={4} margin={10} boxShadow={"2xl"} >
           <CardHeader >
@@ -51,11 +81,7 @@ const JourneyCard = (props : JourneyCardProps) => {
                 View journey
             </button>
 
-            {auth.currentUser?.uid !== props.journey.uid && <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
-                onClick={storeJourneyToUser}>
-                Store journey
-            </button>}
-
+            {storeJourneyButton()}
 
             <br />
             <br />
