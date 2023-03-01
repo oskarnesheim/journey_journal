@@ -82,8 +82,8 @@ export default function Profile() {
     }
 
     const showJourneys = () => {
-        if (userPosts?.length === 0){
-            return <p>No posts yet</p>
+        if (userPosts?.length === 0 && storedJourneys?.length === 0){
+            return <h1>No journeys of your own or stored journeys</h1>
         }
         return (
             <div className="p-5  w-full h-screen bg-slate-500">
@@ -119,7 +119,7 @@ export default function Profile() {
                 onClick={e => setNewPostToggle(!newPostToggle)}>
                 {!newPostToggle ? "Click here to create a new journey" : "Back"}
             </button>
-            <div className="journeyOverview w-full h-full bg-slate-500">
+            <div className="journeyOverview w-full h-screen bg-slate-500">
                 {!newPostToggle && userPosts && storedJData && storedJourneys && showJourneys()}
             </div>
         </div>
