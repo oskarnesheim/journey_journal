@@ -42,7 +42,7 @@ export default function Home() {
   const showJourneys = () => {
     return (
       journeys.map((journey) =>
-        <JourneyCard key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>
+        <JourneyCard fromWhatPage="home" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>
       ));
   }
 

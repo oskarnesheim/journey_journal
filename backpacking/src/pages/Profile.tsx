@@ -94,12 +94,12 @@ export default function Profile() {
                 <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5" onClick={() => setOwnJourneysToggle(false)}>Stored Journeys</button>
 
                 {OwnJourneysToggle ? userPosts.map((journey) =>
-                    <JourneyCard key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>) 
+                    <JourneyCard fromWhatPage="profile" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>) 
 
                     :
 
                 storedJourneys.map((journey) =>
-                    <JourneyCard key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>)}
+                    <JourneyCard fromWhatPage="profile" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>)}
                 </div>
             );
         } 

@@ -11,6 +11,7 @@ import { JourneyState, UserState } from "../recoil/atoms";
 type JourneyCardProps = {
     journey: Ijourney;
     usersThatStoredJourney: IStoredJourney[];
+    fromWhatPage: string;
     // setJourney: React.Dispatch<React.SetStateAction<Ijourney>>;
 }
 
@@ -53,7 +54,7 @@ const JourneyCard = (props : JourneyCardProps) => {
         try {
             deleteDoc(doc(database, 'storedJourneys/' ,journey.journeyID))
             setIsJourneyStored(false)
-            setUpdateMessage('The journey will be away when reloading the page')
+            if (props.fromWhatPage === 'profile') setUpdateMessage('The journey will be away when reloading the page');
         } catch (error) {
             console.log(error)
         }
