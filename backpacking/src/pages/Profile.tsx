@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import CreateJourney from "../components/CreateJourney";
 import JourneyCard from "../components/JourneyCard";
 import { auth, getCollection } from "../firebase-config";
-import { Ijourney, IStoredJourney} from "../interfaces/Interfaces";
+import { Ijourney, IStoredJourney, Iuser} from "../interfaces/Interfaces";
 import { StoredUserJourneys, UserState } from "../recoil/atoms";
 
 
@@ -13,6 +13,7 @@ export default function Profile() {
     const [newPostToggle, setNewPostToggle] = useState(false); //? Velger om man skal lage en ny post eller ikke
     const [errorMessage, setErrorMessage] = useState<string>("");  //? Error message
     const [currentUser, setCurrentUser] = useRecoilState(UserState); //? Henter bruker fra recoil
+    const [users, setUsers] = useState<Iuser[]>([]);
 
     const [userPosts, setUserPosts] = useState<Ijourney[]>([]); //? Henter alle brukerens poster
     const [storedJData, setStoredJData] = useState<IStoredJourney[]>([]);
@@ -23,6 +24,7 @@ export default function Profile() {
     
     const navigate = useNavigate();
     
+    const getUsersRef = getCollection('users');
     const getJourneyRef = getCollection('journeys/');
     const getStoredJourneysRef = getCollection('storedJourneys/');
 
@@ -64,6 +66,9 @@ export default function Profile() {
                 });
             });
 
+            const usersData = await getDocs(getUsersRef);
+            
+            setUsers(usersData.docs.map((user) => ({ ...user.data() } as Iuser)))
             setUserPosts(userJourneys.map((journey) => ({...journey} as Ijourney)))
             setStoredJourneys(newStoredJourneys.map((journey) => ({...journey} as Ijourney)))
             setStoredJData(storedJourneysData.map((journey) => ({...journey} as IStoredJourney)))
@@ -94,12 +99,12 @@ export default function Profile() {
                 <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5" onClick={() => setOwnJourneysToggle(false)}>Stored Journeys</button>
 
                 {OwnJourneysToggle ? userPosts.map((journey) =>
-                    <JourneyCard fromWhatPage="profile" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>) 
+                    <JourneyCard authorUsername={getAuthorName(journey)!} fromWhatPage="profile" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>) 
 
                     :
 
                 storedJourneys.map((journey) =>
-                    <JourneyCard fromWhatPage="profile" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>)}
+                    <JourneyCard authorUsername={getAuthorName(journey)!} fromWhatPage="profile" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>)}
                 </div>
             );
         } 
@@ -108,6 +113,9 @@ export default function Profile() {
             return storedJData.filter((storedJ) => storedJ.journeyID === journey.journeyID)
                 .map((storedJ) => storedJ);
             }
+            const getAuthorName = (journey : Ijourney) => {
+                return users.find((user) => user.uid === journey.uid)?.username;
+                }
 
     return (
         <div className='w-full absolute top-40' >

@@ -12,6 +12,7 @@ type JourneyCardProps = {
     journey: Ijourney;
     usersThatStoredJourney: IStoredJourney[];
     fromWhatPage: string;
+    authorUsername : string;
 }
 
 const JourneyCard = (props : JourneyCardProps) => {
@@ -84,7 +85,7 @@ const JourneyCard = (props : JourneyCardProps) => {
     const storeJourneyButton = () => {
         if (auth.currentUser?.uid === journey.uid) return (<></>);
         return(
-            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 absolute right-5 bottom-7"
                 onClick={isJourneyStored? unstoreJourneyToUser : storeJourneyToUser}>
                {isJourneyStored ? editJourneyButton("../../public/images/cancelIcon.png","Cancel"): editJourneyButton("../../public/images/likeIcon.png", "Store")}
             </button>
@@ -112,7 +113,7 @@ const JourneyCard = (props : JourneyCardProps) => {
 
             <br />
             <br />
-            <p className="absolute right-5 bottom-5">Author: {auth.currentUser?.uid === journey.uid ? 'You!':journey.uid}</p>
+            <p className="absolute right-5 bottom-5">Author: {auth.currentUser?.uid === journey.uid ? 'You!':props.authorUsername}</p>
           </CardFooter>
         </Card>
     )
