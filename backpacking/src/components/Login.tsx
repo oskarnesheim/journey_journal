@@ -23,7 +23,6 @@ const Login = () => {
             const userCredential = await signInWithPopup(auth,provider)
             const user =  userCredential.user;
             const userID = user.uid;
-            console.log("🚀 ~ file: Login.tsx:26 ~ signInWithGoogle ~ userID", userID)
             
 
 
@@ -52,7 +51,6 @@ const Login = () => {
             const userCredential = await signInWithEmailAndPassword(auth, emailSignIn, passwordSignIn);
             const user =  userCredential.user;
             const userID = user.uid;
-            console.log("🚀 ~ file: Login.tsx:54 ~ signInWithMailPassword ~ userID", userID)
 
             const q = query(getUsersRef,where('uid', '==', userID));
             const querySnapshot = await getDocs(q);

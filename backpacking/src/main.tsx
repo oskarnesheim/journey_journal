@@ -16,11 +16,11 @@ import App from './App'
 
 const rootElement = document.getElementById('root') as HTMLElement
 ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
+//   <React.StrictMode>
     <ChakraProvider>
         <RecoilRoot>
             <App />
         </RecoilRoot>
     </ChakraProvider>
-  </React.StrictMode>,
+//   </React.StrictMode>,
 )
