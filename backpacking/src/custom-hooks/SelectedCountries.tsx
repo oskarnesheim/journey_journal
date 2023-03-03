@@ -1,5 +1,5 @@
 import { MultiValue, ActionMeta, InputActionMeta } from "react-select";
-import { Countries } from "../../public/text/Countries";
+import Countries from "../../public/text/Countries";
 import Multiselect from "multiselect-react-dropdown";
 import { useEffect, useState } from "react";
 import { Ijourney } from "../interfaces/Interfaces";
@@ -12,12 +12,12 @@ const SelectedCountries = (props: SelectedCountriesProps) => {
   const [selected, setSelected] = useState<string[]>([""]);
 
   const onSelect = (e: any, b: any) => {
-    setSelected(e);
+    // setSelected(e);
     props.setSelected((prev) => ({ ...prev, countries: selected }));
   };
 
   const onRemove = (e: any, b: any) => {
-    setSelected(e);
+    // setSelected(e);
     props.setSelected((prev) => ({ ...prev, countries: selected }));
   };
 

@@ -15,9 +15,10 @@ import "../components/css/components.css";
 import JourneyCard from "../components/JourneyCard";
 import { useRecoilState } from "recoil";
 import { StoredUserJourneys } from "../recoil/atoms";
+import SearchBar from "../components/SearchBar";
 
-interface searchInputType{
-  text : string;
+export interface searchInputType {
+  text: string;
 }
 
 export default function Home() {
@@ -27,53 +28,68 @@ export default function Home() {
   const [users, setUsers] = useState<Iuser[]>([]);
 
   const [searchInput, setSearchInput] = useState<searchInputType>({
-    text : ''
+    text: "",
   });
 
-  const getJourneysRef = getCollection('journeys');
-  const getStoredJRef = getCollection('storedJourneys');
-  const getUsersRef = getCollection('users');
+  const getJourneysRef = getCollection("journeys");
+  const getStoredJRef = getCollection("storedJourneys");
+  const getUsersRef = getCollection("users");
 
   useEffect(() => {
     try {
-        getUsers();
+      getUsers();
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }, []);
 
   const getUsers = async () => {
+    const journeyData = await getDocs(getJourneysRef);
+    const storedJData = await getDocs(getStoredJRef);
+    const usersData = await getDocs(getUsersRef);
 
-    const journeyData = await getDocs(getJourneysRef)
-    const storedJData = await getDocs(getStoredJRef)
-    const usersData = await getDocs(getUsersRef)
+    setStoredJData(
+      storedJData.docs.map(
+        (journey) => ({ ...journey.data() } as IStoredJourney)
+      )
+    );
+    setJourneys(
+      journeyData.docs.map((journey) => ({ ...journey.data() } as Ijourney))
+    ); // adds all users to the users state
+    setUsers(usersData.docs.map((user) => ({ ...user.data() } as Iuser)));
+  };
 
-    setStoredJData(storedJData.docs.map((journey) => ({ ...journey.data() } as IStoredJourney)))
-    setJourneys(journeyData.docs.map((journey) => ({ ...journey.data() } as Ijourney)))// adds all users to the users state
-    setUsers(usersData.docs.map((user) => ({ ...user.data() } as Iuser)))
-  }
-
-  const getAuthorName = (journey : Ijourney) => {
+  const getAuthorName = (journey: Ijourney) => {
     return users.find((user) => user.uid === journey.uid)?.username;
-    }
+  };
 
-    
+  const handleSearch = () => {
+    console.log(searchInput.text);
+    // setFilteredJourneys(filterJourneys());
 
-  const handleSearch = (input : string) => {
-    setSearchInput({...searchInput, text : input})
-    setFilteredJourneys(filterJourneys())
-  }
+    return <div>{searchInput.text}</div>;
+  };
 
   const showJourneys = () => {
-    return (
-      journeys.map((journey) =>
-        <JourneyCard authorUsername={getAuthorName(journey)!} fromWhatPage="home" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>
-      ));
-    // return (  
-    //   filteredJourneys.map((fj) =>
-    //     <JourneyCard authorUsername={getAuthorName(fj)!} fromWhatPage="home" key={fj.journeyID} journey={fj} usersThatStoredJourney={whoHaveStoredJourney(fj)}/> )
-    // )
-  }
+    return journeys.map((journey) => (
+      <JourneyCard
+        authorUsername={getAuthorName(journey)!}
+        fromWhatPage="home"
+        key={journey.journeyID}
+        journey={journey}
+        usersThatStoredJourney={whoHaveStoredJourney(journey)}
+      />
+    ));
+    // return filteredJourneys.map((fj) => (
+    //   <JourneyCard
+    //     authorUsername={getAuthorName(fj)!}
+    //     fromWhatPage="home"
+    //     key={fj.journeyID}
+    //     journey={fj}
+    //     usersThatStoredJourney={whoHaveStoredJourney(fj)}
+    //   />
+    // ));
+  };
 
   const filterJourneys = () => {
     if (searchInput.text === "") return journeys;
@@ -84,24 +100,24 @@ export default function Home() {
     );
   };
 
-  const whoHaveStoredJourney = (journey : Ijourney) => {
-    return storedJData.filter((storedJ) => storedJ.journeyID === journey.journeyID)
-        .map((storedJ) => storedJ);
-    }
+  const whoHaveStoredJourney = (journey: Ijourney) => {
+    return storedJData
+      .filter((storedJ) => storedJ.journeyID === journey.journeyID)
+      .map((storedJ) => storedJ);
+  };
 
   return (
-    <div className="content-container relative mt-14" >
-      <div className="left-panel shadow-xl">
-          <p>Search for a country here</p>
-          <input value={searchInput.text} onChange={(e) => handleSearch(e.target.value)} type="text" placeholder="Search For a country"/>
+    <div className="content-container mt-14">
+      <div className="left-panel shadow-xl fixed right-20 top-24">
+        <SearchBar setSearch={setSearchInput} />
       </div>
       <div className="middle-panel">
-        {/* {storedJData && journeys ?  showJourneys() : <div>Loading...</div>} */}
+        {storedJData && journeys ? showJourneys() : <div>Loading...</div>}
       </div>
-      <div className="right-panel">
+      <div className="right-panel fixed right-20 top-40">
+        <p>Right panel</p>
+        {/* {handleSearch()} */}
       </div>
     </div>
-  )
-
-  
+  );
 }

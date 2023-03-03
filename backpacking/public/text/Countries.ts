@@ -1,6 +1,4 @@
-
-
-export const Countries = [
+const Countries = [
     {name: 'Afghanistan', code: 'AF'}, 
     {name: 'Åland Islands', code: 'AX'}, 
     {name: 'Albania', code: 'AL'}, 
@@ -248,3 +246,4 @@ export const Countries = [
 
 
 
+export default Countries;
