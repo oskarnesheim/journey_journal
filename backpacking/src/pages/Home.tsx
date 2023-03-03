@@ -16,10 +16,19 @@ import JourneyCard from "../components/JourneyCard";
 import { useRecoilState } from "recoil";
 import { StoredUserJourneys } from "../recoil/atoms";
 
+interface searchInputType{
+  text : string;
+}
+
 export default function Home() {
   const [journeys, setJourneys] = useState<Ijourney[]>([]);
+  const [filteredJourneys, setFilteredJourneys] = useState<Ijourney[]>([]);
   const [storedJData, setStoredJData] = useState<IStoredJourney[]>([]);
   const [users, setUsers] = useState<Iuser[]>([]);
+
+  const [searchInput, setSearchInput] = useState<searchInputType>({
+    text : ''
+  });
 
   const getJourneysRef = getCollection('journeys');
   const getStoredJRef = getCollection('storedJourneys');
@@ -34,6 +43,7 @@ export default function Home() {
   }, []);
 
   const getUsers = async () => {
+
     const journeyData = await getDocs(getJourneysRef)
     const storedJData = await getDocs(getStoredJRef)
     const usersData = await getDocs(getUsersRef)
@@ -45,16 +55,34 @@ export default function Home() {
 
   const getAuthorName = (journey : Ijourney) => {
     return users.find((user) => user.uid === journey.uid)?.username;
-    // return users.filter((user) => user.uid === journey.uid)
-    //     .map((user) => user.username);
     }
+
+    
+
+  const handleSearch = (input : string) => {
+    setSearchInput({...searchInput, text : input})
+    setFilteredJourneys(filterJourneys())
+  }
 
   const showJourneys = () => {
     return (
       journeys.map((journey) =>
         <JourneyCard authorUsername={getAuthorName(journey)!} fromWhatPage="home" key={journey.journeyID} journey={journey} usersThatStoredJourney={whoHaveStoredJourney(journey)}/>
       ));
+    // return (  
+    //   filteredJourneys.map((fj) =>
+    //     <JourneyCard authorUsername={getAuthorName(fj)!} fromWhatPage="home" key={fj.journeyID} journey={fj} usersThatStoredJourney={whoHaveStoredJourney(fj)}/> )
+    // )
   }
+
+  const filterJourneys = () => {
+    if (searchInput.text === "") return journeys;
+    return journeys?.filter(
+      (jj) =>
+        jj.title.toLowerCase().includes(searchInput.text.toLowerCase()) ||
+        jj.description.toLowerCase().includes(searchInput.text.toLowerCase())
+    );
+  };
 
   const whoHaveStoredJourney = (journey : Ijourney) => {
     return storedJData.filter((storedJ) => storedJ.journeyID === journey.journeyID)
@@ -63,14 +91,17 @@ export default function Home() {
 
   return (
     <div className="content-container relative mt-14" >
-      <div className="left-panel">
+      <div className="left-panel shadow-xl">
+          <p>Search for a country here</p>
+          <input value={searchInput.text} onChange={(e) => handleSearch(e.target.value)} type="text" placeholder="Search For a country"/>
       </div>
       <div className="middle-panel">
-        {storedJData && journeys ?  showJourneys() : <div>Loading...</div>}
+        {/* {storedJData && journeys ?  showJourneys() : <div>Loading...</div>} */}
       </div>
       <div className="right-panel">
       </div>
     </div>
   )
 
+  
 }

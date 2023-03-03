@@ -87,7 +87,7 @@ const JourneyCard = (props : JourneyCardProps) => {
         return(
             <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 absolute right-5 bottom-7"
                 onClick={isJourneyStored? unstoreJourneyToUser : storeJourneyToUser}>
-               {isJourneyStored ? editJourneyButton("../../public/images/cancelIcon.png","Cancel"): editJourneyButton("../../public/images/likeIcon.png", "Store")}
+               {isJourneyStored ? editJourneyButton("../../images/cancelIcon.png","Cancel"): editJourneyButton("../../images/likeIcon.png", "Store")}
             </button>
         )
     }
