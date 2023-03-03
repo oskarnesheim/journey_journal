@@ -1,9 +1,6 @@
-export interface CountryOptions {
-  readonly name: string;
-  readonly code: string;
-}
 
-export const Countries : readonly CountryOptions[] = [
+
+export const Countries = [
     {name: 'Afghanistan', code: 'AF'}, 
     {name: 'Åland Islands', code: 'AX'}, 
     {name: 'Albania', code: 'AL'}, 

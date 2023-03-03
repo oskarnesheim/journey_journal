@@ -1,37 +1,38 @@
 import { MultiValue, ActionMeta, InputActionMeta } from "react-select";
-import {Countries} from "../../public/Countries";
-import Multiselect from 'multiselect-react-dropdown';
-import { useEffect } from "react";
+import { Countries } from "../../public/Countries";
+import Multiselect from "multiselect-react-dropdown";
+import { useEffect, useState } from "react";
+import { Ijourney } from "../interfaces/Interfaces";
 
-type selectedType = {
-    countries : string[]
-}
+type SelectedCountriesProps = {
+  setSelected: React.Dispatch<React.SetStateAction<Ijourney>>;
+};
 
-const SelectedCountries = () => {
-    const [selected, setSelected] = useEffect<selectedType.countries>([''])
+const SelectedCountries = (props: SelectedCountriesProps) => {
+  const [selected, setSelected] = useState<string[]>([""]);
 
-    const onSelect = (e : any,b : any) => {
-        console.log(e)
-        console.log(b.name)
-    }
+  const onSelect = (e: any, b: any) => {
+    setSelected(e);
+    props.setSelected((prev) => ({ ...prev, countries: selected }));
+  };
 
-    const onRemove = () => {
+  const onRemove = (e: any, b: any) => {
+    setSelected(e);
+    props.setSelected((prev) => ({ ...prev, countries: selected }));
+  };
 
-    }
-    
-    return(
-        <div>
-            <Multiselect
-
-            isObject={false}
-            onKeyPressFn={function noRefCheck(){}}
-            onRemove={function noRefCheck(){}}
-            onSearch={function noRefCheck(){}}
-            onSelect={(e,b) => onSelect(e,b)}
-            options={Countries}
-            />
-        </div>
-        )
-}
+  return (
+    <div>
+      <Multiselect
+        isObject={false}
+        onKeyPressFn={function noRefCheck() {}}
+        onRemove={(e, b) => onRemove(e, b)}
+        onSearch={function noRefCheck() {}}
+        onSelect={(e, b) => onSelect(e, b)}
+        options={Countries.map((item) => item.name)}
+      />
+    </div>
+  );
+};
 
 export default SelectedCountries;
