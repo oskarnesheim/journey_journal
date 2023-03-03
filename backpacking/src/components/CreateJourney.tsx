@@ -131,8 +131,12 @@ const CreateJourney = (props: CreateJourneyProps) => {
       <br />
       <br />
 
-      <FormLabel> Select your countries </FormLabel>
-      <SelectedCountries setSelected={setJourneyForm} />
+      <FormLabel colorScheme="#454545" marginLeft={"160"}> 
+      Select your countries 
+      </FormLabel>
+      <div className="countries_cointainer">
+      <SelectedCountries setSelected={setJourneyForm}/>
+      </div>
       <Button
         colorScheme="#454545"
         background="#C9EFC7"
