@@ -1,5 +1,5 @@
 import { MultiValue, ActionMeta, InputActionMeta } from "react-select";
-import { Countries } from "../../public/Countries";
+import { Countries } from "../../public/text/Countries";
 import Multiselect from "multiselect-react-dropdown";
 import { useEffect, useState } from "react";
 import { Ijourney } from "../interfaces/Interfaces";

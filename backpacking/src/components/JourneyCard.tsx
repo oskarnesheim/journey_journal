@@ -101,6 +101,7 @@ const JourneyCard = (props : JourneyCardProps) => {
             <p>Description : {journey.description}</p>
             <p>Distance : {journey.distance}</p>
             <p>Cost : {journey.cost}</p>
+            <p>Countries: {journey.countries ? journey.countries.join(", ") : ''}</p>
             <p>Number of users that stored this journey : {storeCount}</p>
           </CardBody>
           <CardFooter>

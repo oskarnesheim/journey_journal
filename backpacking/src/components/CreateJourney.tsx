@@ -14,7 +14,6 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
 import SelectedCountries from "../custom-hooks/SelectedCountries";
-import Countries from "../custom-hooks/SelectedCountries";
 import { database, auth, firestoreAutoId } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
 import "./css/components.css";
