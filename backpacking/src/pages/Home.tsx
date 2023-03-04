@@ -6,6 +6,8 @@ import {
   CardBody,
   CardFooter,
   Button,
+  Grid,
+  GridItem,
 } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
@@ -15,10 +17,16 @@ import "../components/css/components.css";
 import JourneyCard from "../components/JourneyCard";
 import { useRecoilState } from "recoil";
 import { StoredUserJourneys } from "../recoil/atoms";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/Home/SearchBar";
+import FilterBox from "../components/Home/FilterBox";
 
-export interface searchInputType {
+export interface filterType {
   text: string;
+  minPrice: number;
+  maxPrice: number;
+  activeFilter: boolean;
+  minPriceActive: boolean;
+  maxPriceActive: boolean;
 }
 
 export default function Home() {
@@ -27,8 +35,13 @@ export default function Home() {
   const [storedJData, setStoredJData] = useState<IStoredJourney[]>([]);
   const [users, setUsers] = useState<Iuser[]>([]);
 
-  const [searchInput, setSearchInput] = useState<searchInputType>({
+  const [searchInput, setSearchInput] = useState<filterType>({
     text: "",
+    minPrice: 0,
+    maxPrice: 0,
+    activeFilter: false,
+    minPriceActive: false,
+    maxPriceActive: false,
   });
 
   const getJourneysRef = getCollection("journeys");
@@ -45,8 +58,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    console.log(searchInput.text);
-    setFilteredJourneys(filterJourneys());
+    setFilteredJourneys(filterBySearch());
+    // console.log(
+    //   searchInput.text,
+    //   searchInput.minPrice,
+    //   searchInput.maxPrice,
+    //   searchInput.activeFilter,
+    //   searchInput.minPriceActive,
+    //   searchInput.maxPriceActive
+    // );
   }, [searchInput]);
 
   const getUsers = async () => {
@@ -61,7 +81,7 @@ export default function Home() {
     );
     setJourneys(
       journeyData.docs.map((journey) => ({ ...journey.data() } as Ijourney))
-    ); // adds all users to the users state
+    );
     setUsers(usersData.docs.map((user) => ({ ...user.data() } as Iuser)));
   };
 
@@ -69,16 +89,8 @@ export default function Home() {
     return users.find((user) => user.uid === journey.uid)?.username;
   };
 
-  // const handleSearch = () => {
-  //   console.log(searchInput.text);
-  //   // setFilteredJourneys(filterJourneys());
-
-  //   return <div>{searchInput.text}</div>;
-  // };
-
   const showJourneys = () => {
-    const f = filterJourneys();
-    return f.map((journey) => (
+    return filterBySearch().map((journey) => (
       <JourneyCard
         authorUsername={getAuthorName(journey)!}
         fromWhatPage="home"
@@ -89,14 +101,14 @@ export default function Home() {
     ));
   };
 
-  const filterJourneys = () => {
+  const filterBySearch = () => {
     const allCountriesString = (journeys: Ijourney) => {
       const countries = journeys.countries.map((country) => country);
       return countries.join(" ");
     };
-    console.log("filtering");
-    if (searchInput.text === "") return journeys;
-    return journeys.filter(
+    // console.log("filtering by search");
+    if (searchInput.text === "" && !searchInput.activeFilter) return journeys;
+    const filteredBySearch = journeys.filter(
       (journeyToBeFiltered) =>
         journeyToBeFiltered.title
           .toLowerCase()
@@ -108,6 +120,41 @@ export default function Home() {
           .toLowerCase()
           .includes(searchInput.text.toLowerCase())
     );
+
+    const filteredByFilterBox = filteredBySearch.filter((journey) =>
+      filterByFilterBox(journey)
+    );
+
+    return filteredByFilterBox;
+  };
+
+  const filterByFilterBox = (journey: Ijourney) => {
+    if (!searchInput.activeFilter) return true; //? if no filters are active, return all journeys
+    console.log(
+      searchInput.minPriceActive,
+      searchInput.minPrice,
+      searchInput.maxPriceActive,
+      searchInput.maxPrice,
+      journey.cost
+    );
+    //? if price is active check if the price is in the range
+    if (searchInput.minPriceActive && journey.cost < searchInput.minPrice) {
+      console.log(
+        "🚀 ~ file: Home.tsx:134 ~ filterByFilterBox ~ searchInput.minPriceActive:",
+        searchInput.minPriceActive
+      );
+      return false;
+    }
+    if (searchInput.maxPriceActive && journey.cost > searchInput.maxPrice) {
+      console.log(
+        "🚀 ~ file: Home.tsx:141 ~ filterByFilterBox ~ searchInput.maxPriceActive:",
+        searchInput.maxPriceActive
+      );
+      //? if price is active check if the price is in the range
+      return false;
+    }
+
+    return true;
   };
 
   const whoHaveStoredJourney = (journey: Ijourney) => {
@@ -118,16 +165,21 @@ export default function Home() {
 
   return (
     <div className="content-container mt-14">
-      <div className="left-panel shadow-xl fixed right-20 top-24">
-        <SearchBar setSearch={setSearchInput} />
-      </div>
-      <div className="middle-panel">
-        {storedJData && journeys ? showJourneys() : <div>Loading...</div>}
-      </div>
-      <div className="right-panel fixed right-20 top-40">
-        <p>Right panel</p>
-        {/* {handleSearch()} */}
-      </div>
+      <Grid templateColumns="repeat(5, 1fr)" gap={6} width={"max"}>
+        <GridItem w="70%">
+          {storedJData && journeys ? showJourneys() : <div>Loading...</div>}
+        </GridItem>
+        <GridItem w="70%">
+          <FilterBox
+            maxPriceActive={setSearchInput}
+            minPriceActive={setSearchInput}
+            maxPrice={setSearchInput}
+            minPrice={setSearchInput}
+            activeFilter={setSearchInput}
+            search={setSearchInput}
+          />
+        </GridItem>
+      </Grid>
     </div>
   );
 }

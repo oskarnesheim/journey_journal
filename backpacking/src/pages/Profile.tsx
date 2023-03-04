@@ -3,7 +3,7 @@ import { getDocs, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import CreateJourney from "../components/CreateJourney";
+import CreateJourney from "../components/Profile/CreateJourney";
 import JourneyCard from "../components/JourneyCard";
 import { auth, getCollection } from "../firebase-config";
 import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";

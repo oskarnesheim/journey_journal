@@ -13,10 +13,10 @@ import {
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
-import SelectedCountries from "../custom-hooks/SelectedCountries";
-import { database, auth, firestoreAutoId } from "../firebase-config";
-import { Ijourney } from "../interfaces/Interfaces";
-import "./css/components.css";
+import SelectedCountries from "../../custom-hooks/SelectedCountries";
+import { database, auth, firestoreAutoId } from "../../firebase-config";
+import { Ijourney } from "../../interfaces/Interfaces";
+import "../css/components.css";
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;

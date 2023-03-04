@@ -28,6 +28,7 @@ const JourneyCard = (props: JourneyCardProps) => {
   const [journey, setJourney] = useState<Ijourney>({} as Ijourney);
   const [isJourneyStored, setIsJourneyStored] = useState<boolean>();
   const [storeCount, setStoreCount] = useState<number>(0);
+  const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
   const [updateMessage, setUpdateMessage] = useState<string>("");
 
@@ -96,7 +97,8 @@ const JourneyCard = (props: JourneyCardProps) => {
   };
 
   const storeJourneyButton = () => {
-    if (auth.currentUser?.uid === journey.uid) return <></>;
+    if (auth.currentUser?.uid === journey.uid || auth.currentUser === null)
+      return <></>;
     return (
       <button
         className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 absolute right-5 bottom-7"
@@ -131,7 +133,7 @@ const JourneyCard = (props: JourneyCardProps) => {
           View journey
         </button>
         {updateMessage}
-        {auth.currentUser?.displayName && storeJourneyButton()}
+        {storeJourneyButton()}
 
         <br />
         <br />

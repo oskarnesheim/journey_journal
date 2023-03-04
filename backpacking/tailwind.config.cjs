@@ -10,6 +10,10 @@ module.exports = {
             'theme-green' : '#c9efc7'
         }
       },
+    minHeight: {
+      '1/2': '50%',
+      '3/4': '75%',
+  }
     },
     plugins: [],
   }
