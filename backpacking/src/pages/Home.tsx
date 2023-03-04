@@ -90,12 +90,23 @@ export default function Home() {
   };
 
   const filterJourneys = () => {
+    const allCountriesString = (journeys: Ijourney) => {
+      const countries = journeys.countries.map((country) => country);
+      return countries.join(" ");
+    };
     console.log("filtering");
     if (searchInput.text === "") return journeys;
     return journeys.filter(
-      (jj) =>
-        jj.title.toLowerCase().includes(searchInput.text.toLowerCase()) ||
-        jj.description.toLowerCase().includes(searchInput.text.toLowerCase())
+      (journeyToBeFiltered) =>
+        journeyToBeFiltered.title
+          .toLowerCase()
+          .includes(searchInput.text.toLowerCase()) ||
+        journeyToBeFiltered.description
+          .toLowerCase()
+          .includes(searchInput.text.toLowerCase()) ||
+        allCountriesString(journeyToBeFiltered)
+          .toLowerCase()
+          .includes(searchInput.text.toLowerCase())
     );
   };
 
