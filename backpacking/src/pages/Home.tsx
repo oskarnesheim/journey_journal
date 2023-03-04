@@ -41,7 +41,13 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
+    console.log(auth.currentUser?.uid);
   }, []);
+
+  useEffect(() => {
+    console.log(searchInput.text);
+    setFilteredJourneys(filterJourneys());
+  }, [searchInput]);
 
   const getUsers = async () => {
     const journeyData = await getDocs(getJourneysRef);
@@ -63,15 +69,16 @@ export default function Home() {
     return users.find((user) => user.uid === journey.uid)?.username;
   };
 
-  const handleSearch = () => {
-    console.log(searchInput.text);
-    // setFilteredJourneys(filterJourneys());
+  // const handleSearch = () => {
+  //   console.log(searchInput.text);
+  //   // setFilteredJourneys(filterJourneys());
 
-    return <div>{searchInput.text}</div>;
-  };
+  //   return <div>{searchInput.text}</div>;
+  // };
 
   const showJourneys = () => {
-    return journeys.map((journey) => (
+    const f = filterJourneys();
+    return f.map((journey) => (
       <JourneyCard
         authorUsername={getAuthorName(journey)!}
         fromWhatPage="home"
@@ -80,20 +87,12 @@ export default function Home() {
         usersThatStoredJourney={whoHaveStoredJourney(journey)}
       />
     ));
-    // return filteredJourneys.map((fj) => (
-    //   <JourneyCard
-    //     authorUsername={getAuthorName(fj)!}
-    //     fromWhatPage="home"
-    //     key={fj.journeyID}
-    //     journey={fj}
-    //     usersThatStoredJourney={whoHaveStoredJourney(fj)}
-    //   />
-    // ));
   };
 
   const filterJourneys = () => {
+    console.log("filtering");
     if (searchInput.text === "") return journeys;
-    return journeys?.filter(
+    return journeys.filter(
       (jj) =>
         jj.title.toLowerCase().includes(searchInput.text.toLowerCase()) ||
         jj.description.toLowerCase().includes(searchInput.text.toLowerCase())

@@ -46,6 +46,10 @@ const CreateJourney = (props: CreateJourneyProps) => {
         countries: journeyForm.countries,
         journeyID: firestoreAutoId(),
       };
+      console.log(
+        "🚀 ~ file: CreateJourney.tsx:49 ~ addJourney ~ newJourneyPost:",
+        newJourneyPost
+      );
       setDoc(
         doc(database, "journeys/", newJourneyPost.journeyID),
         newJourneyPost
@@ -134,17 +138,13 @@ const CreateJourney = (props: CreateJourneyProps) => {
       <FormLabel colorScheme="#454545" marginLeft={"160"}>
         Select your countries
       </FormLabel>
-      <div className="countries_cointainer">
-        <SelectedCountries setSelected={setJourneyForm} />
-      </div>
-      <Button
-        colorScheme="#454545"
-        background="#C9EFC7"
-        variant="outline"
+      <SelectedCountries setSelected={setJourneyForm} />
+      <button
+        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
         onClick={addJourney}
       >
         Post
-      </Button>
+      </button>
     </FormControl>
   );
 };
