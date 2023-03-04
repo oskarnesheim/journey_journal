@@ -31,8 +31,8 @@ const JourneyPage = (props: JourneyProps) => {
             distance: journey.distance,
             description: journey.description,
             cost: journey.cost,
+            countries: journey.countries,
             uid: journey.uid,
-            journeyPath: journey.journeyPath,
             journeyID: journey.journeyID
         }
         try {
@@ -61,6 +61,7 @@ const JourneyPage = (props: JourneyProps) => {
         distance: "9ijku8ujhy67ygt5tfre4",
         description: "9ijku8ujhy67ygt5tfre4",
         cost: -69,
+        countries: [],
         uid: "",
         journeyPath: [],
         journeyID: ""
@@ -73,6 +74,7 @@ const JourneyPage = (props: JourneyProps) => {
             <p>Description : {journey?.description}</p>
             <p>Distance : {journey?.distance} km</p>
             <p>Cost : {journey?.cost} kr</p>
+            <p>Countries : {journey?.countries.join(", ")}</p>
 
             <Modal blockScrollOnMount={false} size={"full"} closeOnEsc={true} isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
@@ -113,6 +115,7 @@ const JourneyPage = (props: JourneyProps) => {
                         <EditablePreview />
                         <EditableTextarea />    
                     </Editable>
+                    {/* Todo: add editable countries here */}
                     </ModalBody>
 
                     <ModalFooter>
@@ -124,8 +127,9 @@ const JourneyPage = (props: JourneyProps) => {
                                 cost : editJourney.cost === -69 ? journey?.cost!:editJourney.cost,
                                 description : editJourney.description === "9ijku8ujhy67ygt5tfre4" ? journey?.description!:editJourney.description, 
                                 distance : editJourney.distance === "9ijku8ujhy67ygt5tfre4" ? journey?.distance!:editJourney.distance
+                                ///countries : editJourney.countries === [] ? journey?.countries!:editJourney.countries FIX this line 
                             })}>
-                        Lagre og gå oversikt
+                        Lagre og få oversikt
                         </Button>
                         <Button variant='ghost' onClick={onClose}>Avbryt</Button>
                     </ModalFooter>
