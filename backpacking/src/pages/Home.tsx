@@ -1,23 +1,10 @@
-import {
-  SimpleGrid,
-  Card,
-  CardHeader,
-  Heading,
-  CardBody,
-  CardFooter,
-  Button,
-  Grid,
-  GridItem,
-} from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
 import { auth, getCollection } from "../firebase-config";
 import "../components/css/components.css";
 import JourneyCard from "../components/JourneyCard";
-import { useRecoilState } from "recoil";
-import { StoredUserJourneys } from "../recoil/atoms";
-import SearchBar from "../components/Home/SearchBar";
 import FilterBox from "../components/Home/FilterBox";
 
 export interface filterType {
@@ -176,7 +163,7 @@ export default function Home() {
             maxPrice={setSearchInput}
             minPrice={setSearchInput}
             activeFilter={setSearchInput}
-            search={setSearchInput}
+            text={setSearchInput}
           />
         </GridItem>
       </Grid>

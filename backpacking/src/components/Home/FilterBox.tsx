@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 import Slider from "./Slider";
 
 type FilterBoxProps = {
-  search: React.Dispatch<React.SetStateAction<filterType>>;
+  text: React.Dispatch<React.SetStateAction<filterType>>;
   activeFilter: React.Dispatch<React.SetStateAction<filterType>>;
   minPrice: React.Dispatch<React.SetStateAction<filterType>>;
   maxPrice: React.Dispatch<React.SetStateAction<filterType>>;
@@ -25,7 +25,7 @@ const FilterBox = (props: FilterBoxProps) => {
   const [maxPriceActive, setMaxPriceActive] = useState(false);
 
   const resetFilter = () => {
-    props.search((prev) => ({ ...prev, text: "" }));
+    props.text((prev) => ({ ...prev, text: "" }));
     props.activeFilter((prev) => ({ ...prev, activeFilter: false }));
     props.minPrice((prev) => ({ ...prev, minPrice: 0 }));
     props.maxPrice((prev) => ({ ...prev, maxPrice: 0 }));
@@ -45,7 +45,7 @@ const FilterBox = (props: FilterBoxProps) => {
 
   return (
     <div className="fixed top-36 right-20 shadow-2xl w-1/3 p-5 min-h-3/4">
-      <SearchBar setSearch={props.search} />
+      <SearchBar setSearch={props.text} />
       <Heading size={"md"}>Filter your search</Heading>
       <Stack spacing={5} direction="column">
         <Stack spacing={5} direction="row">
