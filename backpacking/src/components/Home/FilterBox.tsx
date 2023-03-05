@@ -15,11 +15,7 @@ type FilterBoxProps = {
 
 const FilterBox = (props: FilterBoxProps) => {
   const [activeFilter, setActiveFilter] = useState(false);
-  const [filter, setFilter] = useState("");
   const [costActive, setCostActive] = useState(false);
-
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(0);
 
   const [minPriceActive, setMinPriceActive] = useState(false);
   const [maxPriceActive, setMaxPriceActive] = useState(false);
@@ -36,15 +32,8 @@ const FilterBox = (props: FilterBoxProps) => {
     // setMaxPrice(50000);
   };
 
-  useEffect(() => {
-    // console.log(minPrice, "minPrice");
-    // console.log(maxPrice, "maxPrice");
-    // props.minPrice((prev) => ({ ...prev, minPrice: minPrice }));
-    // props.maxPrice((prev) => ({ ...prev, maxPrice: maxPrice }));
-  }, []);
-
   return (
-    <div className="fixed top-36 right-20 shadow-2xl w-1/3 p-5 min-h-3/4">
+    <div className="fixed top-28 right-5 shadow-2xl w-1/3 p-5 min-h-3/4 dark:bg-theme-dark rounded-md">
       <SearchBar setSearch={props.text} />
       <Heading size={"md"}>Filter your search</Heading>
       <Stack spacing={5} direction="column">
@@ -55,7 +44,7 @@ const FilterBox = (props: FilterBoxProps) => {
                 ...prev,
                 activeFilter: !activeFilter,
               }));
-              setActiveFilter(!activeFilter);
+              // setActiveFilter(!activeFilter);
             }}
             colorScheme="red"
             checked={activeFilter}

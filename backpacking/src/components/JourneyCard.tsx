@@ -112,18 +112,30 @@ const JourneyCard = (props: JourneyCardProps) => {
   };
 
   return (
-    <Card paddingBottom={4} margin={10} boxShadow={"2xl"}>
+    <Card
+      paddingBottom={4}
+      margin={5}
+      boxShadow={"2xl"}
+      className="dark:bg-theme-dark"
+    >
       <CardHeader>
-        <Heading size="md"> {journey.title}</Heading>
+        <Heading className="dark:text-theme-green" size="md">
+          {" "}
+          {journey.title}
+        </Heading>
       </CardHeader>
       <CardBody>
-        <p>Description : {journey.description}</p>
-        <p>Distance : {journey.distance}</p>
-        <p>Cost : {journey.cost}</p>
-        <p>
+        <p className="dark:text-theme-green">
+          Description : {journey.description}
+        </p>
+        <p className="dark:text-theme-green">Distance : {journey.distance}</p>
+        <p className="dark:text-theme-green">Cost : {journey.cost}</p>
+        <p className="dark:text-theme-green">
           Countries: {journey.countries ? journey.countries.join(", ") : ""}
         </p>
-        <p>Number of users that stored this journey : {storeCount}</p>
+        <p className="dark:text-theme-green">
+          Number of users that stored this journey : {storeCount}
+        </p>
       </CardBody>
       <CardFooter>
         <button
@@ -137,7 +149,7 @@ const JourneyCard = (props: JourneyCardProps) => {
 
         <br />
         <br />
-        <p className="absolute right-5 bottom-5">
+        <p className="absolute right-5 bottom-5 dark:text-theme-green">
           Author:{" "}
           {auth.currentUser?.uid === journey.uid
             ? "You!"

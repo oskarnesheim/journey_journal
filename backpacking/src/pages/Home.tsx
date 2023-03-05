@@ -151,22 +151,16 @@ export default function Home() {
   };
 
   return (
-    <div className="content-container mt-14">
-      <Grid templateColumns="repeat(5, 1fr)" gap={6} width={"max"}>
-        <GridItem w="70%">
-          {storedJData && journeys ? showJourneys() : <div>Loading...</div>}
-        </GridItem>
-        <GridItem w="70%">
-          <FilterBox
-            maxPriceActive={setSearchInput}
-            minPriceActive={setSearchInput}
-            maxPrice={setSearchInput}
-            minPrice={setSearchInput}
-            activeFilter={setSearchInput}
-            text={setSearchInput}
-          />
-        </GridItem>
-      </Grid>
+    <div className="content-container ">
+      {storedJData && journeys ? showJourneys() : <div>Loading...</div>}
+      <FilterBox
+        maxPriceActive={setSearchInput}
+        minPriceActive={setSearchInput}
+        maxPrice={setSearchInput}
+        minPrice={setSearchInput}
+        activeFilter={setSearchInput}
+        text={setSearchInput}
+      />
     </div>
   );
 }
