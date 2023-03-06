@@ -124,7 +124,7 @@ const JourneyCard = (props: JourneyCardProps) => {
           {journey.title}
         </Heading>
       </CardHeader>
-      <CardBody>
+      <CardBody className="dark:text-theme-green dark:bg-theme-dark">
         <p className="dark:text-theme-green">
           Description : {journey.description}
         </p>
@@ -139,7 +139,7 @@ const JourneyCard = (props: JourneyCardProps) => {
       </CardBody>
       <CardFooter>
         <button
-          className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+          className="bg-theme-green dark:text-theme-dark hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
           onClick={showJourneyPage}
         >
           View journey
