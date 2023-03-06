@@ -139,7 +139,9 @@ const CreateJourney = (props: CreateJourneyProps) => {
       <FormLabel colorScheme="#454545" marginLeft={"160"}>
         Select your countries
       </FormLabel>
-      <SelectedCountries setSelected={setJourneyForm} />
+      <div className="dropDownCountries dark:text-theme-dark">
+      <SelectedCountries setSelected={setJourneyForm}/>
+      </div>
       <button
         className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
         onClick={addJourney}
