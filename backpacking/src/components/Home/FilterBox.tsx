@@ -65,7 +65,7 @@ const FilterBox = (props: FilterBoxProps) => {
         </Stack>
         <Checkbox
           onChange={() => {
-            setMinPriceActive(!costActive);
+            setMinPriceActive(!minPriceActive);
             props.minPriceActive((prev) => ({
               ...prev,
               minPriceActive: !minPriceActive,
@@ -79,7 +79,11 @@ const FilterBox = (props: FilterBoxProps) => {
         </Checkbox>
 
         {activeFilter && minPriceActive && (
-          <Slider minOrMax="minPrice" sliderValue={props.minPrice} />
+          <Slider
+            initialValue={50}
+            minOrMax="minPrice"
+            sliderValue={props.minPrice}
+          />
         )}
         <Checkbox
           onChange={(e) => {
@@ -96,7 +100,11 @@ const FilterBox = (props: FilterBoxProps) => {
           Max price
         </Checkbox>
         {activeFilter && maxPriceActive && (
-          <Slider minOrMax="maxPrice" sliderValue={props.maxPrice} />
+          <Slider
+            initialValue={50}
+            minOrMax="maxPrice"
+            sliderValue={props.maxPrice}
+          />
         )}
       </Stack>
     </div>
