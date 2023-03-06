@@ -44,7 +44,7 @@ const FilterBox = (props: FilterBoxProps) => {
                 ...prev,
                 activeFilter: !activeFilter,
               }));
-              // setActiveFilter(!activeFilter);
+              setActiveFilter(!activeFilter);
             }}
             colorScheme="red"
             checked={activeFilter}

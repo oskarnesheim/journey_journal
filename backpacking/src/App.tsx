@@ -18,18 +18,18 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      {/* <div className="w-full h-[80vh] flex flex-col justify-center items-center"> */}
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/profile/*" element={<Profile />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/home/*" element={<Home />} />
-        <Route
-          path="/journey"
-          element={<JourneyPage journey={editJourney} />}
-        />
-      </Routes>
-      {/* </div> */}
+      <div className="mt-28 dark:bg-theme-dark">
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/profile/*" element={<Profile />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/home/*" element={<Home />} />
+          <Route
+            path="/journey"
+            element={<JourneyPage journey={editJourney} />}
+          />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
