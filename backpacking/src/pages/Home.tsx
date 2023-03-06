@@ -6,19 +6,24 @@ import { auth, getCollection } from "../firebase-config";
 import "../components/css/components.css";
 import JourneyCard from "../components/JourneyCard";
 import FilterBox from "../components/Home/FilterBox";
+import SortingBox from "../components/SortingBox";
 
 export interface filterType {
   text: string;
   minPrice: number;
   maxPrice: number;
-  activeFilter: boolean;
   minPriceActive: boolean;
   maxPriceActive: boolean;
 }
 
+export interface sortingType {
+  price: boolean;
+  countriesVisited: boolean;
+  numberOfLikes: boolean;
+}
+
 export default function Home() {
   const [journeys, setJourneys] = useState<Ijourney[]>([]);
-  const [filteredJourneys, setFilteredJourneys] = useState<Ijourney[]>([]);
   const [storedJData, setStoredJData] = useState<IStoredJourney[]>([]);
   const [users, setUsers] = useState<Iuser[]>([]);
 
@@ -26,9 +31,14 @@ export default function Home() {
     text: "",
     minPrice: 0,
     maxPrice: 0,
-    activeFilter: false,
     minPriceActive: false,
     maxPriceActive: false,
+  });
+
+  const [sortingInput, setSortingInput] = useState<sortingType>({
+    price: false,
+    countriesVisited: false,
+    numberOfLikes: false,
   });
 
   const getJourneysRef = getCollection("journeys");
@@ -45,16 +55,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    setFilteredJourneys(filterBySearch());
-    // console.log(
-    //   searchInput.text,
-    //   searchInput.minPrice,
-    //   searchInput.maxPrice,
-    //   searchInput.activeFilter,
-    //   searchInput.minPriceActive,
-    //   searchInput.maxPriceActive
-    // );
+    filterBySearch();
   }, [searchInput]);
+
+  useEffect(() => {
+    sortJourneysByPrice(journeys);
+  }, [sortingInput.price]);
+
+  useEffect(() => {
+    sortJourneysByNumberOfCountriesVisited(journeys);
+  }, [sortingInput.countriesVisited]);
+
+  useEffect(() => {
+    sortByNumberOfLikes(journeys);
+  }, [sortingInput.numberOfLikes]);
 
   const getUsers = async () => {
     const journeyData = await getDocs(getJourneysRef);
@@ -93,8 +107,7 @@ export default function Home() {
       const countries = journeys.countries.map((country) => country);
       return countries.join(" ");
     };
-    // console.log("filtering by search");
-    if (searchInput.text === "" && !searchInput.activeFilter) return journeys;
+    if (searchInput.text === "") return journeys;
     const filteredBySearch = journeys.filter(
       (journeyToBeFiltered) =>
         journeyToBeFiltered.title
@@ -115,8 +128,39 @@ export default function Home() {
     return filteredByFilterBox;
   };
 
+  const sortJourneysByPrice = (journeys: Ijourney[]) => {
+    if (sortingInput.price) return;
+    setJourneys(
+      journeys.sort((a, b) => {
+        if (a.cost == b.cost) return 0;
+        return a.cost > b.cost ? -1 : 1;
+      })
+    );
+  };
+
+  const sortByNumberOfLikes = (journeys: Ijourney[]) => {
+    if (sortingInput.numberOfLikes) return;
+    setJourneys(
+      journeys.sort((a, b) => {
+        if (whoHaveStoredJourney(a).length == whoHaveStoredJourney(b).length)
+          return 0;
+        return whoHaveStoredJourney(a).length > whoHaveStoredJourney(b).length
+          ? -1
+          : 1;
+      })
+    );
+  };
+  const sortJourneysByNumberOfCountriesVisited = (journeys: Ijourney[]) => {
+    if (sortingInput.countriesVisited) return;
+    setJourneys(
+      journeys.sort((a, b) => {
+        if (a.countries.length == b.countries.length) return 0;
+        return a.countries.length > b.countries.length ? -1 : 1;
+      })
+    );
+  };
+
   const filterByFilterBox = (journey: Ijourney) => {
-    if (!searchInput.activeFilter) return true; //? if no filters are active, return all journeys
     console.log(
       searchInput.minPriceActive,
       searchInput.minPrice,
@@ -153,14 +197,21 @@ export default function Home() {
   return (
     <div className="content-container ">
       {storedJData && journeys ? showJourneys() : <div>Loading...</div>}
-      <FilterBox
-        maxPriceActive={setSearchInput}
-        minPriceActive={setSearchInput}
-        maxPrice={setSearchInput}
-        minPrice={setSearchInput}
-        activeFilter={setSearchInput}
-        text={setSearchInput}
-      />
+      <div className="fixed top-28 right-5 shadow-2xl w-1/3 p-5 min-h-3/4 dark:bg-theme-dark2 dark:text-theme-green rounded-md hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)]">
+        <FilterBox
+          maxPriceActive={setSearchInput}
+          minPriceActive={setSearchInput}
+          maxPrice={setSearchInput}
+          minPrice={setSearchInput}
+          text={setSearchInput}
+        />
+
+        <SortingBox
+          numberOfLikes={setSortingInput}
+          countriesVisited={setSortingInput}
+          price={setSortingInput}
+        />
+      </div>
     </div>
   );
 }
