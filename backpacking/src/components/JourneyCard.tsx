@@ -124,7 +124,7 @@ const JourneyCard = (props: JourneyCardProps) => {
           {journey.title}
         </Heading>
       </CardHeader>
-      <CardBody className="dark:text-theme-green dark:bg-theme-dark">
+      <CardBody className="dark:text-theme-green">
         <p className="dark:text-theme-green">
           Description : {journey.description}
         </p>

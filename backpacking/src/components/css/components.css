@@ -114,8 +114,6 @@ body {
   text-align: right;
 }
 
-.countries_container {
-  margin-left: 160px;}
 
 .authUser {
   height: 100vh;
@@ -137,4 +135,15 @@ body {
 .formControlLogin {
   margin-left: 25%;
   margin-right: 25%;
+}
+
+.viewJourney {
+  padding-top: 25px;
+  font-size: 25px;
+  height: 100vh;
+}
+
+.dropDownCountries{
+  margin-left: 160px;
+  margin-right: 160px;
 }
