@@ -18,32 +18,6 @@ const Login = () => {
     const navigate = useNavigate();
     const getUsersRef = getCollection('users/');
 
-    const signInWithGoogle = async () => {
-        try{
-            const userCredential = await signInWithPopup(auth,provider)
-            const user =  userCredential.user;
-            const userID = user.uid;
-            
-
-
-            const q = query(getUsersRef,where('uid', '==', userID));
-            const querySnapshot = await getDocs(q);
-            if (querySnapshot.empty) {
-                setErrorMessage("Invalid login - no users with that email");
-                console.log('No matching documents.');
-                return;
-            } else{
-                setGlobalUser(
-                    querySnapshot.docs.map((person) => ({...person.data()} as Iuser))[0]
-                )
-                navigate('/home')
-            }
-
-        } catch (error){
-            console.log(error)
-        }
-    }
-
     const signInWithMailPassword = async () => {
         try{
             const emailSignIn = email;
@@ -71,7 +45,7 @@ const Login = () => {
     }
 
     return(
-        <div>
+        <div >
             <FormControl>
                 <h2 className="text-red-600 font-bold">
                     {errorMessage}
@@ -86,10 +60,6 @@ const Login = () => {
                     }}/>
                     <button onClick={signInWithMailPassword} className="m-2 hover:text-pink-500 border-solid shadow-lg order-slate-500 rounded-md pl-4 pr-4" type="submit">Sign in</button>
             </FormControl>
-
-            <p>Or sign in with  
-                <button className=" m-2 hover:text-pink-500 border-solid pl-4 pr-4 " onClick={signInWithGoogle}> Google</button>
-            </p>
         </div>  
     )
 }

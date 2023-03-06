@@ -18,7 +18,7 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <div className="mt-28 dark:bg-theme-dark">
+      <div className="mt-24 dark:bg-theme-dark">
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/profile/*" element={<Profile />} />

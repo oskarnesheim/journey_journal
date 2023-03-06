@@ -33,7 +33,7 @@ const FilterBox = (props: FilterBoxProps) => {
   };
 
   return (
-    <div className="fixed top-28 right-5 shadow-2xl w-1/3 p-5 min-h-3/4 dark:bg-theme-dark rounded-md">
+    <div className="fixed top-28 right-5 shadow-2xl w-1/3 p-5 min-h-3/4 dark:bg-theme-dark dark:text-theme-green rounded-md">
       <SearchBar setSearch={props.text} />
       <Heading size={"md"}>Filter your search</Heading>
       <Stack spacing={5} direction="column">

@@ -3,7 +3,7 @@ import '../index.css'
 
 export default function About() {
     return (
-        <div className=''>
+        <div className='dark:bg-theme-dark'>
         <InformationCard/>
         </div>
     )
