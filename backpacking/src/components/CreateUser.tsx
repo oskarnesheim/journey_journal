@@ -60,7 +60,7 @@ const CreateUser = () =>{
     }
     return(
         <div className="createUser-container">
-            <FormControl marginTop={230}>
+            <FormControl>
                 <FormLabel>Firstname</FormLabel>
                     <Input type='email' value={formUser.firstname} onChange={(e) => setFormUser(
                         {...formUser, firstname: e.target.value})}/>

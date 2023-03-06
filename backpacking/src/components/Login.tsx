@@ -45,7 +45,7 @@ const Login = () => {
     }
 
     return(
-        <div >
+        <div className="formControlLogin" >
             <FormControl>
                 <h2 className="text-red-600 font-bold">
                     {errorMessage}

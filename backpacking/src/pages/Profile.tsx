@@ -121,7 +121,7 @@ export default function Profile() {
       return <h1>No journeys of your own or stored journeys</h1>;
     }
     return (
-      <div className="p-5  w-full h-screen">
+      <div className="p-5  w-full h-screen dark:text-theme-green dark:bg-theme-dark">
         <h3 className="font-semibold text-xl">Overview:</h3>
 
         <Tabs>

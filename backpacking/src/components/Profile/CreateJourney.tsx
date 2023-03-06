@@ -75,6 +75,7 @@ const CreateJourney = (props: CreateJourneyProps) => {
   };
 
   return (
+    <div className="dark:text-theme-green dark:bg-theme-dark">
     <FormControl>
       {statusMessage}
       <FormLabel colorScheme="#454545" marginLeft={"160"}>
@@ -140,12 +141,13 @@ const CreateJourney = (props: CreateJourneyProps) => {
       </FormLabel>
       <SelectedCountries setSelected={setJourneyForm} />
       <button
-        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
         onClick={addJourney}
       >
         Post
       </button>
     </FormControl>
+    </div>
   );
 };
 
