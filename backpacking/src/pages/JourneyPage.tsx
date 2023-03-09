@@ -23,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, database, getCollection } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
 import "../components/css/components.css";
+// import "../components/css/componenents";
 
 type JourneyProps = {
   journey: Ijourney | undefined;
