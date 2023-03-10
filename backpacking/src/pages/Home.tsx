@@ -151,7 +151,7 @@ export default function Home() {
   };
 
   return (
-    <div className="content-container ">
+    <div className="content-container dark:bg-theme-dark">
       {storedJData && journeys ? showJourneys() : <div>Loading...</div>}
       <FilterBox
         maxPriceActive={setSearchInput}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, database, getCollection } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
-import "../components/css/componenents";
+import "../components/css/components.css";
 
 type JourneyProps = {
     journey: Ijourney | undefined;

@@ -75,7 +75,7 @@ const CreateJourney = (props: CreateJourneyProps) => {
   };
 
   return (
-    <div className="dark:text-theme-green dark:bg-theme-dark">
+    <div className="dark:text-theme-green dark:bg-theme-dark createJourney">
     <FormControl>
       {statusMessage}
       <FormLabel colorScheme="#454545" marginLeft={"160"}>

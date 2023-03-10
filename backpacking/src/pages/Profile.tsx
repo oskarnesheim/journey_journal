@@ -8,6 +8,7 @@ import JourneyCard from "../components/JourneyCard";
 import { auth, getCollection } from "../firebase-config";
 import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
 import { StoredUserJourneys, UserState } from "../recoil/atoms";
+import "../components/css/components.css";
 
 export default function Profile() {
   const [newPostToggle, setNewPostToggle] = useState(false); //? Velger om man skal lage en ny post eller ikke
@@ -121,7 +122,7 @@ export default function Profile() {
       return <h1>No journeys of your own or stored journeys</h1>;
     }
     return (
-      <div className="p-5  w-full h-screen dark:text-theme-green dark:bg-theme-dark">
+      <div className="p-5 dark:text-theme-green dark:bg-theme-dark journeyOverview">
         <h3 className="font-semibold text-xl">Overview:</h3>
 
         <Tabs>
@@ -130,7 +131,7 @@ export default function Profile() {
             <Tab>Stored Journeys</Tab>
           </TabList>
 
-          <TabPanels>
+          <TabPanels className="dark:bg-theme-dark w-screen">
             <TabPanel>
               <div>{journeyView(userPosts)}</div>
             </TabPanel>
@@ -153,9 +154,9 @@ export default function Profile() {
   };
 
   return (
-    <div className="w-full absolute top-40">
+    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage">
       <div>
-        <h1 className="font-semibold text-xl">
+        <h1 className="font-semibold text-xl dark:text-theme-green pt-10">
           {" "}
           {!newPostToggle
             ? "Welcome back " +
