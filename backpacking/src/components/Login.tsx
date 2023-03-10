@@ -86,7 +86,7 @@ const Login = () => {
     }
 
     return(
-        <div>
+        <div className="formControlLogin" >
             <FormControl>
                 <h2 className="text-red-600 font-bold">
                     {errorMessage}
@@ -97,10 +97,6 @@ const Login = () => {
                     <Input type='password' onChange={handleChangePassword} onKeyPress = {handleKeypressPassword}/>
                     <button onClick={signInWithMailPassword} className="m-2 hover:text-pink-500 border-solid shadow-lg order-slate-500 rounded-md pl-4 pr-4" type="submit">Sign in</button>
             </FormControl>
-
-            <p>Or sign in with  
-                <button className=" m-2 hover:text-pink-500 border-solid pl-4 pr-4 " onClick={signInWithGoogle}> Google</button>
-            </p>
         </div>  
     )
 }

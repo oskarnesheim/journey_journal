@@ -15,4 +15,3 @@ export const StoredUserJourneys = atom({
     key : 'StoredUserJourneys',
     default : undefined as IStoredJourney | undefined
 })
-

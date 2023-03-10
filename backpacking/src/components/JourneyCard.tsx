@@ -28,6 +28,7 @@ const JourneyCard = (props: JourneyCardProps) => {
   const [journey, setJourney] = useState<Ijourney>({} as Ijourney);
   const [isJourneyStored, setIsJourneyStored] = useState<boolean>();
   const [storeCount, setStoreCount] = useState<number>(0);
+  const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
   const [updateMessage, setUpdateMessage] = useState<string>("");
 
@@ -96,7 +97,8 @@ const JourneyCard = (props: JourneyCardProps) => {
   };
 
   const storeJourneyButton = () => {
-    if (auth.currentUser?.uid === journey.uid) return <></>;
+    if (auth.currentUser?.uid === journey.uid || auth.currentUser === null)
+      return <></>;
     return (
       <button
         className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 absolute right-5 bottom-7"
@@ -110,32 +112,44 @@ const JourneyCard = (props: JourneyCardProps) => {
   };
 
   return (
-    <Card paddingBottom={4} margin={10} boxShadow={"2xl"}>
+    <Card
+      paddingBottom={4}
+      margin={5}
+      boxShadow={"2xl"}
+      className="dark:bg-theme-dark2 hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)] "
+    >
       <CardHeader>
-        <Heading size="md"> {journey.title}</Heading>
+        <Heading className="dark:text-theme-green" size="md">
+          {" "}
+          {journey.title}
+        </Heading>
       </CardHeader>
-      <CardBody>
-        <p>Description : {journey.description}</p>
-        <p>Distance : {journey.distance}</p>
-        <p>Cost : {journey.cost}</p>
-        <p>
+      <CardBody className="dark:text-theme-green">
+        <p className="dark:text-theme-green">
+          Description : {journey.description}
+        </p>
+        <p className="dark:text-theme-green">Distance : {journey.distance}</p>
+        <p className="dark:text-theme-green">Cost : {journey.cost}</p>
+        <p className="dark:text-theme-green">
           Countries: {journey.countries ? journey.countries.join(", ") : ""}
         </p>
-        <p>Number of users that stored this journey : {storeCount}</p>
+        <p className="dark:text-theme-green">
+          Number of users that stored this journey : {storeCount}
+        </p>
       </CardBody>
       <CardFooter>
         <button
-          className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+          className="bg-theme-green dark:text-theme-dark hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
           onClick={showJourneyPage}
         >
           View journey
         </button>
         {updateMessage}
-        {auth.currentUser?.displayName && storeJourneyButton()}
+        {storeJourneyButton()}
 
         <br />
         <br />
-        <p className="absolute right-5 bottom-5">
+        <p className="absolute right-5 bottom-5 dark:text-theme-green">
           Author:{" "}
           {auth.currentUser?.uid === journey.uid
             ? "You!"

@@ -1,8 +1,9 @@
+import { Heading, Input } from "@chakra-ui/react";
 import { useState } from "react";
-import { searchInputType } from "../pages/Home";
+import { filterType } from "../../pages/Home";
 
 type searchBarType = {
-  setSearch: React.Dispatch<React.SetStateAction<searchInputType>>;
+  setSearch: React.Dispatch<React.SetStateAction<filterType>>;
 };
 
 const SearchBar = (props: searchBarType) => {
@@ -14,9 +15,10 @@ const SearchBar = (props: searchBarType) => {
   };
 
   return (
-    <div>
-      <p>Search for a country here</p>
-      <input
+    <div className="mb-10">
+      <Heading size={"md"}>Search for a country here</Heading>
+      <Input
+        marginTop={"8px"}
         value={term}
         onChange={(e) => handleSearch(e.target.value)}
         type="text"

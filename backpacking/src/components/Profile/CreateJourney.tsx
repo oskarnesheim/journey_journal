@@ -13,10 +13,10 @@ import {
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
-import SelectedCountries from "../custom-hooks/SelectedCountries";
-import { database, auth, firestoreAutoId } from "../firebase-config";
-import { Ijourney } from "../interfaces/Interfaces";
-import "./css/components.css";
+import SelectedCountries from "../../custom-hooks/SelectedCountries";
+import { database, auth, firestoreAutoId } from "../../firebase-config";
+import { Ijourney } from "../../interfaces/Interfaces";
+import "../css/components.css";
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -75,6 +75,7 @@ const CreateJourney = (props: CreateJourneyProps) => {
   };
 
   return (
+    <div className="dark:text-theme-green dark:bg-theme-dark createJourney">
     <FormControl>
       {statusMessage}
       <FormLabel colorScheme="#454545" marginLeft={"160"}>
@@ -138,14 +139,17 @@ const CreateJourney = (props: CreateJourneyProps) => {
       <FormLabel colorScheme="#454545" marginLeft={"160"}>
         Select your countries
       </FormLabel>
-      <SelectedCountries setSelected={setJourneyForm} />
+      <div className="dropDownCountries dark:text-theme-dark">
+      <SelectedCountries setSelected={setJourneyForm}/>
+      </div>
       <button
-        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
         onClick={addJourney}
       >
         Post
       </button>
     </FormControl>
+    </div>
   );
 };
 

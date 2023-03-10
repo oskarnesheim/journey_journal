@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, database, getCollection } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
+import "../components/css/components.css";
 
 type JourneyProps = {
     journey: Ijourney | undefined;
@@ -69,7 +70,7 @@ const JourneyPage = (props: JourneyProps) => {
 
     
     return(
-        <div>
+        <div className="viewJourney dark:bg-theme-dark dark:text-theme-green">
             <h1>Title : {journey?.title}</h1>
             <p>Description : {journey?.description}</p>
             <p>Distance : {journey?.distance} km</p>
@@ -135,19 +136,19 @@ const JourneyPage = (props: JourneyProps) => {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+            <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
                 onClick={() => navigateTo('/home')}>
                 Home
             </button>
-            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
                 onClick={() => navigateTo('/profile')}>
                 Profile 
             </button>: null}
-            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
                 onClick={onOpen}>
                 Edit 
             </button>: null}
-            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
+            {auth.currentUser?.uid === journey?.uid ? <button className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
                 onClick={() => deletePost(journey!)}>
                 Delete
             </button>: null}
