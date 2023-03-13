@@ -1,4 +1,3 @@
-import { defineConfig } from "typescript"
 
 describe('Home page tests', () => {
   it('Visits the Home Page', () => {

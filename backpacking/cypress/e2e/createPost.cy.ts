@@ -15,7 +15,7 @@ describe('Testing posting functionality', () => {
     cy.get(':nth-child(3) > a').click()
     cy.get('.profilePage > :nth-child(2)').click()
     cy.get('[placeholder="Trip name"]').type("Getting my belt back")
-    cy.get('[placeholder="Cost"]').type(33245)
+    cy.get('[placeholder="Cost"]').type("33245")
     cy.get('[placeholder="Write about all your fun experiences!"]').type("Fun experience")
     cy.get('.chakra-form-control > .bg-theme-green').click()
     cy.get('.profilePage > :nth-child(2)').click()
