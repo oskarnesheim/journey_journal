@@ -14,6 +14,7 @@ import { auth, database } from "../firebase-config";
 import { Ijourney, IStoredJourney } from "../interfaces/Interfaces";
 import JourneyPage from "../pages/JourneyPage";
 import { JourneyState, UserState } from "../recoil/atoms";
+import { getAverageRating } from "../pages/JourneyPage";
 
 type JourneyCardProps = {
   journey: Ijourney;
@@ -28,6 +29,7 @@ const JourneyCard = (props: JourneyCardProps) => {
   const [journey, setJourney] = useState<Ijourney>({} as Ijourney);
   const [isJourneyStored, setIsJourneyStored] = useState<boolean>();
   const [storeCount, setStoreCount] = useState<number>(0);
+  const [averageRating, setAverageRating] = useState<number>(0);
   const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
   const [updateMessage, setUpdateMessage] = useState<string>("");
@@ -111,6 +113,22 @@ const JourneyCard = (props: JourneyCardProps) => {
     );
   };
 
+  if (journey != undefined) {
+    useEffect(() => {
+      
+      const fetchAverageRating = async () => {
+        const rating = await getAverageRating(journey.journeyID);
+        setAverageRating(rating);
+      }
+      fetchAverageRating();
+      }
+    , [journey.journeyID]);
+  }
+  else {
+      console.log("Error");
+  }
+
+
   return (
     <Card
       paddingBottom={4}
@@ -130,6 +148,7 @@ const JourneyCard = (props: JourneyCardProps) => {
         </p>
         <p className="dark:text-theme-green">Distance : {journey.distance}</p>
         <p className="dark:text-theme-green">Cost : {journey.cost}</p>
+        <p>Rating : { averageRating === 0 ? "Not yet rated" : averageRating + "/5" } </p>
         <p className="dark:text-theme-green">
           Countries: {journey.countries ? journey.countries.join(", ") : ""}
         </p>
