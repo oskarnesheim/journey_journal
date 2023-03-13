@@ -8,19 +8,14 @@ describe('Home page tests', () => {
   it('Navbar loads correctly', () => {
     cy.visit('http://localhost:5173/')
     cy.get(':nth-child(2) > a').contains("Home")
-    cy.get(':nth-child(3) > a').contains("Profile")
-    cy.get(':nth-child(4) > a').contains("About us")
-    cy.get(':nth-child(5) > a').contains("Login")
+    cy.get(':nth-child(3) > a').contains("About us")
   })
 
   it('Home page loads posts', () => {
     cy.visit('http://localhost:5173/')
     cy.get(':nth-child(2) > a').click()
-    cy.get('.h-56 > :nth-child(1)').should("exist")
-    cy.get('.h-56 > :nth-child(2)').should("exist")
-    cy.get('.h-56 > :nth-child(3)').should("exist")
-    cy.get('.h-56 > :nth-child(4)').should("exist")
-
+    cy.get('.content-container > :nth-child(1)').should("exist")
+    cy.get('.content-container > :nth-child(2)').should("exist")
   })
 })
 
