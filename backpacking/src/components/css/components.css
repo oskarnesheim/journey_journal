@@ -98,10 +98,22 @@ body {
 .backgroundimgtitle {
   font-size: 50px;
   font-weight: bold;
-  position: relative;
-  color: #454545;
+  position: absolute;
+  color: black;
+  top: 0;
+  margin-top: 28%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
+}
+
+.aboutsub {
+font-size: 20px;
+font-weight: bold;
+
+}
+.aboutcontent {
+  width: 60%;
+  margin-left: 20%;
 }
 
 .content-container {
@@ -160,4 +172,17 @@ body {
 .createJourney {
   height: 100vh;
   width: 100vw;
+}
+
+@media screen and (max-width: 1000px) {
+  .backgroundimgtitle {
+    top: 100px;
+    font-size: 30px;
+    margin-top: 0;
+  }
+
+  .content-container {
+    margin-left: 10px;
+    width: 80%;
+  }
 }

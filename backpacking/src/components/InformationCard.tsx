@@ -9,6 +9,7 @@ const InformationCard = () => {
                 <h1 className= 'backgroundimgtitle dark:text-theme-green'>About us</h1>
             </div>
             <div className='aboutcontent dark:text-theme-green'>
+            <br></br>
             <h2 className='aboutsub dark:text-theme-green'>Background</h2>
             <p> Journey Journal is a newly started platform for people who are interested in backpacking, and was created in the spring of 2023, ready for the upcoming backpacking season!
                 Members of the team are passionate about travel, and backpacking in particular.
