@@ -146,7 +146,6 @@ const JourneyCard = (props: JourneyCardProps) => {
         <p className="dark:text-theme-green">
           Description : {journey.description}
         </p>
-        <p className="dark:text-theme-green">Distance : {journey.distance}</p>
         <p className="dark:text-theme-green">Cost : {journey.cost}</p>
         <p>Rating : { averageRating === 0 ? "Not yet rated" : averageRating + "/5" } </p>
         <p className="dark:text-theme-green">

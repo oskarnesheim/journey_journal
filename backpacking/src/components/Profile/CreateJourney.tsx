@@ -27,7 +27,6 @@ const CreateJourney = (props: CreateJourneyProps) => {
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [journeyForm, setJourneyForm] = useState<Ijourney>({
     title: "",
-    distance: "",
     cost: 0,
     uid: "",
     countries: [],
@@ -39,7 +38,6 @@ const CreateJourney = (props: CreateJourneyProps) => {
     try {
       const newJourneyPost: Ijourney = {
         title: journeyForm.title,
-        distance: journeyForm.distance,
         description: journeyForm.description,
         cost: journeyForm.cost,
         uid: auth.currentUser?.uid!,
@@ -57,7 +55,6 @@ const CreateJourney = (props: CreateJourneyProps) => {
 
       setJourneyForm({
         title: "",
-        distance: "",
         description: "",
         cost: 0,
         uid: "",
@@ -102,20 +99,6 @@ const CreateJourney = (props: CreateJourneyProps) => {
         value={journeyForm.cost}
         onChange={(e) =>
           setJourneyForm({ ...journeyForm, cost: parseInt(e.target.value) })
-        }
-      />
-      <br />
-      <br />
-      <FormLabel colorScheme="pink" marginLeft={"160"}>
-        Distance in km
-      </FormLabel>
-      <Input
-        placeholder="How far?"
-        type="number"
-        width="80%"
-        value={journeyForm.distance}
-        onChange={(e) =>
-          setJourneyForm({ ...journeyForm, distance: e.target.value })
         }
       />
       <br />

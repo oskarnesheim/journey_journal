@@ -10,7 +10,6 @@ import "../components/css/components.css";
 
 type JourneyProps = {
     journey: Ijourney | undefined;
-    rating: IratingJourneys | undefined;
 }
 
 const JourneyPage = (props: JourneyProps) => {
@@ -72,7 +71,6 @@ const JourneyPage = (props: JourneyProps) => {
         onClose();
         const journeyToBeSaved:Ijourney = {
             title: journey.title,
-            distance: journey.distance,
             description: journey.description,
             cost: journey.cost,
             countries: journey.countries,
@@ -154,7 +152,6 @@ const JourneyPage = (props: JourneyProps) => {
 
     const [editJourney, setEditJourney] = useState<Ijourney>({
         title: "9ijku8ujhy67ygt5tfre4",
-        distance: "9ijku8ujhy67ygt5tfre4",
         description: "9ijku8ujhy67ygt5tfre4",
         cost: -69,
         countries: [],
@@ -168,7 +165,6 @@ const JourneyPage = (props: JourneyProps) => {
         <div className="viewJourney dark:bg-theme-dark dark:text-theme-green">
             <h1>Title : {journey?.title}</h1>
             <p>Description : {journey?.description}</p>
-            <p>Distance : {journey?.distance} km</p>
             <p>Cost : {journey?.cost} kr</p>
             <p>Countries : {journey?.countries.join(", ")}</p>
             <p>Current rating : { averageRating === 0 ? "Not yet rated" : averageRating + "/5" }</p>
@@ -205,13 +201,6 @@ const JourneyPage = (props: JourneyProps) => {
                         <EditablePreview />
                         <EditableTextarea />    
                     </Editable>
-                    Distance:
-                    <Editable onChange={(e:string) => setEditJourney({
-                            ...editJourney, distance: e
-                        })} defaultValue={journey?.distance} className='border-dotted border-2 border-sky-500 rounded-md'>
-                        <EditablePreview />
-                        <EditableTextarea />    
-                    </Editable>
                     {/* Todo: add editable countries here */}
                     </ModalBody>
 
@@ -223,7 +212,6 @@ const JourneyPage = (props: JourneyProps) => {
                                 title : editJourney.title === "9ijku8ujhy67ygt5tfre4" ? journey?.title!:editJourney.title , 
                                 cost : editJourney.cost === -69 ? journey?.cost!:editJourney.cost,
                                 description : editJourney.description === "9ijku8ujhy67ygt5tfre4" ? journey?.description!:editJourney.description, 
-                                distance : editJourney.distance === "9ijku8ujhy67ygt5tfre4" ? journey?.distance!:editJourney.distance
                                 ///countries : editJourney.countries === [] ? journey?.countries!:editJourney.countries FIX this line 
                             })}>
                         Lagre og få oversikt
