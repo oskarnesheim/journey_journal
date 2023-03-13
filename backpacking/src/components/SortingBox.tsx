@@ -1,37 +1,27 @@
 import { Stack, Checkbox, Heading } from "@chakra-ui/react";
 import { useState } from "react";
-import { filterType, sortingType } from "../pages/Home";
+import { filterType } from "../pages/Home";
 type SearchBoxProps = {
-  price: React.Dispatch<React.SetStateAction<sortingType>>;
-  countriesVisited: React.Dispatch<React.SetStateAction<sortingType>>;
-  numberOfLikes: React.Dispatch<React.SetStateAction<sortingType>>;
+  sortJourneysByNumberOfCountriesVisited: () => void;
+  sortJourneysByPrice: () => void;
+  sortJourneysByNumberOfLikes: () => void;
 };
 
-const SortingBox = (props: SearchBoxProps) => {
-  const [priceChecked, setPriceChecked] = useState(false);
-  const [numberOfCountriesChecked, setnumberOfCountries] = useState(false);
-  const [numberOfLikesChecked, setnumberOfLikesChecked] = useState(false);
-
-  const handlePriceChecked = () => {
-    props.price((prev) => ({ ...prev, price: !priceChecked }));
-    setPriceChecked(!priceChecked);
+const SortingBox = ({
+  sortJourneysByNumberOfCountriesVisited,
+  sortJourneysByPrice,
+  sortJourneysByNumberOfLikes,
+}: SearchBoxProps) => {
+  const priceChecked = () => {
+    sortJourneysByPrice();
   };
 
-  const handeleNumberOfLikesChecked = () => {
-    console.log(numberOfLikesChecked);
-    props.numberOfLikes((prev) => ({
-      ...prev,
-      numberOfLikes: !numberOfLikesChecked,
-    }));
-    setnumberOfLikesChecked(!numberOfLikesChecked);
+  const likesChecked = () => {
+    sortJourneysByNumberOfLikes();
   };
 
-  const handleNumberOfCountriesChecked = () => {
-    props.countriesVisited((prev) => ({
-      ...prev,
-      countriesVisited: !numberOfCountriesChecked,
-    }));
-    setnumberOfCountries(!numberOfCountriesChecked);
+  const countriesChecked = () => {
+    sortJourneysByNumberOfCountriesVisited();
   };
 
   return (
@@ -40,27 +30,29 @@ const SortingBox = (props: SearchBoxProps) => {
       <Stack spacing={5} direction="column">
         <Stack spacing={5} direction="row">
           <Checkbox
-            onChange={handlePriceChecked}
+            onChange={priceChecked}
             colorScheme="yellow"
-            checked={priceChecked}
-            disabled={numberOfCountriesChecked || numberOfLikesChecked}
+            // checked={sortingInput.price}
+            // disabled={
+            //   sortingInput.countriesVisited || sortingInput.numberOfLikes
+            // }
           >
             Price
           </Checkbox>
         </Stack>
         <Checkbox
-          onChange={handleNumberOfCountriesChecked}
+          onChange={countriesChecked}
           colorScheme="yellow"
-          checked={numberOfCountriesChecked}
-          disabled={priceChecked || numberOfLikesChecked}
+          // checked={sortingInput.countriesVisited}
+          // disabled={sortingInput.price || sortingInput.numberOfLikes}
         >
           Number Of Countries
         </Checkbox>
         <Checkbox
-          onChange={handeleNumberOfLikesChecked}
+          onChange={likesChecked}
           colorScheme="yellow"
-          checked={numberOfLikesChecked}
-          disabled={priceChecked || numberOfCountriesChecked}
+          // checked={sortingInput.numberOfLikes}
+          // disabled={sortingInput.price || sortingInput.countriesVisited}
         >
           Number Of Likes
         </Checkbox>
