@@ -117,7 +117,7 @@ font-weight: bold;
 }
 
 .content-container {
-  height: 100vh;
+  height: fit-content;
   width: 65%;
   position: relative;
 }
@@ -166,7 +166,8 @@ font-weight: bold;
 }
 
 .journeyOverview {
-  height: 10000px;
+  height: fit-content;
+  width: 100%;
 }
 
 .createJourney {

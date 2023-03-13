@@ -173,7 +173,7 @@ export default function Profile() {
       >
         {!newPostToggle ? "Click here to create a new journey" : "Back"}
       </button>
-      <div className="journeyOverview w-full h-screen ">
+      <div className="journeyOverview">
         {!newPostToggle &&
           userPosts &&
           storedJData &&
