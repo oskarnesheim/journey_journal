@@ -90,6 +90,9 @@ export default function Home() {
 
   const filterBySearch = () => {
     const allCountriesString = (journeys: Ijourney) => {
+      if (!journeys.countries) {
+        return "";
+      }
       const countries = journeys.countries.map((country) => country);
       return countries.join(" ");
     };
