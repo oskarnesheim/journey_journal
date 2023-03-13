@@ -41,7 +41,8 @@ body {
   height: 100px;
   line-height: 100px;
   background-color: #c9efc7;
-  z-index:3
+  z-index: 3;
+  width: 100%;
 }
 
 .NavbarInline li {
@@ -50,8 +51,43 @@ body {
   display: inline;
   float: left;
   margin-right: 75px;
-
   font-weight: bold;
+}
+
+
+@media (max-width: 992px) {
+  .NavbarInline li {
+    font-size: 20px;
+    margin-right: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .NavbarInline li {
+    font-size: 18px;
+    margin-right: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .NavbarInline li {
+    font-size: 16px;
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 420px) {
+  .NavbarInline li {
+    font-size: 14px;
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 360px) {
+  .NavbarInline li {
+    font-size: 12px;
+    margin-right: 20px;
+  }
 }
 
 .homebutton {
