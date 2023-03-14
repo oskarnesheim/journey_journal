@@ -1,27 +1,34 @@
 import { Stack, Checkbox, Heading } from "@chakra-ui/react";
 import { useState } from "react";
-import { filterType } from "../pages/Home";
+
 type SearchBoxProps = {
-  sortJourneysByNumberOfCountriesVisited: () => void;
-  sortJourneysByPrice: () => void;
-  sortJourneysByNumberOfLikes: () => void;
+  whatToSortBy: string;
+  setWhatToSortBy: React.Dispatch<React.SetStateAction<string>>;
 };
 
-const SortingBox = ({
-  sortJourneysByNumberOfCountriesVisited,
-  sortJourneysByPrice,
-  sortJourneysByNumberOfLikes,
-}: SearchBoxProps) => {
+const SortingBox = ({ whatToSortBy, setWhatToSortBy }: SearchBoxProps) => {
   const priceChecked = () => {
-    sortJourneysByPrice();
+    if (whatToSortBy === "price") {
+      setWhatToSortBy("");
+      return;
+    }
+    setWhatToSortBy("price");
   };
 
   const likesChecked = () => {
-    sortJourneysByNumberOfLikes();
+    if (whatToSortBy === "likes") {
+      setWhatToSortBy("");
+      return;
+    }
+    setWhatToSortBy("likes");
   };
 
   const countriesChecked = () => {
-    sortJourneysByNumberOfCountriesVisited();
+    if (whatToSortBy === "countries") {
+      setWhatToSortBy("");
+      return;
+    }
+    setWhatToSortBy("countries");
   };
 
   return (
@@ -30,29 +37,30 @@ const SortingBox = ({
       <Stack spacing={5} direction="column">
         <Stack spacing={5} direction="row">
           <Checkbox
-            onChange={priceChecked}
+            onChange={() => {
+              priceChecked();
+            }}
             colorScheme="yellow"
-            // checked={sortingInput.price}
-            // disabled={
-            //   sortingInput.countriesVisited || sortingInput.numberOfLikes
-            // }
+            disabled={whatToSortBy !== "price" && whatToSortBy !== ""}
           >
             Price
           </Checkbox>
         </Stack>
         <Checkbox
-          onChange={countriesChecked}
+          onChange={() => {
+            countriesChecked();
+          }}
           colorScheme="yellow"
-          // checked={sortingInput.countriesVisited}
-          // disabled={sortingInput.price || sortingInput.numberOfLikes}
+          disabled={whatToSortBy !== "countries" && whatToSortBy !== ""}
         >
           Number Of Countries
         </Checkbox>
         <Checkbox
-          onChange={likesChecked}
+          onChange={() => {
+            likesChecked();
+          }}
           colorScheme="yellow"
-          // checked={sortingInput.numberOfLikes}
-          // disabled={sortingInput.price || sortingInput.countriesVisited}
+          disabled={whatToSortBy !== "likes" && whatToSortBy !== ""}
         >
           Number Of Likes
         </Checkbox>
