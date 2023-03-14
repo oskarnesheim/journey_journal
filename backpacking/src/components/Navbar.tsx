@@ -23,7 +23,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="Navbar">
+    <div className="Navbar dark:bg-theme-green-darker">
       <ul className="NavbarInline">
         <li className="homebutton">
           <Link to={"/home"}>

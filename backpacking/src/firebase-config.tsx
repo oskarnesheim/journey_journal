@@ -1,8 +1,8 @@
-import { getFirestore, collection} from '@firebase/firestore'
+import { getFirestore, collection } from "@firebase/firestore";
 // Import the functions you need from the SDKs you need
-import { initializeApp,  } from "firebase/app";
+import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,7 +16,7 @@ const firebaseConfig = {
   storageBucket: "pu-test-ce296.appspot.com",
   messagingSenderId: "534756802827",
   appId: "1:534756802827:web:62276a489a5d54763b620e",
-  measurementId: "G-MZ7ZZR9V3C"
+  measurementId: "G-MZ7ZZR9V3C",
 };
 // const firebaseConfig = {
 //   apiKey: 'AIzaSyBmqL-jYk9c5B4E0PP9W0rM0GLSmEwI4BE',
@@ -35,19 +35,28 @@ export const database = getFirestore(app);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 
-export const getCollection = (path:string) => {
-  return collection(database,path)
-} 
+export const getCollection = (path: string) => {
+  return collection(database, path);
+};
 
 export const firestoreAutoId = (): string => {
-  const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  const CHARS =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-  let autoId = ''
+  let autoId = "";
 
   for (let i = 0; i < 20; i++) {
-    autoId += CHARS.charAt(
-      Math.floor(Math.random() * CHARS.length)
-    )
+    autoId += CHARS.charAt(Math.floor(Math.random() * CHARS.length));
   }
-  return autoId
-}
+  return autoId;
+};
+
+export const getDocRef = async (path: string, id: string) => {
+  const docRef = doc(database, path, id);
+  const docSnap = await getDoc(docRef);
+  return docSnap;
+};
+
+export const getJourneysRef = getCollection("journeys");
+export const getStoredJRef = getCollection("storedJourneys");
+export const getUsersRef = getCollection("users");
