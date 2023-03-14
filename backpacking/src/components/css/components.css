@@ -41,7 +41,8 @@ body {
   height: 100px;
   line-height: 100px;
   background-color: #c9efc7;
-  z-index:3
+  z-index: 3;
+  width: 100%;
 }
 
 .NavbarInline li {
@@ -50,8 +51,43 @@ body {
   display: inline;
   float: left;
   margin-right: 75px;
-
   font-weight: bold;
+}
+
+
+@media (max-width: 992px) {
+  .NavbarInline li {
+    font-size: 20px;
+    margin-right: 70px;
+  }
+}
+
+@media (max-width: 768px) {
+  .NavbarInline li {
+    font-size: 18px;
+    margin-right: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .NavbarInline li {
+    font-size: 16px;
+    margin-right: 50px;
+  }
+}
+
+@media (max-width: 420px) {
+  .NavbarInline li {
+    font-size: 14px;
+    margin-right: 40px;
+  }
+}
+
+@media (max-width: 360px) {
+  .NavbarInline li {
+    font-size: 12px;
+    margin-right: 20px;
+  }
 }
 
 .homebutton {
@@ -98,14 +134,26 @@ body {
 .backgroundimgtitle {
   font-size: 50px;
   font-weight: bold;
-  position: relative;
-  color: #454545;
+  position: absolute;
+  color: black;
+  top: 0;
+  margin-top: 28%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
+}
+
+.aboutsub {
+font-size: 20px;
+font-weight: bold;
+
+}
+.aboutcontent {
+  width: 60%;
+  margin-left: 20%;
 }
 
 .content-container {
-  height: 100%;
+  height: fit-content;
   width: 65%;
   position: relative;
 }
@@ -146,4 +194,32 @@ body {
 .dropDownCountries{
   margin-left: 160px;
   margin-right: 160px;
+}
+
+.profilePage {
+  height: 100vh;
+  width: 100vw;
+}
+
+.journeyOverview {
+  height: fit-content;
+  width: 100%;
+}
+
+.createJourney {
+  height: 100vh;
+  width: 100vw;
+}
+
+@media screen and (max-width: 1000px) {
+  .backgroundimgtitle {
+    top: 100px;
+    font-size: 30px;
+    margin-top: 0;
+  }
+
+  .content-container {
+    margin-left: 10px;
+    width: 80%;
+  }
 }

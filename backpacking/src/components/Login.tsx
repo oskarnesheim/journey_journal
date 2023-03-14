@@ -18,6 +18,33 @@ const Login = () => {
     const navigate = useNavigate();
     const getUsersRef = getCollection('users/');
 
+    const signInWithGoogle = async () => {
+        try{
+            const userCredential = await signInWithPopup(auth,provider)
+            const user =  userCredential.user;
+            const userID = user.uid;
+            
+
+
+            const q = query(getUsersRef,where('uid', '==', userID));
+            const querySnapshot = await getDocs(q);
+            if (querySnapshot.empty) {
+                setErrorMessage("Invalid login - no users with that email");
+                console.log('No matching documents.');
+                return;
+            } else{
+                setGlobalUser(
+                    querySnapshot.docs.map((person) => ({...person.data()} as Iuser))[0]
+                )
+                navigate('/home')
+            }
+
+        } catch (error){
+            console.log(error)
+        }
+    }
+  
+
     const signInWithMailPassword = async () => {
         try{
             const emailSignIn = email;
@@ -44,6 +71,20 @@ const Login = () => {
             setErrorMessage("Invalid login");}  
     }
 
+    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value)
+    }
+
+    const handleKeypressPassword = (e: React.KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter') {
+        signInWithMailPassword();
+      }
+    }
+
+    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(e.target.value)
+    }
+
     return(
         <div className="formControlLogin" >
             <FormControl>
@@ -51,13 +92,9 @@ const Login = () => {
                     {errorMessage}
                 </h2>
                 <FormLabel>Email address</FormLabel>
-                    <Input type='email' onChange={e => {
-                        setEmail(e.target.value)
-                    }}/>
+                    <Input type='email' onChange= {handleChangeEmail}/>
                 <FormLabel>Password</FormLabel>
-                    <Input type='password' onChange={e =>{
-                        setPassword(e.target.value)
-                    }}/>
+                    <Input type='password' onChange={handleChangePassword} onKeyPress = {handleKeypressPassword}/>
                     <button onClick={signInWithMailPassword} className="m-2 hover:text-pink-500 border-solid shadow-lg order-slate-500 rounded-md pl-4 pr-4" type="submit">Sign in</button>
             </FormControl>
         </div>  

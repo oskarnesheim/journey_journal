@@ -58,6 +58,13 @@ const CreateUser = () =>{
                 console.log(error);
             }
     }
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === 'Enter') {
+            addUser();
+        }
+    }
+
     return(
         <div className="createUser-container">
             <FormControl>
@@ -95,7 +102,7 @@ const CreateUser = () =>{
 
                 <FormLabel>Password</FormLabel>
                     <Input type='password' value={formUser.password} onChange={(e) => setFormUser(
-                        {...formUser, password: e.target.value})}/>
+                        {...formUser, password: e.target.value})} onKeyPress = {handleKeyPress}/>
                 <FormHelperText><b> We'll never share your password or email</b></FormHelperText>
                 <br />
                 <Button colorScheme='teal' variant='outline' onClick={addUser}>

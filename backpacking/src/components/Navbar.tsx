@@ -46,7 +46,7 @@ const Navbar = () => {
             <p>{"Welcome back " + user?.firstname}</p>
           </li>
         )}
-        <li className="hover:text-pink-500 absolute right-3">
+        <li className="hover:text-pink-500 absolute right-5">
           {user ? (
             <button
               onClick={() => {
