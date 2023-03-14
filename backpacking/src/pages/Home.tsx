@@ -43,7 +43,6 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
-    console.log(auth.currentUser?.uid);
   }, []);
 
   const getUsers = async () => {

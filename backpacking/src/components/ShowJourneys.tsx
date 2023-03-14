@@ -34,9 +34,6 @@ function ShowJourneys({
   }, [searchInput]);
 
   useEffect(() => {
-    console.log("whatToSortBy");
-    console.log(whatToSortBy);
-
     if (whatToSortBy === "price") {
       sortJourneysByPrice();
     } else if (whatToSortBy === "likes") {
@@ -75,7 +72,6 @@ function ShowJourneys({
     const filteredByFilterBox = filteredBySearch.filter((journey) =>
       filterByFilterBox(journey)
     );
-    console.log(filteredByFilterBox);
     setSortedJourneys(filteredByFilterBox);
   };
 
@@ -87,7 +83,6 @@ function ShowJourneys({
 
     setSortedJourneys([]);
     setSortedJourneys([...sortedJourneys]);
-    console.log(sortedJourneys);
   };
 
   const sortByNumberOfLikes = () => {
@@ -101,7 +96,6 @@ function ShowJourneys({
 
     setSortedJourneys([]);
     setSortedJourneys([...sortedJourneys]);
-    console.log(sortedJourneys);
   };
 
   const sortJourneysByNumberOfCountriesVisited = () => {
@@ -112,8 +106,6 @@ function ShowJourneys({
 
     setSortedJourneys([]);
     setSortedJourneys([...sortedJourneys]);
-
-    console.log(sortedJourneys);
   };
   const whoHaveStoredJourney = (journey: Ijourney) => {
     return storedJData
