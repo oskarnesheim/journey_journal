@@ -6,14 +6,11 @@ import SuggestedCountries from "../components/SuggestedCountries";
 import { Button, Input } from "@chakra-ui/react";
 
 type SelectedCountriesProps = {
-  setSelected: React.Dispatch<React.SetStateAction<Ijourney>>;
-  selected: string[];
+  setJourney: React.Dispatch<React.SetStateAction<Ijourney>>;
+  journey: Ijourney;
 };
 
-const SelectedCountries = ({
-  setSelected,
-  selected,
-}: SelectedCountriesProps) => {
+const SelectedCountries = ({ setJourney, journey }: SelectedCountriesProps) => {
   const [search, setSearch] = useState<string>("");
 
   function updateSearch(event: React.ChangeEvent<HTMLInputElement>) {
@@ -21,21 +18,26 @@ const SelectedCountries = ({
   }
 
   function addCountry(search: string) {
-    setSelected((prev) => ({ ...prev, countries: [...selected, search] }));
+    setJourney((prev) => ({
+      ...prev,
+      countries: [...journey.countries, search],
+    }));
     setSearch("");
   }
 
   return (
     <div>
       <div className="border border-theme-green rounded-lg mb-5">
-        {selected.map((country) => (
+        {journey.countries.map((country) => (
           <div key={country}>
             {country}
             <button
               onClick={() => {
-                setSelected((prev) => ({
+                setJourney((prev) => ({
                   ...prev,
-                  countries: selected.filter((item) => item !== country),
+                  countries: journey.countries.filter(
+                    (item) => item !== country
+                  ),
                 }));
               }}
             >

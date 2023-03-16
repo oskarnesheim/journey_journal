@@ -29,6 +29,7 @@ import { useRecoilState } from "recoil";
 import { Ijourney } from "../interfaces/Interfaces";
 import "../components/css/components.css";
 import EditText from "../components/EditText";
+import EditCountryList from "../components/EditCountryList";
 
 type JourneyProps = {
   journey: Ijourney;
@@ -206,8 +207,12 @@ const JourneyPage = (props: JourneyProps) => {
           saveChanges={saveChanges}
         />
       }
-
-      <p>Countries : {journey?.countries.join(", ")}</p>
+      <EditCountryList
+        journey={journey}
+        setJourney={setJourney}
+        saveChanges={saveChanges}
+        whatAttribute="countries"
+      />
       <p>
         Current rating :{" "}
         {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}

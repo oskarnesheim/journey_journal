@@ -124,8 +124,8 @@ const CreateJourney = ({
         <div className="w-4/5 ml-[150px] dark:text-theme-dark">
           {/*dropDownCountries*/}
           <SelectedCountries
-            selected={journeyForm.countries}
-            setSelected={setJourneyForm}
+            journey={journeyForm}
+            setJourney={setJourneyForm}
           />
         </div>
         <button
