@@ -10,16 +10,13 @@ const Navbar = () => {
   const navigate = useNavigate();
   const [theme, setTheme] = useState("light");
 
-  useEffect(() => {
+  const handleThemeSwitch = () => {
+    setTheme(theme === "light" ? "dark" : "light");
     if (theme === "light") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, [theme]);
-
-  const handleThemeSwitch = () => {
-    setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
