@@ -17,6 +17,7 @@ import SelectedCountries from "../../custom-hooks/SelectedCountries";
 import { database, auth, firestoreAutoId } from "../../firebase-config";
 import { Ijourney } from "../../interfaces/Interfaces";
 import "../css/components.css";
+import GeneralButton from "../GeneralButton";
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -128,12 +129,7 @@ const CreateJourney = ({
             setJourney={setJourneyForm}
           />
         </div>
-        <button
-          className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
-          onClick={addJourney}
-        >
-          Post
-        </button>
+        <GeneralButton description={"Post"} onClick={addJourney} />
       </FormControl>
     </div>
   );

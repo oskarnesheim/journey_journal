@@ -31,6 +31,14 @@ const SortingBox = ({ whatToSortBy, setWhatToSortBy }: SearchBoxProps) => {
     setWhatToSortBy("countries");
   };
 
+  function ratingChecked() {
+    if (whatToSortBy === "rating") {
+      setWhatToSortBy("");
+      return;
+    }
+    setWhatToSortBy("rating");
+  }
+
   return (
     <div className="mt-8">
       <Heading size={"md"}>Sort by</Heading>
@@ -63,6 +71,15 @@ const SortingBox = ({ whatToSortBy, setWhatToSortBy }: SearchBoxProps) => {
           disabled={whatToSortBy !== "likes" && whatToSortBy !== ""}
         >
           Number Of Likes
+        </Checkbox>
+        <Checkbox
+          onChange={() => {
+            ratingChecked();
+          }}
+          colorScheme="yellow"
+          disabled={whatToSortBy !== "rating" && whatToSortBy !== ""}
+        >
+          Rating
         </Checkbox>
       </Stack>
     </div>
