@@ -2,13 +2,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
-import {
-  auth,
-  getCollection,
-  getJourneysRef,
-  getStoredJRef,
-  getUsersRef,
-} from "../firebase-config";
+import { getJourneysRef, getStoredJRef, getUsersRef } from "../firebase-config";
 import "../components/css/components.css";
 import JourneyCard from "../components/JourneyCard";
 import FilterBox from "../components/Home/FilterBox";

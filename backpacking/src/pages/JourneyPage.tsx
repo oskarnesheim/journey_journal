@@ -30,6 +30,7 @@ import { Ijourney } from "../interfaces/Interfaces";
 import "../components/css/components.css";
 import EditText from "../components/EditText";
 import EditCountryList from "../components/EditCountryList";
+import GeneralButton from "../components/GeneralButton";
 
 type JourneyProps = {
   journey: Ijourney;
@@ -166,17 +167,6 @@ const JourneyPage = (props: JourneyProps) => {
     }
   };
 
-  const rateJourneyButton = () => {
-    return (
-      <button
-        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
-        onClick={isJourneyRated ? removeJourneyRating : submitRating}
-      >
-        {isJourneyRated ? "Change rating" : "Submit rating"}
-      </button>
-    );
-  };
-
   return (
     <div className="viewJourney dark:bg-theme-dark dark:text-theme-green">
       {/* <h1>Title : {journey?.title}</h1> */}
@@ -218,28 +208,21 @@ const JourneyPage = (props: JourneyProps) => {
         {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}
       </p>
 
-      <button
-        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
-        onClick={() => navigate("/home")}
-      >
-        Home
-      </button>
+      <GeneralButton description="home" onClick={() => navigate("/home")} />
+
       {auth.currentUser?.uid === journey?.uid ? (
-        <button
-          className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
+        <GeneralButton
+          description="Profile"
           onClick={() => navigate("/profile")}
-        >
-          Profile
-        </button>
+        />
       ) : null}
       {auth.currentUser?.uid === journey?.uid ? (
-        <button
-          className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
+        <GeneralButton
+          description="Delete"
           onClick={() => deletePost(journey!)}
-        >
-          Delete
-        </button>
+        />
       ) : null}
+
       {user && auth.currentUser?.uid !== journey?.uid ? (
         <div>
           <label>Give the journey a rating: </label>
@@ -253,7 +236,10 @@ const JourneyPage = (props: JourneyProps) => {
             <option value="4">4: Very good</option>
             <option value="5">5: Excellent</option>
           </select>
-          {rateJourneyButton()}
+          <GeneralButton
+            description={isJourneyRated ? "Change rating" : "Submit rating"}
+            onClick={isJourneyRated ? removeJourneyRating : submitRating}
+          />
         </div>
       ) : null}
     </div>
