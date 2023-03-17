@@ -28,7 +28,8 @@ describe('Testing posting functionality', () => {
     cy.get('.chakra-form-control > button').click()
     cy.wait(3000);
     cy.get(':nth-child(3) > a').click()
-    cy.get('.chakra-card__footer > .bg-theme-green').click()
+    cy.wait(3000);
+    cy.get(':nth-child(2) > .chakra-card__footer > .bg-theme-green').click()
     cy.get('.viewJourney > :nth-child(9)').click()
   })
 })
