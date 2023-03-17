@@ -1,5 +1,5 @@
 import { getAuth } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { UserState } from "../recoil/atoms";

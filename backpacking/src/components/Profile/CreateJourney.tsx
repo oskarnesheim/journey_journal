@@ -2,21 +2,14 @@ import {
   FormControl,
   FormLabel,
   Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  FormHelperText,
-  Button,
 } from "@chakra-ui/react";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { useState } from "react";
 import SelectedCountries from "../../custom-hooks/SelectedCountries";
 import { database, auth, firestoreAutoId } from "../../firebase-config";
 import { Ijourney } from "../../interfaces/Interfaces";
 import "../css/components.css";
+import { useNavigate } from "react-router-dom";
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +21,7 @@ const CreateJourney = ({
   refreshPosts,
 }: CreateJourneyProps) => {
   const [statusMessage, setStatusMessage] = useState<string>("");
+  const navigate = useNavigate();
   const [journeyForm, setJourneyForm] = useState<Ijourney>({
     title: "",
     cost: 0,
@@ -60,11 +54,9 @@ const CreateJourney = ({
         countries: [],
         journeyID: "",
       } as Ijourney);
-      setStatusMessage(
-        "You have successfully posted a journey\n You can check it out under profile"
-      );
-
       setRefreshPosts(!refreshPosts);
+      navigate("/home");
+      alert("You have successfully posted a journey. Check out your new post on your profile page!")
     } catch (error) {
       setStatusMessage("Something went wrong, please try again");
     }
