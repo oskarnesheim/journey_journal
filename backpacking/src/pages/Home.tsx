@@ -1,8 +1,18 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
-import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
-import { getJourneysRef, getStoredJRef, getUsersRef } from "../firebase-config";
+import {
+  Ijourney,
+  IRating,
+  IStoredJourney,
+  Iuser,
+} from "../interfaces/Interfaces";
+import {
+  getAllRatings,
+  getJourneysRef,
+  getStoredJRef,
+  getUsersRef,
+} from "../firebase-config";
 import "../components/css/components.css";
 import JourneyCard from "../components/JourneyCard";
 import FilterBox from "../components/Home/FilterBox";
@@ -21,6 +31,7 @@ export default function Home() {
   const [journeys, setJourneys] = useState<Ijourney[]>([]);
   const [storedJData, setStoredJData] = useState<IStoredJourney[]>([]);
   const [users, setUsers] = useState<Iuser[]>([]);
+  const [ratings, setRatings] = useState<IRating[]>([]);
 
   const [whatToSortBy, setWhatToSortBy] = useState<string>("");
   const [searchInput, setSearchInput] = useState<filterType>({
@@ -47,6 +58,9 @@ export default function Home() {
       )
     );
 
+    const ratings = await getAllRatings();
+    setRatings(ratings!);
+
     const journeyData = await getDocs(getJourneysRef);
     setJourneys(
       journeyData.docs.map((journey) => ({ ...journey.data() } as Ijourney))
@@ -59,12 +73,14 @@ export default function Home() {
   return (
     <div className="content-container ">
       <ShowJourneys
+        ratings={ratings}
         journeys={journeys}
         storedJData={storedJData}
         users={users}
         searchInput={searchInput}
         whatToSortBy={whatToSortBy}
       />
+
       <div className="fixed top-28 right-5 shadow-2xl w-1/3 p-5 min-h-3/4 dark:bg-theme-dark2 dark:text-theme-green rounded-md hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)]">
         <FilterBox
           maxPriceActive={setSearchInput}

@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import { getAllRatings } from "../firebase-config";
-import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
+import {
+  Ijourney,
+  IRating,
+  IStoredJourney,
+  Iuser,
+} from "../interfaces/Interfaces";
 import { getAverageRating } from "../pages/JourneyPage";
 import JourneyCard from "./JourneyCard";
 
@@ -8,6 +13,7 @@ type showJourneyProps = {
   journeys: Ijourney[];
   storedJData: IStoredJourney[];
   users: Iuser[];
+  ratings: IRating[];
   searchInput: {
     text: string;
     minPrice: number;
@@ -24,6 +30,7 @@ function ShowJourneys({
   users,
   searchInput,
   whatToSortBy,
+  ratings,
 }: showJourneyProps) {
   const [sortedJourneys, setSortedJourneys] = useState<Ijourney[]>([]);
 
@@ -103,7 +110,7 @@ function ShowJourneys({
 
   const sortJourneysByPrice = () => {
     var sortedJourneys = journeys.sort((a, b) => {
-      if (a.cost == b.cost) return 0;
+      if (a.cost === b.cost) return 0;
       return a.cost > b.cost ? -1 : 1;
     });
 
@@ -138,8 +145,6 @@ function ShowJourneys({
   };
 
   async function sortByRating() {
-    const ratings = await getAllRatings();
-
     const averageRating = (journey: Ijourney) => {
       var avg = 0;
       var numberOfRatings = 0;
@@ -150,6 +155,7 @@ function ShowJourneys({
           numberOfRatings++;
         }
       });
+      if (numberOfRatings === 0) return -1;
       return avg / numberOfRatings;
     };
 
