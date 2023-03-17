@@ -23,7 +23,12 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, database, getCollection } from "../firebase-config";
+import {
+  auth,
+  database,
+  getCollection,
+  getRatingsRef,
+} from "../firebase-config";
 import { UserState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
 import { Ijourney } from "../interfaces/Interfaces";
@@ -33,12 +38,12 @@ import EditCountryList from "../components/EditCountryList";
 import GeneralButton from "../components/GeneralButton";
 
 type JourneyProps = {
-  journey: Ijourney;
+  journey: Ijourney | undefined;
 };
 
 const JourneyPage = (props: JourneyProps) => {
   const getJourneyRef = getCollection("journeys/");
-  const [journey, setJourney] = useState<Ijourney>(props.journey);
+  const [journey, setJourney] = useState<Ijourney>(props.journey!);
   const [averageRating, setAverageRating] = useState<number>(0);
   const navigate = useNavigate();
   const [isJourneyRated, setIsJourneyRated] = useState<boolean>();
@@ -246,9 +251,8 @@ const JourneyPage = (props: JourneyProps) => {
   );
 };
 export const getAverageRating = async (journeyID: string) => {
-  const ratingsRef = collection(database, "ratingJourneys");
   const querySnapshot = await getDocs(
-    query(ratingsRef, where("journeyID", "==", journeyID))
+    query(getRatingsRef, where("journeyID", "==", journeyID))
   );
 
   let totalRating = 0;

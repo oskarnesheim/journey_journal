@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import { getAllRatings } from "../firebase-config";
 import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
+import { getAverageRating } from "../pages/JourneyPage";
 import JourneyCard from "./JourneyCard";
 
 type showJourneyProps = {
@@ -40,6 +42,8 @@ function ShowJourneys({
       sortByNumberOfLikes();
     } else if (whatToSortBy === "countries") {
       sortJourneysByNumberOfCountriesVisited();
+    } else if (whatToSortBy === "rating") {
+      sortByRating();
     } else {
       setSortedJourneys(journeys);
     }
@@ -75,38 +79,6 @@ function ShowJourneys({
     setSortedJourneys(filteredByFilterBox);
   };
 
-  const sortJourneysByPrice = () => {
-    var sortedJourneys = journeys.sort((a, b) => {
-      if (a.cost == b.cost) return 0;
-      return a.cost > b.cost ? -1 : 1;
-    });
-
-    setSortedJourneys([]);
-    setSortedJourneys([...sortedJourneys]);
-  };
-
-  const sortByNumberOfLikes = () => {
-    const sortedJourneys = journeys.sort((a, b) => {
-      if (whoHaveStoredJourney(a).length == whoHaveStoredJourney(b).length)
-        return 0;
-      return whoHaveStoredJourney(a).length > whoHaveStoredJourney(b).length
-        ? -1
-        : 1;
-    });
-
-    setSortedJourneys([]);
-    setSortedJourneys([...sortedJourneys]);
-  };
-
-  const sortJourneysByNumberOfCountriesVisited = () => {
-    const sortedJourneys = journeys.sort((a, b) => {
-      if (a.countries.length == b.countries.length) return 0;
-      return a.countries.length > b.countries.length ? -1 : 1;
-    });
-
-    setSortedJourneys([]);
-    setSortedJourneys([...sortedJourneys]);
-  };
   const whoHaveStoredJourney = (journey: Ijourney) => {
     return storedJData
       .filter((storedJ) => storedJ.journeyID === journey.journeyID)
@@ -126,6 +98,72 @@ function ShowJourneys({
     }
     return true;
   };
+
+  //? Sort functions
+
+  const sortJourneysByPrice = () => {
+    var sortedJourneys = journeys.sort((a, b) => {
+      if (a.cost == b.cost) return 0;
+      return a.cost > b.cost ? -1 : 1;
+    });
+
+    setSortedJourneys([]);
+    setSortedJourneys([...sortedJourneys]);
+  };
+
+  const sortByNumberOfLikes = () => {
+    const sortedJourneys = journeys.sort((a, b) => {
+      const aLikes = whoHaveStoredJourney(a).length;
+      const bLikes = whoHaveStoredJourney(b).length;
+
+      if (aLikes === bLikes) return 0;
+      return aLikes > bLikes ? -1 : 1;
+    });
+
+    setSortedJourneys([]);
+    setSortedJourneys([...sortedJourneys]);
+  };
+
+  const sortJourneysByNumberOfCountriesVisited = () => {
+    const sortedJourneys = journeys.sort((a, b) => {
+      const numOfCountriesA = a.countries.length;
+      const numOfCountriesB = b.countries.length;
+
+      if (numOfCountriesA === numOfCountriesB) return 0;
+      return numOfCountriesA > numOfCountriesB ? -1 : 1;
+    });
+
+    setSortedJourneys([]);
+    setSortedJourneys([...sortedJourneys]);
+  };
+
+  async function sortByRating() {
+    const ratings = await getAllRatings();
+
+    const averageRating = (journey: Ijourney) => {
+      var avg = 0;
+      var numberOfRatings = 0;
+
+      ratings?.forEach((rating) => {
+        if (rating.journeyID === journey.journeyID) {
+          avg += rating.rating;
+          numberOfRatings++;
+        }
+      });
+      return avg / numberOfRatings;
+    };
+
+    const sortedJourneys = journeys.sort((a, b) => {
+      const averageA = averageRating(a);
+      const averageB = averageRating(b);
+
+      if (averageA === averageB) return 0;
+      return averageA > averageB ? -1 : 1;
+    });
+
+    setSortedJourneys([]);
+    setSortedJourneys([...sortedJourneys]);
+  }
   return (
     <div>
       {sortedJourneys?.map((journey) => (

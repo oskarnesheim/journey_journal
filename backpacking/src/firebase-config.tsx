@@ -2,7 +2,8 @@ import { getFirestore, collection } from "@firebase/firestore";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, query } from "firebase/firestore";
+import { IRating } from "./interfaces/Interfaces";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -60,3 +61,19 @@ export const getDocRef = async (path: string, id: string) => {
 export const getJourneysRef = getCollection("journeys");
 export const getStoredJRef = getCollection("storedJourneys");
 export const getUsersRef = getCollection("users");
+export const getRatingsRef = getCollection("ratingJourneys");
+
+export async function getAllRatings() {
+  try {
+    const querySnapshot = await getDocs(query(getRatingsRef));
+    const ratings: IRating[] = [];
+
+    querySnapshot.forEach((doc) => {
+      ratings.push(doc.data() as IRating);
+    });
+
+    return ratings;
+  } catch (error) {
+    console.log(error);
+  }
+}
