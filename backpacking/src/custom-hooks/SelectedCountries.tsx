@@ -54,11 +54,16 @@ const SelectedCountries = ({ setJourney, journey }: SelectedCountriesProps) => {
           </div>
         ))}
       </div>
-      <Input required type="text" value={search} onChange={updateSearch} />
+      <Input type="text" value={search} onChange={updateSearch} />
       <SuggestedCountries search={search} setSearch={setSearch} />
-      <Button className="mt-5" onClick={() => addCountry(search)}>
-        AddCountry
-      </Button>
+      <GeneralButton
+        description={"Add Country"}
+        onClick={() => {
+          if (search !== "") {
+            addCountry(search);
+          }
+        }}
+      />
     </div>
   );
 };

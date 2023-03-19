@@ -38,7 +38,8 @@ const CreateJourney = ({
     journeyID: "",
   });
 
-  const addJourney = (): void => {
+  const addJourney = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
     try {
       const newJourneyPost: Ijourney = {
         title: journeyForm.title,
@@ -73,64 +74,70 @@ const CreateJourney = ({
 
   return (
     <div className="dark:text-theme-green dark:bg-theme-dark createJourney">
-      <FormControl>
-        {statusMessage}
-        <FormLabel colorScheme="#454545" marginLeft={"160"}>
-          Trip name
-        </FormLabel>
-        <Input
-          placeholder="Trip name"
-          type="text"
-          width="80%"
-          value={journeyForm.title}
-          onChange={(e) =>
-            setJourneyForm({ ...journeyForm, title: e.target.value })
-          }
-        />
-        <br />
-        <br />
-        <FormLabel colorScheme="pink" marginLeft={"160"}>
-          Cost in kr
-        </FormLabel>
-        <Input
-          placeholder="Cost"
-          type="number"
-          width="80%"
-          value={journeyForm.cost}
-          onChange={(e) =>
-            setJourneyForm({ ...journeyForm, cost: parseInt(e.target.value) })
-          }
-        />
-        <br />
-        <br />
-        <FormLabel colorScheme="#454545" marginLeft={"160"}>
-          {" "}
-          Tell about your trip!
-        </FormLabel>
-        <Input
-          placeholder="Write about all your fun experiences!"
-          type="text"
-          width="80%"
-          value={journeyForm.description}
-          onChange={(e) =>
-            setJourneyForm({ ...journeyForm, description: e.target.value })
-          }
-        />
-        <br />
-        <br />
+      <form onSubmit={(e) => addJourney(e)}>
+        <FormControl>
+          {statusMessage}
+          <FormLabel colorScheme="#454545" marginLeft={"160"}>
+            Trip name
+          </FormLabel>
 
-        <FormLabel colorScheme="#454545" marginLeft={"160"}>
-          Select your countries
-        </FormLabel>
-        <div className="w-4/5 ml-[150px] dark:text-theme-dark">
-          {/*dropDownCountries*/}
-          <SelectedCountries
-            journey={journeyForm}
-            setJourney={setJourneyForm}
+          <Input
+            required
+            placeholder="Trip name"
+            type="text"
+            width="80%"
+            value={journeyForm.title}
+            onChange={(e) =>
+              setJourneyForm({ ...journeyForm, title: e.target.value })
+            }
           />
-        </div>
-        <GeneralButton description={"Post"} onClick={addJourney} />
-      </FormControl>
+          <br />
+          <br />
+          <FormLabel colorScheme="pink" marginLeft={"160"}>
+            Cost in kr
+          </FormLabel>
+          <Input
+            required
+            placeholder="Cost"
+            type="number"
+            width="80%"
+            value={journeyForm.cost}
+            onChange={(e) =>
+              setJourneyForm({ ...journeyForm, cost: parseInt(e.target.value) })
+            }
+          />
+          <br />
+          <br />
+          <FormLabel colorScheme="#454545" marginLeft={"160"}>
+            {" "}
+            Tell about your trip!
+          </FormLabel>
+          <Input
+            required
+            placeholder="Write about all your fun experiences!"
+            type="text"
+            width="80%"
+            value={journeyForm.description}
+            onChange={(e) =>
+              setJourneyForm({ ...journeyForm, description: e.target.value })
+            }
+          />
+          <br />
+          <br />
+
+          <FormLabel colorScheme="#454545" marginLeft={"160"}>
+            Select your countries
+          </FormLabel>
+          <div className="w-4/5 ml-[150px] dark:text-theme-dark">
+            {/*dropDownCountries*/}
+            <SelectedCountries
+              journey={journeyForm}
+              setJourney={setJourneyForm}
+            />
+          </div>
+          <GeneralButton description={"Post"} type="submit" />
+        </FormControl>
+      </form>
     </div>
   );
 };
