@@ -4,20 +4,26 @@ import Countries from "../../public/text/Countries";
 type SuggestedCountriesProps = {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
+  addCountry: (search: string) => void;
 };
 
-function SuggestedCountries({ search, setSearch }: SuggestedCountriesProps) {
+function SuggestedCountries({
+  search,
+  setSearch,
+  addCountry,
+}: SuggestedCountriesProps) {
   function handleCountryClick(country: string) {
-    setSearch(country);
+    addCountry(country);
   }
 
   return (
-    <div className="">
+    <div className="shadow-2xl rounded-2xl">
       {search &&
         Countries.filter((country) =>
           country.name.toLowerCase().includes(search.toLowerCase())
         ).map((country) => (
           <div
+            className="hover:bg-theme-green h-10 "
             key={country.name}
             onClick={() => handleCountryClick(country.name)}
           >

@@ -1,15 +1,4 @@
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  FormHelperText,
-  Button,
-} from "@chakra-ui/react";
+import { Alert, FormControl, FormLabel, Input } from "@chakra-ui/react";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { setDoc, doc, GeoPoint, Firestore } from "firebase/firestore";
 import { useState } from "react";
@@ -22,11 +11,15 @@ import GeneralButton from "../GeneralButton";
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
   refreshPosts: boolean;
+  newPostToggle: boolean;
+  setNewPostToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const CreateJourney = ({
   setRefreshPosts,
   refreshPosts,
+  newPostToggle,
+  setNewPostToggle,
 }: CreateJourneyProps) => {
   const [statusMessage, setStatusMessage] = useState<string>("");
   const [journeyForm, setJourneyForm] = useState<Ijourney>({
@@ -39,6 +32,11 @@ const CreateJourney = ({
   });
 
   const addJourney = (e: React.FormEvent<HTMLFormElement>): void => {
+    console.log(
+      "🚀 ~ file: CreateJourney.tsx:35 ~ addJourney ~ addJourney:",
+      addJourney
+    );
+
     e.preventDefault();
     try {
       const newJourneyPost: Ijourney = {
@@ -62,18 +60,17 @@ const CreateJourney = ({
         countries: [],
         journeyID: "",
       } as Ijourney);
-      setStatusMessage(
-        "You have successfully posted a journey\n You can check it out under profile"
-      );
 
       setRefreshPosts(!refreshPosts);
+      setNewPostToggle(!newPostToggle);
+      alert("Your journey has been created!");
     } catch (error) {
       setStatusMessage("Something went wrong, please try again");
     }
   };
 
   return (
-    <div className="dark:text-theme-green dark:bg-theme-dark createJourney">
+    <div className="dark:text-theme-green dark:bg-theme-dark createJourney shadow-2xl">
       <form onSubmit={(e) => addJourney(e)}>
         <FormControl>
           {statusMessage}
@@ -129,13 +126,12 @@ const CreateJourney = ({
             Select your countries
           </FormLabel>
           <div className="w-4/5 ml-[150px] dark:text-theme-dark">
-            {/*dropDownCountries*/}
             <SelectedCountries
               journey={journeyForm}
               setJourney={setJourneyForm}
             />
           </div>
-          <GeneralButton description={"Post"} type="submit" />
+          <GeneralButton description="Post" type="submit" />
         </FormControl>
       </form>
     </div>
