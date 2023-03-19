@@ -1,19 +1,4 @@
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  Editable,
-  EditablePreview,
-  EditableTextarea,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-  Center,
-  Divider,
-} from "@chakra-ui/react";
+import { Divider } from "@chakra-ui/react";
 import {
   setDoc,
   doc,
@@ -176,8 +161,11 @@ const JourneyPage = (props: JourneyProps) => {
 
   return (
     <div className="viewJourney">
-      <div className=" dark:bg-theme-dark dark:text-theme-green justify-center flex flex-row w-3/5">
-        <div className="flex flex-col relative">
+      <div className=" dark:bg-theme-dark dark:text-theme-green align-top justify-center flex flex-col">
+        <div
+          id="editTextFields"
+          className="flex flex-row relative shadow-2xl p-5"
+        >
           <EditText
             whatAttribute="title"
             journey={journey}
@@ -225,12 +213,14 @@ const JourneyPage = (props: JourneyProps) => {
             </div>
           ) : null}
         </div>
-        <EditCountryList
-          journey={journey}
-          setJourney={setJourney}
-          saveChanges={saveChanges}
-          whatAttribute="countries"
-        />
+        <div className="shadow-2xl w-3/5">
+          <EditCountryList
+            journey={journey}
+            setJourney={setJourney}
+            saveChanges={saveChanges}
+            whatAttribute="countries"
+          />
+        </div>
       </div>
       <GeneralButton description="home" onClick={() => navigate("/home")} />
       {auth.currentUser?.uid === journey?.uid ? (

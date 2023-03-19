@@ -23,18 +23,21 @@ function EditText({
   const isNumber = whatAttribute === "cost" ? true : false;
 
   return (
-    <div className="relative border border-theme-green-darker m-10 rounded-r-xl p-3">
-      <Heading as="h4" size="md">
+    <div className="relative p-5 shadow-md h-32">
+      <Heading className="absolute left-5" as="h2" size="lg">
         {whatAttribute}
       </Heading>
       <input
-        className={
-          isEditing ? "border border-theme-green-darker rounded-r-xl p-3" : ""
-        }
-        autoFocus={isEditing}
+        className={isEditing ? "border border-theme-green mt-10" : "mt-10"}
         type={isNumber ? "number" : "text"}
         value={isNumber ? Number(text) : text}
         disabled={!isEditing}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            setIsEditing(false);
+            saveChanges(journey);
+          }
+        }}
         onChange={(e) =>
           setJourney({
             ...journey,
@@ -46,16 +49,20 @@ function EditText({
       />
       {auth.currentUser ? (
         isEditing ? (
-          <GeneralButton
-            description={"Save"}
+          <img
+            className={iconStyle}
+            src="../../public/images/save_icon.png"
+            alt="Save"
             onClick={() => {
               setIsEditing(false);
               saveChanges(journey);
             }}
           />
         ) : (
-          <GeneralButton
-            description={"Edit"}
+          <img
+            className={iconStyle}
+            src="../../public/images/edit_icon.png"
+            alt="Edit"
             onClick={() => {
               setIsEditing(true);
             }}
@@ -65,5 +72,7 @@ function EditText({
     </div>
   );
 }
+
+const iconStyle = "h-5 absolute right-7 top-[70px]";
 
 export default EditText;

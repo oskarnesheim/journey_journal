@@ -82,7 +82,7 @@ const SelectedCountries = ({ setJourney, journey }: SelectedCountriesProps) => {
         </div>
         <GeneralButton
           type="button"
-          description={"Add Country"}
+          description={"Add"}
           onClick={() => {
             addCountry(search);
           }}

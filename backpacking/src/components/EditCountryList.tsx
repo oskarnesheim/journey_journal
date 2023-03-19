@@ -21,7 +21,7 @@ function EditCountryList({
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-row justify-evenly absolute right-52">
+    <div className="flex flex-row justify-evenly">
       <div className="flex flex-col">
         <Heading as="h4" size="md">
           Countries
