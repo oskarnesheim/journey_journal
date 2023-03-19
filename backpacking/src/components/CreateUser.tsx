@@ -40,7 +40,8 @@ const CreateUser = () => {
 
   const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
-  const addUser = (): void => {
+  const addUser = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
     try {
       signUpUser();
       navigate("/home");
@@ -79,81 +80,82 @@ const CreateUser = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter") {
-      addUser();
-    }
-  };
-
   return (
     <div className="createUser-container">
-      <FormControl>
-        <FormLabel>Firstname</FormLabel>
-        <Input
-          type="email"
-          value={formUser.firstname}
-          onChange={(e) =>
-            setFormUser({ ...formUser, firstname: e.target.value })
-          }
-        />
+      <form onSubmit={(e) => addUser(e)}>
+        <FormControl>
+          <FormLabel>Firstname</FormLabel>
+          <Input
+            required
+            type="text"
+            value={formUser.firstname}
+            onChange={(e) =>
+              setFormUser({ ...formUser, firstname: e.target.value })
+            }
+          />
 
-        <FormLabel>Lastname</FormLabel>
-        <Input
-          type="email"
-          value={formUser.lastname}
-          onChange={(e) =>
-            setFormUser({ ...formUser, lastname: e.target.value })
-          }
-        />
+          <FormLabel>Lastname</FormLabel>
+          <Input
+            required
+            type="text"
+            value={formUser.lastname}
+            onChange={(e) =>
+              setFormUser({ ...formUser, lastname: e.target.value })
+            }
+          />
 
-        <FormLabel>Username</FormLabel>
-        <Input
-          type="email"
-          value={formUser.username}
-          onChange={(e) =>
-            setFormUser({ ...formUser, username: e.target.value })
-          }
-        />
+          <FormLabel>Username</FormLabel>
+          <Input
+            required
+            type="text"
+            value={formUser.username}
+            onChange={(e) =>
+              setFormUser({ ...formUser, username: e.target.value })
+            }
+          />
 
-        <FormLabel>Email address</FormLabel>
-        <Input
-          type="email"
-          value={formUser.email}
-          onChange={(e) => setFormUser({ ...formUser, email: e.target.value })}
-        />
-        <br />
-        <br />
+          <FormLabel>Email address</FormLabel>
+          <Input
+            required
+            type="email"
+            value={formUser.email}
+            onChange={(e) =>
+              setFormUser({ ...formUser, email: e.target.value })
+            }
+          />
 
-        <p>Age</p>
-        <NumberInput
-          defaultValue={0}
-          min={16}
-          max={169}
-          onChange={(e) => setFormUser({ ...formUser, age: parseInt(e) })}
-        >
-          <NumberInputField />
-          <NumberInputStepper>
-            <NumberIncrementStepper />
-            <NumberDecrementStepper />
-          </NumberInputStepper>
-          <FormHelperText>You must be over 15 to join</FormHelperText>
-        </NumberInput>
+          <FormLabel>Age</FormLabel>
+          <NumberInput
+            defaultValue={20}
+            min={16}
+            max={169}
+            onChange={(e) => setFormUser({ ...formUser, age: parseInt(e) })}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+            <FormHelperText>You must be over 15 to join</FormHelperText>
+          </NumberInput>
 
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          value={formUser.password}
-          onChange={(e) =>
-            setFormUser({ ...formUser, password: e.target.value })
-          }
-          onKeyPress={handleKeyPress}
-        />
-        <FormHelperText>
-          <b> We'll never share your password or email</b>
-        </FormHelperText>
-        <br />
-        <GeneralButton onClick={addUser} description={"Create"} />
-      </FormControl>
+          <FormLabel>Password</FormLabel>
+          <Input
+            type="password"
+            required
+            value={formUser.password}
+            onChange={(e) =>
+              setFormUser({ ...formUser, password: e.target.value })
+            }
+            // onKeyPress={handleKeyPress}
+          />
+          <FormHelperText>
+            <b> We'll never share your password or email</b>
+          </FormHelperText>
+          <br />
+          <GeneralButton type="submit" description={"Create"} />
+        </FormControl>
+      </form>
     </div>
   );
 };

@@ -1,6 +1,9 @@
+import { Heading } from "@chakra-ui/react";
 import { Dispatch, useState } from "react";
 import SelectedCountries from "../custom-hooks/SelectedCountries";
+import { auth } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
+import GeneralButton from "./GeneralButton";
 
 type EditCountryListType = {
   setJourney: Dispatch<React.SetStateAction<Ijourney>>;
@@ -18,21 +21,32 @@ function EditCountryList({
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (
-    <div>
-      <h1>Countries</h1>
-
-      {isEditing ? (
-        <button
-          onClick={() => {
-            setIsEditing(false);
-            saveChanges(journey);
-          }}
-        >
-          Save
-        </button>
-      ) : (
-        <button onClick={() => setIsEditing(!isEditing)}>Edit</button>
-      )}
+    <div className="flex flex-row justify-evenly absolute right-52">
+      <div className="flex flex-col">
+        <Heading as="h4" size="md">
+          Countries
+        </Heading>
+        {auth.currentUser ? (
+          isEditing ? (
+            <GeneralButton
+              description={"Save"}
+              onClick={() => {
+                setIsEditing(false);
+                saveChanges(journey);
+              }}
+            />
+          ) : (
+            <GeneralButton
+              description={"Edit"}
+              onClick={() => {
+                setIsEditing(true);
+              }}
+            />
+          )
+        ) : (
+          <></>
+        )}
+      </div>
       {isEditing ? (
         <SelectedCountries journey={journey} setJourney={setJourney} />
       ) : (

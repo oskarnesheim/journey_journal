@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Ijourney } from "../interfaces/Interfaces";
 import SuggestedCountries from "../components/SuggestedCountries";
 import { Button, Input } from "@chakra-ui/react";
+import GeneralButton from "../components/GeneralButton";
 
 type SelectedCountriesProps = {
   setJourney: React.Dispatch<React.SetStateAction<Ijourney>>;
@@ -27,10 +28,12 @@ const SelectedCountries = ({ setJourney, journey }: SelectedCountriesProps) => {
 
   return (
     <div>
-      <div className="border border-theme-green rounded-lg mb-5">
+      <div className=" rounded-lg mb-5">
         {journey.countries.map((country) => (
-          <div key={country}>
-            {country}
+          <div key={country} className="relative">
+            <div className="absolute left-3 underline underline-offset-8">
+              {country}
+            </div>
             <button
               onClick={() => {
                 setJourney((prev) => ({
@@ -43,7 +46,7 @@ const SelectedCountries = ({ setJourney, journey }: SelectedCountriesProps) => {
             >
               <img
                 src="../../public/images/cancelIcon.png"
-                className="ml-2"
+                className="ml-2 absolute -right-5 bottom-3"
                 width={14}
                 alt="Remove"
               />

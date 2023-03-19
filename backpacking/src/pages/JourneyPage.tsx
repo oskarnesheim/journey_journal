@@ -11,6 +11,8 @@ import {
   ModalFooter,
   Button,
   useDisclosure,
+  Center,
+  Divider,
 } from "@chakra-ui/react";
 import {
   setDoc,
@@ -33,9 +35,9 @@ import { UserState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
 import { Ijourney } from "../interfaces/Interfaces";
 import "../components/css/components.css";
-import EditText from "../components/EditText";
 import EditCountryList from "../components/EditCountryList";
 import GeneralButton from "../components/GeneralButton";
+import EditText from "../components/EditText";
 
 type JourneyProps = {
   journey: Ijourney | undefined;
@@ -173,48 +175,64 @@ const JourneyPage = (props: JourneyProps) => {
   };
 
   return (
-    <div className="viewJourney dark:bg-theme-dark dark:text-theme-green">
-      {/* <h1>Title : {journey?.title}</h1> */}
-      {
-        <EditText
-          whatAttribute="title"
-          journey={journey}
-          setJourney={setJourney}
-          text={journey?.title}
-          saveChanges={saveChanges}
-        />
-      }
-      {
-        <EditText
-          whatAttribute="description"
-          journey={journey}
-          setJourney={setJourney}
-          text={journey?.description}
-          saveChanges={saveChanges}
-        />
-      }
-      {
-        <EditText
-          whatAttribute="cost"
-          journey={journey}
-          setJourney={setJourney}
-          text={journey?.cost.toString()}
-          saveChanges={saveChanges}
-        />
-      }
-      <EditCountryList
-        journey={journey}
-        setJourney={setJourney}
-        saveChanges={saveChanges}
-        whatAttribute="countries"
-      />
-      <p>
-        Current rating :{" "}
-        {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}
-      </p>
+    <div className="viewJourney">
+      <div className=" dark:bg-theme-dark dark:text-theme-green justify-center flex flex-row w-3/5">
+        <div className="flex flex-col relative">
+          <EditText
+            whatAttribute="title"
+            journey={journey}
+            setJourney={setJourney}
+            text={journey?.title}
+            saveChanges={saveChanges}
+          />
+          <EditText
+            whatAttribute="description"
+            journey={journey}
+            setJourney={setJourney}
+            text={journey?.description}
+            saveChanges={saveChanges}
+          />
+          <EditText
+            whatAttribute="cost"
+            journey={journey}
+            setJourney={setJourney}
+            text={journey?.cost.toString()}
+            saveChanges={saveChanges}
+          />
+          <Divider orientation="vertical" />
 
+          <p>
+            Current rating :{" "}
+            {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}
+          </p>
+          {user && auth.currentUser?.uid !== journey?.uid ? (
+            <div>
+              <label>Give the journey a rating: </label>
+              <select className="Rating" id="selectList" defaultValue={"0"}>
+                <option value="0" disabled selected hidden>
+                  Rating
+                </option>
+                <option value="1">1: Poor</option>
+                <option value="2">2: Ok</option>
+                <option value="3">3: Good</option>
+                <option value="4">4: Very good</option>
+                <option value="5">5: Excellent</option>
+              </select>
+              <GeneralButton
+                description={isJourneyRated ? "Change rating" : "Submit rating"}
+                onClick={isJourneyRated ? removeJourneyRating : submitRating}
+              />
+            </div>
+          ) : null}
+        </div>
+        <EditCountryList
+          journey={journey}
+          setJourney={setJourney}
+          saveChanges={saveChanges}
+          whatAttribute="countries"
+        />
+      </div>
       <GeneralButton description="home" onClick={() => navigate("/home")} />
-
       {auth.currentUser?.uid === journey?.uid ? (
         <GeneralButton
           description="Profile"
@@ -226,26 +244,6 @@ const JourneyPage = (props: JourneyProps) => {
           description="Delete"
           onClick={() => deletePost(journey!)}
         />
-      ) : null}
-
-      {user && auth.currentUser?.uid !== journey?.uid ? (
-        <div>
-          <label>Give the journey a rating: </label>
-          <select className="Rating" id="selectList" defaultValue={"0"}>
-            <option value="0" disabled selected hidden>
-              Rating
-            </option>
-            <option value="1">1: Poor</option>
-            <option value="2">2: Ok</option>
-            <option value="3">3: Good</option>
-            <option value="4">4: Very good</option>
-            <option value="5">5: Excellent</option>
-          </select>
-          <GeneralButton
-            description={isJourneyRated ? "Change rating" : "Submit rating"}
-            onClick={isJourneyRated ? removeJourneyRating : submitRating}
-          />
-        </div>
       ) : null}
     </div>
   );

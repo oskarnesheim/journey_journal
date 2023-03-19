@@ -20,42 +20,29 @@ import { UserState } from "../recoil/atoms";
 import "./css/components.css";
 import GeneralButton from "./GeneralButton";
 
+type LoginUser = {
+  email: string;
+  password: string;
+};
+
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formUser, setFormUser] = useState({
+    email: "",
+    password: "",
+  } as LoginUser);
+
   const [errorMessage, setErrorMessage] = useState("");
   const [globalUser, setGlobalUser] = useRecoilState(UserState);
 
   const navigate = useNavigate();
   const getUsersRef = getCollection("users/");
 
-  const signInWithGoogle = async () => {
+  const signIn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("sign in");
     try {
-      const userCredential = await signInWithPopup(auth, provider);
-      const user = userCredential.user;
-      const userID = user.uid;
-
-      const q = query(getUsersRef, where("uid", "==", userID));
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.empty) {
-        setErrorMessage("Invalid login - no users with that email");
-        console.log("No matching documents.");
-        return;
-      } else {
-        setGlobalUser(
-          querySnapshot.docs.map((person) => ({ ...person.data() } as Iuser))[0]
-        );
-        navigate("/home");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const signIn = async () => {
-    try {
-      const emailSignIn = email;
-      const passwordSignIn = password;
+      const emailSignIn = formUser.email;
+      const passwordSignIn = formUser.password;
       const userCredential = await signInWithEmailAndPassword(
         auth,
         emailSignIn,
@@ -83,38 +70,38 @@ const Login = () => {
     }
   };
 
-  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const handleKeypressPassword = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    if (e.key === "Enter") {
-      signIn();
-    }
-  };
-
-  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  };
+  // const handleKeypressPassword = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  //   if (e.key === "Enter") {
+  //     signIn();
+  //   }
+  // };
 
   return (
     <div className="formControlLogin">
-      <FormControl>
-        <h2 className="text-red-600 font-bold">{errorMessage}</h2>
-        <FormLabel>Email address</FormLabel>
-        <Input type="email" onChange={handleChangeEmail} />
-        <FormLabel>Password</FormLabel>
-        <Input
-          type="password"
-          onChange={handleChangePassword}
-          onKeyPress={handleKeypressPassword}
-        />
-        <GeneralButton
-          description={"Sign in"}
-          type={"submit"}
-          onClick={signIn}
-        />
-      </FormControl>
+      <form onSubmit={(e) => signIn(e)}>
+        <FormControl>
+          <h2 className="text-red-600 font-bold">{errorMessage}</h2>
+          <FormLabel>Email address</FormLabel>
+          <Input
+            required
+            value={formUser.email}
+            type="email"
+            onChange={(e) =>
+              setFormUser({ ...formUser, email: e.target.value })
+            }
+          />
+          <FormLabel>Password</FormLabel>
+          <Input
+            required
+            type="password"
+            value={formUser.password}
+            onChange={(e) =>
+              setFormUser({ ...formUser, password: e.target.value })
+            }
+          />
+          <GeneralButton description={"Sign in"} type="submit" />
+        </FormControl>
+      </form>
     </div>
   );
 };
