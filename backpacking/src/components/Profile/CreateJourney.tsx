@@ -32,11 +32,6 @@ const CreateJourney = ({
   });
 
   const addJourney = (e: React.FormEvent<HTMLFormElement>): void => {
-    console.log(
-      "🚀 ~ file: CreateJourney.tsx:35 ~ addJourney ~ addJourney:",
-      addJourney
-    );
-
     e.preventDefault();
     try {
       const newJourneyPost: Ijourney = {
@@ -125,7 +120,7 @@ const CreateJourney = ({
           <FormLabel colorScheme="#454545" marginLeft={"160"}>
             Select your countries
           </FormLabel>
-          <div className="w-4/5 ml-[150px] dark:text-theme-dark">
+          <div className="w-[90%] ml-[150px] dark:text-theme-dark">
             <SelectedCountries
               journey={journeyForm}
               setJourney={setJourneyForm}

@@ -1,4 +1,4 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading, Input, Textarea } from "@chakra-ui/react";
 import { Dispatch, useRef, useState } from "react";
 import { auth } from "../firebase-config";
 import { Ijourney } from "../interfaces/Interfaces";
@@ -23,30 +23,54 @@ function EditText({
   const isNumber = whatAttribute === "cost" ? true : false;
 
   return (
-    <div className="relative p-5 shadow-md h-32">
-      <Heading className="absolute left-5" as="h2" size="lg">
+    <div className="relative p-5 shadow-md h-40">
+      <Heading className="absolute left-9" as="h2" size="lg">
         {whatAttribute}
       </Heading>
-      <input
-        className={isEditing ? "border border-theme-green mt-10" : "mt-10"}
-        type={isNumber ? "number" : "text"}
-        value={isNumber ? Number(text) : text}
-        disabled={!isEditing}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            setIsEditing(false);
-            saveChanges(journey);
+
+      {isNumber ? (
+        <Input
+          className={"mt-10"}
+          type={isNumber ? "number" : "text"}
+          value={isNumber ? Number(text) : text}
+          disabled={!isEditing}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setIsEditing(false);
+              saveChanges(journey);
+            }
+          }}
+          onChange={(e) =>
+            setJourney({
+              ...journey,
+              [whatAttribute]: [
+                isNumber ? Number(e.target.value) : e.target.value,
+              ],
+            })
           }
-        }}
-        onChange={(e) =>
-          setJourney({
-            ...journey,
-            [whatAttribute]: [
-              isNumber ? Number(e.target.value) : e.target.value,
-            ],
-          })
-        }
-      />
+        />
+      ) : (
+        <Textarea
+          className={"mt-10 h-auto"}
+          height="auto"
+          value={isNumber ? Number(text) : text}
+          disabled={!isEditing}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setIsEditing(false);
+              saveChanges(journey);
+            }
+          }}
+          onChange={(e) =>
+            setJourney({
+              ...journey,
+              [whatAttribute]: [
+                isNumber ? Number(e.target.value) : e.target.value,
+              ],
+            })
+          }
+        />
+      )}
       {auth.currentUser ? (
         isEditing ? (
           <img

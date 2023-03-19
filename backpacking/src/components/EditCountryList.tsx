@@ -9,21 +9,19 @@ type EditCountryListType = {
   setJourney: Dispatch<React.SetStateAction<Ijourney>>;
   journey: Ijourney;
   saveChanges: (journey: Ijourney) => Promise<void>;
-  whatAttribute: string;
 };
 
 function EditCountryList({
   journey,
   setJourney,
   saveChanges,
-  whatAttribute,
 }: EditCountryListType) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-row justify-evenly">
-      <div className="flex flex-col">
-        <Heading as="h4" size="md">
+    <div className="flex flex-row justify-evenly shadow-md p-5">
+      <div className="flex flex-col shadow-md">
+        <Heading as="h4" size="lg">
           Countries
         </Heading>
         {auth.currentUser ? (
@@ -47,17 +45,26 @@ function EditCountryList({
           <></>
         )}
       </div>
-      {isEditing ? (
-        <SelectedCountries journey={journey} setJourney={setJourney} />
-      ) : (
-        <ul>
-          {journey.countries.map((country) => {
-            return <li key={country}>{country}</li>;
-          })}
-        </ul>
-      )}
+      <div className="shadow-md p-5 w-full">
+        {isEditing ? (
+          <SelectedCountries journey={journey} setJourney={setJourney} />
+        ) : (
+          //
+          countriesList()
+        )}
+      </div>
     </div>
   );
+
+  function countriesList() {
+    var countries = "";
+
+    journey.countries.forEach((country) => {
+      countries += country + " -> ";
+    });
+    countries = countries.slice(0, -4);
+    return countries;
+  }
 }
 
 export default EditCountryList;

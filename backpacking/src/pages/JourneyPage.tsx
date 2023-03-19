@@ -161,42 +161,38 @@ const JourneyPage = (props: JourneyProps) => {
 
   return (
     <div className="viewJourney">
-      <div className=" dark:bg-theme-dark dark:text-theme-green align-top justify-center flex flex-col">
-        <div
-          id="editTextFields"
-          className="flex flex-row relative shadow-2xl p-5"
-        >
-          <EditText
-            whatAttribute="title"
-            journey={journey}
-            setJourney={setJourney}
-            text={journey?.title}
-            saveChanges={saveChanges}
-          />
-          <EditText
-            whatAttribute="description"
-            journey={journey}
-            setJourney={setJourney}
-            text={journey?.description}
-            saveChanges={saveChanges}
-          />
-          <EditText
-            whatAttribute="cost"
-            journey={journey}
-            setJourney={setJourney}
-            text={journey?.cost.toString()}
-            saveChanges={saveChanges}
-          />
-          <Divider orientation="vertical" />
+      <div className=" dark:bg-theme-dark dark:text-theme-green align-top justify-center flex flex-col p-10 ml-20 mr-20">
+        <EditText
+          whatAttribute="title"
+          journey={journey}
+          setJourney={setJourney}
+          text={journey?.title}
+          saveChanges={saveChanges}
+        />
+        <EditText
+          whatAttribute="description"
+          journey={journey}
+          setJourney={setJourney}
+          text={journey?.description}
+          saveChanges={saveChanges}
+        />
+        <EditText
+          whatAttribute="cost"
+          journey={journey}
+          setJourney={setJourney}
+          text={journey?.cost.toString()}
+          saveChanges={saveChanges}
+        />
 
-          <p>
-            Current rating :{" "}
-            {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}
-          </p>
+        <div className="shadow-md p-5">
           {user && auth.currentUser?.uid !== journey?.uid ? (
             <div>
               <label>Give the journey a rating: </label>
-              <select className="Rating" id="selectList" defaultValue={"0"}>
+              <select
+                className="Rating dark:bg-theme-dark"
+                id="selectList"
+                defaultValue={"0"}
+              >
                 <option value="0" disabled selected hidden>
                   Rating
                 </option>
@@ -212,15 +208,16 @@ const JourneyPage = (props: JourneyProps) => {
               />
             </div>
           ) : null}
+          <p>
+            Current rating :{" "}
+            {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}
+          </p>
         </div>
-        <div className="shadow-2xl w-3/5">
-          <EditCountryList
-            journey={journey}
-            setJourney={setJourney}
-            saveChanges={saveChanges}
-            whatAttribute="countries"
-          />
-        </div>
+        <EditCountryList
+          journey={journey}
+          setJourney={setJourney}
+          saveChanges={saveChanges}
+        />
       </div>
       <GeneralButton description="home" onClick={() => navigate("/home")} />
       {auth.currentUser?.uid === journey?.uid ? (
