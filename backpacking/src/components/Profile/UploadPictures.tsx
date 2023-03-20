@@ -9,57 +9,32 @@ import {
 } from "firebase/storage";
 import { auth, firestoreAutoId } from "../../firebase-config";
 import { Ijourney } from "../../interfaces/Interfaces";
-
-type newImages = {
-  id: string;
-  file: File;
-};
+import { newImages } from "./CreateJourney";
 
 type UploadPicturesProps = {
   journey: Ijourney;
   setJourney: React.Dispatch<React.SetStateAction<Ijourney>>;
+  setImages: React.Dispatch<React.SetStateAction<newImages[]>>;
+  images: newImages[];
 };
 
-export function UploadPictures({ journey, setJourney }: UploadPicturesProps) {
-  const [images, setImages] = useState<newImages[]>([]);
-  const [imageURLs, setImageURLs] = useState<string[]>([]);
-  const storage = getStorage();
-  const imagesListRef = ref(storage, `images/${auth.currentUser?.uid}`);
+export function UploadPictures({
+  journey,
+  setJourney,
+  setImages,
+  images,
+}: UploadPicturesProps) {
+  const [localImageUrls, setLocalImageUrls] = useState<string[]>([]);
 
-  useEffect(() => {
-    console.log(images);
-  }, [images]);
-
-  const uploadImages = () => {
-    if (images.length === 0) return;
-    try {
-      images.forEach((image) => {
-        const imageRef = ref(
-          storage,
-          `images/${auth.currentUser?.uid}/${image.id}`
-        );
-
-        uploadBytes(imageRef, image.file).then((snapshot) => {
-          getDownloadURL(snapshot.ref).then((url) => {
-            setImageURLs((prev) => [...prev, url]);
-            alert("Image uploaded successfully");
-          });
-        });
-        const ids = images.map((image) => image.id);
-        setJourney({
-          ...journey,
-          pictures: ids,
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const imagesListRef = ref(storage, `images/${journey.journeyID}`);
 
   function handleNewPicture(event: React.ChangeEvent<HTMLInputElement>) {
     if (!event.target.files) return;
     const id = firestoreAutoId();
     setImages([...images, { id: id, file: event.target.files[0] }]);
+    var selectedFile = event.target.files[0];
+    var url = URL.createObjectURL(selectedFile); // <-- create a local URL
+    setLocalImageUrls((prev) => [...prev, url]);
   }
 
   return (
@@ -73,14 +48,19 @@ export function UploadPictures({ journey, setJourney }: UploadPicturesProps) {
           handleNewPicture(event);
         }}
       />
-      <GeneralButton
-        description={"Upload"}
-        onClick={uploadImages}
-        type={"button"}
-      />
       <div className="flex flex-row flex-wrap">
-        {imageURLs.map((image) => {
-          return <img className="w-80 p-2" src={image} />;
+        {localImageUrls.map((image) => {
+          return (
+            <img
+              className="h-52 p-2"
+              src={image}
+              onClick={() => {
+                setLocalImageUrls((prev) =>
+                  prev.filter((item) => item !== image)
+                );
+              }}
+            />
+          );
         })}
       </div>
     </div>

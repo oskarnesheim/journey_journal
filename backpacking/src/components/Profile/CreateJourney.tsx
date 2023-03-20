@@ -9,6 +9,13 @@ import "../css/components.css";
 import GeneralButton from "../GeneralButton";
 import { useNavigate } from "react-router-dom";
 import { UploadPictures } from "./UploadPictures";
+import { getStorage, uploadBytes, ref } from "firebase/storage";
+// import { ref } from "firebase/database";
+
+export type newImages = {
+  id: string;
+  file: File;
+};
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,13 +38,15 @@ const CreateJourney = ({
     uid: "",
     countries: [],
     description: "",
-    journeyID: "",
+    journeyID: firestoreAutoId(),
     pictures: [],
   });
+  const storage = getStorage();
 
   const addJourney = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     try {
+      uploadImages();
       const newJourneyPost: Ijourney = {
         title: journeyForm.title,
         description: journeyForm.description,
@@ -45,7 +54,7 @@ const CreateJourney = ({
         uid: auth.currentUser?.uid!,
         countries: journeyForm.countries,
         pictures: journeyForm.pictures,
-        journeyID: firestoreAutoId(),
+        journeyID: journeyForm.journeyID,
       };
       setDoc(
         doc(database, "journeys/", newJourneyPost.journeyID),
@@ -67,6 +76,32 @@ const CreateJourney = ({
       alert("Your journey has been created!");
     } catch (error) {
       setStatusMessage("Something went wrong, please try again");
+    }
+  };
+
+  const [images, setImages] = useState<newImages[]>([]);
+
+  const uploadImages = () => {
+    console.log(images);
+    if (images.length === 0) return;
+    try {
+      images.forEach((image) => {
+        const imageRef = ref(
+          storage,
+          `images/${journeyForm.journeyID}/${image.id}`
+        );
+
+        uploadBytes(imageRef, image.file).then((snapshot) => {
+          console.log("Uploaded", snapshot);
+        });
+        const ids = images.map((image) => image.id);
+        setJourneyForm({
+          ...journeyForm,
+          pictures: ids,
+        });
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -132,7 +167,12 @@ const CreateJourney = ({
               setJourney={setJourneyForm}
             />
           </div>
-          <UploadPictures journey={journeyForm} setJourney={setJourneyForm} />
+          <UploadPictures
+            images={images}
+            journey={journeyForm}
+            setJourney={setJourneyForm}
+            setImages={setImages}
+          />
           <GeneralButton description="Post" type="submit" />
         </FormControl>
       </form>

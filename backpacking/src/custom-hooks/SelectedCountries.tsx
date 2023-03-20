@@ -27,12 +27,6 @@ const SelectedCountries = ({ setJourney, journey }: SelectedCountriesProps) => {
     setSearch("");
   }
 
-  // const handleKeypressPassword = (e: React.KeyboardEvent<HTMLDivElement>) => {
-  //   if (e.key === "Enter") {
-  //     () => addCountry(search);
-  //   }
-  // };
-
   return (
     <div>
       <div className=" rounded-lg mb-5">
