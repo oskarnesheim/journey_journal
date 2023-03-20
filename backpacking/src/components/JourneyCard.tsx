@@ -125,10 +125,9 @@ const JourneyCard = (props: JourneyCardProps) => {
   return (
     <Card
       paddingBottom={4}
-      onClick={showJourneyPage}
       margin={5}
-      boxShadow={"2xl"}
-      className="dark:bg-theme-dark2 hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)] "
+      boxShadow={"xl"}
+      className="hover:shadow-2xl dark:bg-theme-dark2 hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)] "
     >
       <CardHeader>
         <Heading className="dark:text-theme-green" size="md">
@@ -136,7 +135,8 @@ const JourneyCard = (props: JourneyCardProps) => {
           {journey.title}
         </Heading>
       </CardHeader>
-      <CardBody className="dark:text-theme-green">
+
+      <CardBody className="dark:text-theme-green" onClick={showJourneyPage}>
         <p className="dark:text-theme-green">
           Description : {journey.description}
         </p>
