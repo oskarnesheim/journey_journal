@@ -68,18 +68,17 @@ function ShowJourneys({
     )
       return journeys;
 
-    console.log(journeys);
-    const filteredBySearch: Ijourney[] = journeys
-      .filter((journeyToBeFiltered) => {
-        journeyToBeFiltered.title
-          .toLowerCase()
-          .includes(searchInput.text.toLowerCase()) ||
-          journeyToBeFiltered.description
+    const filteredBySearch = journeys
+      .filter((jj) => {
+        return (
+          jj.title.toLowerCase().includes(searchInput.text.toLowerCase()) ||
+          jj.description
             .toLowerCase()
             .includes(searchInput.text.toLowerCase()) ||
-          allCountriesString(journeyToBeFiltered)
+          allCountriesString(jj)
             .toLowerCase()
-            .includes(searchInput.text.toLowerCase());
+            .includes(searchInput.text.toLowerCase())
+        );
       })
       .map((journey) => journey);
     console.log(
@@ -87,6 +86,7 @@ function ShowJourneys({
       filteredBySearch
     );
 
+    //? Denne funker ser det ut som.
     const filteredByFilterBox = filteredBySearch.filter((journey) =>
       filterByFilterBox(journey)
     );
