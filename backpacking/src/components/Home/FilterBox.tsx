@@ -22,8 +22,6 @@ const FilterBox = (props: FilterBoxProps) => {
     props.maxPrice((prev) => ({ ...prev, maxPrice: 0 }));
     setMinPriceActive(false);
     setMaxPriceActive(false);
-    // setMinPrice(50000);
-    // setMaxPrice(50000);
   };
 
   return (
@@ -31,19 +29,7 @@ const FilterBox = (props: FilterBoxProps) => {
       <SearchBar setSearch={props.text} />
       <Heading size={"md"}>Filter your search</Heading>
       <Stack spacing={5} direction="column">
-        <Stack spacing={5} direction="row">
-          //! Denne funker ikke
-          {/* <Button
-            size={"sm"}
-            background={"red"}
-            position={"absolute"}
-            right={5}
-            onClick={resetFilter}
-          >
-            Reset Filter
-          </Button> */}
-          //!
-        </Stack>
+        <Stack spacing={5} direction="row"></Stack>
         <Checkbox
           onChange={() => {
             setMinPriceActive(!minPriceActive);

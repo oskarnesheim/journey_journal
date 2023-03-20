@@ -67,23 +67,36 @@ function ShowJourneys({
       !searchInput.minPriceActive
     )
       return journeys;
-    const filteredBySearch = journeys.filter(
-      (journeyToBeFiltered) =>
-        journeyToBeFiltered.title
-          .toLowerCase()
-          .includes(searchInput.text.toLowerCase()) ||
-        journeyToBeFiltered.description
-          .toLowerCase()
-          .includes(searchInput.text.toLowerCase()) ||
-        allCountriesString(journeyToBeFiltered)
-          .toLowerCase()
-          .includes(searchInput.text.toLowerCase())
+
+    const filteredBySearch = journeys
+      .filter((jj) => {
+        return (
+          jj.title.toLowerCase().includes(searchInput.text.toLowerCase()) ||
+          jj.description
+            .toLowerCase()
+            .includes(searchInput.text.toLowerCase()) ||
+          allCountriesString(jj)
+            .toLowerCase()
+            .includes(searchInput.text.toLowerCase())
+        );
+      })
+      .map((journey) => journey);
+    console.log(
+      "🚀 ~ file: ShowJourneys.tsx:82 ~ filteredBySearch ~ filteredBySearch:",
+      filteredBySearch
     );
 
+    //? Denne funker ser det ut som.
     const filteredByFilterBox = filteredBySearch.filter((journey) =>
       filterByFilterBox(journey)
     );
     setSortedJourneys(filteredByFilterBox);
+
+    console.log(
+      "🚀 ~ file: ShowJourneys.tsx:86 ~ filterBySearch ~ filteredByFilterBox:",
+      filteredByFilterBox
+    );
+    console.log(sortedJourneys);
   };
 
   const whoHaveStoredJourney = (journey: Ijourney) => {

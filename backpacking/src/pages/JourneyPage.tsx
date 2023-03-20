@@ -1,18 +1,4 @@
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  Editable,
-  EditablePreview,
-  EditableTextarea,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
-import {
   setDoc,
   doc,
   deleteDoc,
@@ -33,9 +19,9 @@ import { UserState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
 import { Ijourney } from "../interfaces/Interfaces";
 import "../components/css/components.css";
-import EditText from "../components/EditText";
 import EditCountryList from "../components/EditCountryList";
 import GeneralButton from "../components/GeneralButton";
+import EditText from "../components/EditText";
 
 type JourneyProps = {
   journey: Ijourney | undefined;
@@ -173,9 +159,8 @@ const JourneyPage = (props: JourneyProps) => {
   };
 
   return (
-    <div className="viewJourney dark:bg-theme-dark dark:text-theme-green">
-      {/* <h1>Title : {journey?.title}</h1> */}
-      {
+    <div className="viewJourney">
+      <div className=" dark:bg-theme-dark dark:text-theme-green align-top justify-center flex flex-col p-10 ml-20 mr-20">
         <EditText
           whatAttribute="title"
           journey={journey}
@@ -183,8 +168,6 @@ const JourneyPage = (props: JourneyProps) => {
           text={journey?.title}
           saveChanges={saveChanges}
         />
-      }
-      {
         <EditText
           whatAttribute="description"
           journey={journey}
@@ -192,8 +175,6 @@ const JourneyPage = (props: JourneyProps) => {
           text={journey?.description}
           saveChanges={saveChanges}
         />
-      }
-      {
         <EditText
           whatAttribute="cost"
           journey={journey}
@@ -201,20 +182,43 @@ const JourneyPage = (props: JourneyProps) => {
           text={journey?.cost.toString()}
           saveChanges={saveChanges}
         />
-      }
-      <EditCountryList
-        journey={journey}
-        setJourney={setJourney}
-        saveChanges={saveChanges}
-        whatAttribute="countries"
-      />
-      <p>
-        Current rating :{" "}
-        {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}
-      </p>
 
+        <div className="shadow-md p-5">
+          {user && auth.currentUser?.uid !== journey?.uid ? (
+            <div>
+              <label>Give the journey a rating: </label>
+              <select
+                className="Rating dark:bg-theme-dark"
+                id="selectList"
+                defaultValue={"0"}
+              >
+                <option value="0" disabled selected hidden>
+                  Rating
+                </option>
+                <option value="1">1: Poor</option>
+                <option value="2">2: Ok</option>
+                <option value="3">3: Good</option>
+                <option value="4">4: Very good</option>
+                <option value="5">5: Excellent</option>
+              </select>
+              <GeneralButton
+                description={isJourneyRated ? "Change rating" : "Submit rating"}
+                onClick={isJourneyRated ? removeJourneyRating : submitRating}
+              />
+            </div>
+          ) : null}
+          <p>
+            Current rating :{" "}
+            {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}
+          </p>
+        </div>
+        <EditCountryList
+          journey={journey}
+          setJourney={setJourney}
+          saveChanges={saveChanges}
+        />
+      </div>
       <GeneralButton description="home" onClick={() => navigate("/home")} />
-
       {auth.currentUser?.uid === journey?.uid ? (
         <GeneralButton
           description="Profile"
@@ -226,26 +230,6 @@ const JourneyPage = (props: JourneyProps) => {
           description="Delete"
           onClick={() => deletePost(journey!)}
         />
-      ) : null}
-
-      {user && auth.currentUser?.uid !== journey?.uid ? (
-        <div>
-          <label>Give the journey a rating: </label>
-          <select className="Rating" id="selectList" defaultValue={"0"}>
-            <option value="0" disabled selected hidden>
-              Rating
-            </option>
-            <option value="1">1: Poor</option>
-            <option value="2">2: Ok</option>
-            <option value="3">3: Good</option>
-            <option value="4">4: Very good</option>
-            <option value="5">5: Excellent</option>
-          </select>
-          <GeneralButton
-            description={isJourneyRated ? "Change rating" : "Submit rating"}
-            onClick={isJourneyRated ? removeJourneyRating : submitRating}
-          />
-        </div>
       ) : null}
     </div>
   );

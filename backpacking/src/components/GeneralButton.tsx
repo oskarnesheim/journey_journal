@@ -10,7 +10,7 @@ type buttonInput = {
 function GeneralButton({ onClick, description, type }: buttonInput) {
   return (
     <button
-      className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
+      className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark max-h-[50px]"
       onClick={onClick}
       type={type}
     >
