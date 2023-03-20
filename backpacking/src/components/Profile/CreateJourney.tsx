@@ -23,7 +23,6 @@ const CreateJourney = ({
   setNewPostToggle,
 }: CreateJourneyProps) => {
   const [statusMessage, setStatusMessage] = useState<string>("");
-  const navigate = useNavigate();
   const [journeyForm, setJourneyForm] = useState<Ijourney>({
     title: "",
     cost: 0,
