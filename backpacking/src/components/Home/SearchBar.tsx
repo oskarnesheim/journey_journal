@@ -16,7 +16,7 @@ const SearchBar = (props: searchBarType) => {
 
   return (
     <div className="mb-10">
-      <Heading size={"md"}>Search for a country here</Heading>
+      <Heading size={"md"}>Search for a journey</Heading>
       <Input
         marginTop={"8px"}
         value={term}

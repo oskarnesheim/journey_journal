@@ -20,7 +20,7 @@ function SuggestedCountries({
     <div className="shadow-2xl rounded-2xl">
       {search &&
         Countries.filter((country) =>
-          country.name.toLowerCase().includes(search.toLowerCase())
+          country.name.toLowerCase().startsWith(search.toLowerCase())
         ).map((country) => (
           <div
             className="hover:bg-theme-green h-10 "
