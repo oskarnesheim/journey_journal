@@ -111,6 +111,17 @@ const JourneyCard = (props: JourneyCardProps) => {
     console.log("Error");
   }
 
+  function countriesList() {
+    if (!journey.countries) return "";
+    var countries = "";
+
+    journey.countries.forEach((country) => {
+      countries += country + " -> ";
+    });
+    countries = countries.slice(0, -4);
+    return countries;
+  }
+
   return (
     <Card
       paddingBottom={4}
@@ -134,15 +145,12 @@ const JourneyCard = (props: JourneyCardProps) => {
           Rating :{" "}
           {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}{" "}
         </p>
-        <p className="dark:text-theme-green">
-          Countries: {journey.countries ? journey.countries.join(", ") : ""}
-        </p>
+        <p className="dark:text-theme-green">Countries: {countriesList()}</p>
         <p className="dark:text-theme-green">
           Number of users that stored this journey : {storeCount}
         </p>
       </CardBody>
       <CardFooter>
-        {/* <GeneralButton onClick={showJourneyPage} description={"View journey"} /> */}
         {updateMessage}
         {auth.currentUser?.uid === journey.uid || auth.currentUser === null ? (
           <></>

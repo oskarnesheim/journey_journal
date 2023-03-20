@@ -1,4 +1,3 @@
-import { Divider } from "@chakra-ui/react";
 import {
   setDoc,
   doc,
