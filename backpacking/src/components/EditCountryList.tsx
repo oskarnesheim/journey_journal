@@ -24,8 +24,8 @@ function EditCountryList({
         <Heading as="h4" size="lg">
           Countries
         </Heading>
-        {auth.currentUser ? (
-          isEditing ? (
+        {auth.currentUser?.uid === journey.uid &&
+          (isEditing ? (
             <GeneralButton
               description={"Save"}
               onClick={() => {
@@ -40,10 +40,7 @@ function EditCountryList({
                 setIsEditing(true);
               }}
             />
-          )
-        ) : (
-          <></>
-        )}
+          ))}
       </div>
       <div className="shadow-md p-5 w-full">
         {isEditing ? (

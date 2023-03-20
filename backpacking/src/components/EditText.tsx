@@ -71,8 +71,8 @@ function EditText({
           }
         />
       )}
-      {auth.currentUser ? (
-        isEditing ? (
+      {auth.currentUser?.uid === journey.uid &&
+        (isEditing ? (
           <img
             className={iconStyle}
             src="../../public/images/save_icon.png"
@@ -91,8 +91,7 @@ function EditText({
               setIsEditing(true);
             }}
           />
-        )
-      ) : null}
+        ))}
     </div>
   );
 }
