@@ -8,6 +8,7 @@ import { Ijourney } from "../../interfaces/Interfaces";
 import "../css/components.css";
 import GeneralButton from "../GeneralButton";
 import { useNavigate } from "react-router-dom";
+import { UploadPictures } from "./UploadPictures";
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,6 +32,7 @@ const CreateJourney = ({
     countries: [],
     description: "",
     journeyID: "",
+    pictures: [],
   });
 
   const addJourney = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -42,6 +44,7 @@ const CreateJourney = ({
         cost: journeyForm.cost,
         uid: auth.currentUser?.uid!,
         countries: journeyForm.countries,
+        pictures: journeyForm.pictures,
         journeyID: firestoreAutoId(),
       };
       setDoc(
@@ -56,6 +59,7 @@ const CreateJourney = ({
         uid: "",
         countries: [],
         journeyID: "",
+        pictures: [],
       } as Ijourney);
 
       setRefreshPosts(!refreshPosts);
@@ -128,6 +132,7 @@ const CreateJourney = ({
               setJourney={setJourneyForm}
             />
           </div>
+          <UploadPictures journey={journeyForm} setJourney={setJourneyForm} />
           <GeneralButton description="Post" type="submit" />
         </FormControl>
       </form>
