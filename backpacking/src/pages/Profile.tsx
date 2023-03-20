@@ -155,15 +155,15 @@ export default function Profile() {
   };
 
   return (
-    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage">
+    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage" style={{height: "fit-content"}}>
       <div>
         <h1 className="font-semibold text-xl dark:text-theme-green pt-10">
           {" "}
           {!newPostToggle
-            ? "Welcome back " +
+            ? "Hello " +
               currentUser?.firstname +
               " " +
-              currentUser?.lastname
+              currentUser?.lastname + "!"
             : ""}
         </h1>
         {CreateJourneyFunc()}
