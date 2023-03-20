@@ -215,6 +215,8 @@ function ShowJourneys({
         };
         tailoredJourneys.push(myJourney)
       });
+
+      return tailoredJourneys
     };
 
    
