@@ -40,10 +40,10 @@ const Navbar = () => {
         </li>
         {user && (
           <li>
-            <p>{"Welcome back " + user?.firstname}</p>
+            <p>{"Hello " + user?.firstname+ "!"}</p>
           </li>
         )}
-        <li className="hover:text-pink-500 absolute right-5">
+        <li className="hover:text-pink-500 absolute right-10">
           {user ? (
             <button
               onClick={() => {
@@ -60,7 +60,7 @@ const Navbar = () => {
         </li>
         <li>
           <button
-            className="absolute right-7 top-8 w-10"
+            className="darkmode"
             onClick={handleThemeSwitch}
           >
             {theme === "light" ? (

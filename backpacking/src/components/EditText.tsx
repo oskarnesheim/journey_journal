@@ -17,14 +17,20 @@ function EditText({
   saveChanges,
 }: EditTextType) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const isNumber = whatAttribute === "cost" ? true : false;
   return (
     <div>
       <input
-        type="text"
-        value={text}
+        type={isNumber ? "number" : "text"}
+        value={isNumber ? Number(text) : text}
         disabled={!isEditing}
         onChange={(e) =>
-          setJourney({ ...journey, [whatAttribute]: e.target.value })
+          setJourney({
+            ...journey,
+            [whatAttribute]: [
+              isNumber ? Number(e.target.value) : e.target.value,
+            ],
+          })
         }
       />
       {isEditing ? (

@@ -5,14 +5,20 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import CreateJourney from "../components/Profile/CreateJourney";
 import JourneyCard from "../components/JourneyCard";
-import { auth, getCollection } from "../firebase-config";
+import {
+  auth,
+  getCollection,
+  getJourneysRef,
+  getStoredJRef,
+  getUsersRef,
+} from "../firebase-config";
 import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
 import { StoredUserJourneys, UserState } from "../recoil/atoms";
 import "../components/css/components.css";
+import GeneralButton from "../components/GeneralButton";
 
 export default function Profile() {
   const [newPostToggle, setNewPostToggle] = useState(false); //? Velger om man skal lage en ny post eller ikke
-  const [errorMessage, setErrorMessage] = useState<string>(""); //? Error message
   const [currentUser, setCurrentUser] = useRecoilState(UserState); //? Henter bruker fra recoil
   const [users, setUsers] = useState<Iuser[]>([]);
 
@@ -23,13 +29,8 @@ export default function Profile() {
   );
 
   const [refreshPosts, setRefreshPosts] = useState<boolean>(false);
-  const [OwnJourneysToggle, setOwnJourneysToggle] = useState<boolean>(true);
 
   const navigate = useNavigate();
-
-  const getUsersRef = getCollection("users");
-  const getJourneyRef = getCollection("journeys/");
-  const getStoredJourneysRef = getCollection("storedJourneys/");
 
   useEffect(() => {
     if (!auth.currentUser) {
@@ -46,7 +47,7 @@ export default function Profile() {
   const getJourneys = async () => {
     try {
       //? Henter alle brukerens poster
-      const q = query(getJourneyRef);
+      const q = query(getJourneysRef);
       const data = await getDocs(q);
       const journeys: Ijourney[] = data.docs.map(
         (journeyData) => ({ ...journeyData.data() } as Ijourney)
@@ -58,7 +59,7 @@ export default function Profile() {
 
       // //? Henter alle lagrede reiser sine IDer, hvem som la de ut og hvem som lagret dem
       const q2 = query(
-        getStoredJourneysRef,
+        getStoredJRef,
         where("uid", "==", auth.currentUser?.uid)
       );
       const data2 = await getDocs(q2);
@@ -154,25 +155,25 @@ export default function Profile() {
   };
 
   return (
-    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage">
+    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage" style={{height: "fit-content"}}>
       <div>
         <h1 className="font-semibold text-xl dark:text-theme-green pt-10">
           {" "}
           {!newPostToggle
-            ? "Welcome back " +
+            ? "Hello " +
               currentUser?.firstname +
               " " +
-              currentUser?.lastname
+              currentUser?.lastname + "!"
             : ""}
         </h1>
         {CreateJourneyFunc()}
       </div>
-      <button
-        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
-        onClick={(e) => setNewPostToggle(!newPostToggle)}
-      >
-        {!newPostToggle ? "Click here to create a new journey" : "Back"}
-      </button>
+      <GeneralButton
+        description={
+          !newPostToggle ? "Click here to create a new journey" : "Back"
+        }
+        onClick={() => setNewPostToggle(!newPostToggle)}
+      />
       <div className="journeyOverview">
         {!newPostToggle &&
           userPosts &&

@@ -15,6 +15,7 @@ import { Ijourney, IStoredJourney } from "../interfaces/Interfaces";
 import JourneyPage from "../pages/JourneyPage";
 import { JourneyState, UserState } from "../recoil/atoms";
 import { getAverageRating } from "../pages/JourneyPage";
+import GeneralButton from "./GeneralButton";
 
 type JourneyCardProps = {
   journey: Ijourney;
@@ -98,40 +99,22 @@ const JourneyCard = (props: JourneyCardProps) => {
     return <img className="max-h-8" src={path} alt={alternative} />;
   };
 
-  const storeJourneyButton = () => {
-    if (auth.currentUser?.uid === journey.uid || auth.currentUser === null)
-      return <></>;
-    return (
-      <button
-        className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 absolute right-5 bottom-7"
-        onClick={isJourneyStored ? unstoreJourneyToUser : storeJourneyToUser}
-      >
-        {isJourneyStored
-          ? editJourneyButton("../../images/cancelIcon.png", "Cancel")
-          : editJourneyButton("../../images/likeIcon.png", "Store")}
-      </button>
-    );
-  };
-
   if (journey != undefined) {
     useEffect(() => {
-      
       const fetchAverageRating = async () => {
         const rating = await getAverageRating(journey.journeyID);
         setAverageRating(rating);
-      }
+      };
       fetchAverageRating();
-      }
-    , [journey.journeyID]);
+    }, [journey.journeyID]);
+  } else {
+    console.log("Error");
   }
-  else {
-      console.log("Error");
-  }
-
 
   return (
     <Card
       paddingBottom={4}
+      onClick={showJourneyPage}
       margin={5}
       boxShadow={"2xl"}
       className="dark:bg-theme-dark2 hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)] "
@@ -147,7 +130,10 @@ const JourneyCard = (props: JourneyCardProps) => {
           Description : {journey.description}
         </p>
         <p className="dark:text-theme-green">Cost : {journey.cost}</p>
-        <p>Rating : { averageRating === 0 ? "Not yet rated" : averageRating + "/5" } </p>
+        <p>
+          Rating :{" "}
+          {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}{" "}
+        </p>
         <p className="dark:text-theme-green">
           Countries: {journey.countries ? journey.countries.join(", ") : ""}
         </p>
@@ -156,15 +142,24 @@ const JourneyCard = (props: JourneyCardProps) => {
         </p>
       </CardBody>
       <CardFooter>
-        <button
-          className="bg-theme-green dark:text-theme-dark hover:text-pink-500 font-bold py-2 px-4 rounded m-5"
-          onClick={showJourneyPage}
-        >
-          View journey
-        </button>
+        {/* <GeneralButton onClick={showJourneyPage} description={"View journey"} /> */}
         {updateMessage}
-        {storeJourneyButton()}
-
+        {auth.currentUser?.uid === journey.uid || auth.currentUser === null ? (
+          <></>
+        ) : (
+          <div className="absolute right-5 bottom-5">
+            <GeneralButton
+              onClick={
+                isJourneyStored ? unstoreJourneyToUser : storeJourneyToUser
+              }
+              description={
+                isJourneyStored
+                  ? editJourneyButton("../../images/cancelIcon.png", "Cancel")
+                  : editJourneyButton("../../images/likeIcon.png", "Store")
+              }
+            />
+          </div>
+        )}
         <br />
         <br />
         <p className="absolute right-5 bottom-5 dark:text-theme-green">

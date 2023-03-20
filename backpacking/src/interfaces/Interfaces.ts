@@ -26,3 +26,9 @@ export type IStoredJourney = {
     author : string,
     journeyID : string
 }
+
+export interface IRating{
+    rating: number,
+    uid: string,
+    journeyID: string
+}
