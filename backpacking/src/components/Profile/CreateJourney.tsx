@@ -10,6 +10,7 @@ import { database, auth, firestoreAutoId } from "../../firebase-config";
 import { Ijourney } from "../../interfaces/Interfaces";
 import "../css/components.css";
 import GeneralButton from "../GeneralButton";
+import { useNavigate } from "react-router-dom";
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
