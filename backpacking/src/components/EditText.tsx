@@ -31,8 +31,8 @@ function EditText({
       {isNumber ? (
         <Input
           className={"mt-10"}
-          type={isNumber ? "number" : "text"}
-          value={isNumber ? Number(text) : text}
+          type={"number"}
+          value={Number(text)}
           disabled={!isEditing}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -43,9 +43,7 @@ function EditText({
           onChange={(e) =>
             setJourney({
               ...journey,
-              [whatAttribute]: [
-                isNumber ? Number(e.target.value) : e.target.value,
-              ],
+              [whatAttribute]: Number(e.target.value),
             })
           }
         />
@@ -53,7 +51,7 @@ function EditText({
         <Textarea
           className={"mt-10 h-auto"}
           height="auto"
-          value={isNumber ? Number(text) : text}
+          value={text}
           disabled={!isEditing}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -64,9 +62,7 @@ function EditText({
           onChange={(e) =>
             setJourney({
               ...journey,
-              [whatAttribute]: [
-                isNumber ? Number(e.target.value) : e.target.value,
-              ],
+              [whatAttribute]: e.target.value,
             })
           }
         />
