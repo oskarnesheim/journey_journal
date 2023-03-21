@@ -16,6 +16,7 @@ type CreateJourneyProps = {
   setNewPostToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+
 const CreateJourney = ({
   setRefreshPosts,
   refreshPosts,
@@ -122,7 +123,7 @@ const CreateJourney = ({
             Select your countries
           </FormLabel>
           <div className="w-[90%] ml-[150px] dark:text-theme-dark">
-            <SelectedCountries
+            <SelectedCountries 
               journey={journeyForm}
               setJourney={setJourneyForm}
             />

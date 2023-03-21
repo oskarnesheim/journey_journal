@@ -37,8 +37,10 @@ const CreateUser = () => {
     isAdmin: false,
     uid: "",
   } as Iuser);
+  
 
   const [globalUser, setGlobalUser] = useRecoilState(UserState);
+  const [emailIsValid, setEmailIsValid] = useState(false);
 
   const addUser = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -119,9 +121,11 @@ const CreateUser = () => {
             required
             type="email"
             value={formUser.email}
-            onChange={(e) =>
-              setFormUser({ ...formUser, email: e.target.value })
-            }
+            pattern="[a-zA-Z0-9._]+@[a-zA-Z0-9.]+\.[a-zA-Z]{2,}"
+            onChange={(e) => {
+              setFormUser({ ...formUser, email: e.target.value });
+              setEmailIsValid(e.target.validity.valid);
+            }}
           />
 
           <FormLabel>Age</FormLabel>
@@ -153,7 +157,7 @@ const CreateUser = () => {
             <b> We'll never share your password or email</b>
           </FormHelperText>
           <br />
-          <GeneralButton type="submit" description={"Create"} />
+          <GeneralButton type="submit" description={"Create"}/>
         </FormControl>
       </form>
     </div>

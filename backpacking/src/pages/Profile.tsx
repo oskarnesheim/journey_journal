@@ -93,12 +93,12 @@ export default function Profile() {
   };
 
   return (
-    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage" style={{height: "fit-content"}}>
+    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage">
       <div>
         <h1 className="font-semibold text-xl dark:text-theme-green pt-10">
           {" "}
           {!newPostToggle
-            ? "Hello " +
+            ? "Hello, " +
               currentUser?.firstname +
               " " +
               currentUser?.lastname + "!"

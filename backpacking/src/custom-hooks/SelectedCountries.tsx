@@ -39,7 +39,7 @@ const SelectedCountries = ({ setJourney, journey }: SelectedCountriesProps) => {
         {journey.countries.map((country) => (
           <div
             key={country}
-            className="relative h-10 hover:bg-theme-green rounded-2xl"
+            className="relative h-10 hover:bg-theme-green rounded-2xl dark:text-theme-green dark:bg-theme-dark"
           >
             <div className="absolute left-3 underline underline-offset-8">
               {country}

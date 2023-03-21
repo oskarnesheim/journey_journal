@@ -36,7 +36,11 @@ export function ShowJourneysProfile({
   };
 
   if (!anyUserPosts && !anyStoredJourneys) {
-    return <h1>No journeys of your own or stored journeys</h1>;
+    return (
+      <h1 className="dark:text-theme-green">
+        No journeys of your own or stored journeys
+      </h1>
+    );
   }
 
   const whoHaveStoredJourney = (journey: Ijourney) => {
