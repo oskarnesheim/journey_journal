@@ -158,9 +158,9 @@ const JourneyCard = (props: JourneyCardProps) => {
     var countries = "";
 
     journey.countries.forEach((country) => {
-      countries += country + " -> ";
+      countries += country + " \u2192 ";
     });
-    countries = countries.slice(0, -4);
+    countries = countries.slice(0, -3);
     return countries;
   }
 
