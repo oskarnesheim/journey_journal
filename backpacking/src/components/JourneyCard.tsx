@@ -16,6 +16,12 @@ import JourneyPage from "../pages/JourneyPage";
 import { JourneyState, UserState } from "../recoil/atoms";
 import { getAverageRating } from "../pages/JourneyPage";
 import GeneralButton from "./GeneralButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons'
+import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons'
+import { faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
+library.add(fasFaStar, farFaStar, faStarHalfAlt)
 
 type JourneyCardProps = {
   journey: Ijourney;
@@ -84,6 +90,42 @@ const JourneyCard = (props: JourneyCardProps) => {
     }
   };
 
+  function getStarRating(averageRating: number): JSX.Element {
+    const totalStars = 5;
+    const fullStars = Math.floor(averageRating);
+    const halfStar = Math.round(averageRating - fullStars) === 1;
+    const emptyStars = totalStars - fullStars - (halfStar ? 1 : 0);
+    const starElement = <FontAwesomeIcon icon={fasFaStar} />;
+    const halfStarElement = <FontAwesomeIcon icon={faStarHalfAlt} />;
+    const emptyStarElement = <FontAwesomeIcon icon={["far", "star"]} />;
+  
+    const stars: JSX.Element[] = [];
+  
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(starElement);
+    }
+  
+    if (halfStar) {
+      stars.push(halfStarElement);
+    }
+  
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(emptyStarElement);
+    }
+  
+    const rating = averageRating.toFixed(2);
+  
+    return (
+      <div>
+        <span>{stars}</span>
+        <span>({rating})</span>
+      </div>
+    );
+  }
+  
+  
+  
+
   const currentUserHaveStoredJourney = () => {
     const currentUserHaveStoredJourney = props.usersThatStoredJourney.filter(
       (storedJ) => storedJ.uid === auth.currentUser?.uid
@@ -141,10 +183,7 @@ const JourneyCard = (props: JourneyCardProps) => {
           Description : {journey.description}
         </p>
         <p className="dark:text-theme-green">Cost : {journey.cost} kr</p>
-        <p>
-          Rating :{" "}
-          {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}{" "}
-        </p>
+        <Heading size="sm">{getStarRating(averageRating)}</Heading>
         <p className="dark:text-theme-green">Countries: {countriesList()}</p>
         <p className="dark:text-theme-green">
           Number of users that stored this journey : {storeCount}

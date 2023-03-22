@@ -53,7 +53,8 @@ const JourneyPage = (props: JourneyProps) => {
     if (numRatings === 0) {
       return 0;
     } else {
-      return totalRating / numRatings;
+      const averageRating = totalRating / numRatings;
+      return Number(averageRating.toFixed(2));
     }
   };
 
@@ -251,7 +252,8 @@ export const getAverageRating = async (journeyID: string) => {
   if (numRatings === 0) {
     return 0;
   } else {
-    return totalRating / numRatings;
+    const averageRating = totalRating / numRatings;
+    return Number(averageRating.toFixed(2));
   }
 };
 
