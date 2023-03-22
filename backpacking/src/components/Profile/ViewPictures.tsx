@@ -4,9 +4,9 @@ type ViewPicturesProps = {
 
 export function ViewPictures({ imgURLs }: ViewPicturesProps) {
   return (
-    <div className="view-pictures">
+    <div className="flex flex-row overflow-x-auto">
       {imgURLs.map((imgURL) => (
-        <img className="h-52 p-2" src={imgURL} />
+        <img key={imgURL} className="h-80 p-2 hover:flex-grow" src={imgURL} />
       ))}
     </div>
   );

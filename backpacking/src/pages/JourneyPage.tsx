@@ -184,6 +184,8 @@ const JourneyPage = (props: JourneyProps) => {
   return (
     <div className="viewJourney">
       <div className=" dark:bg-theme-dark dark:text-theme-green align-top justify-center flex flex-col p-10 ml-20 mr-20">
+        <ViewPictures imgURLs={imgURLs} />
+
         <EditText
           whatAttribute="title"
           journey={journey}
@@ -240,7 +242,6 @@ const JourneyPage = (props: JourneyProps) => {
           setJourney={setJourney}
           saveChanges={saveChanges}
         />
-        <ViewPictures imgURLs={imgURLs} />
       </div>
       <GeneralButton description="home" onClick={() => navigate("/home")} />
       {auth.currentUser?.uid === journey?.uid ? (
