@@ -187,21 +187,21 @@ const JourneyPage = (props: JourneyProps) => {
         <ViewPictures imgURLs={imgURLs} />
 
         <EditText
-          whatAttribute="title"
+          whatAttribute="Title"
           journey={journey}
           setJourney={setJourney}
           text={journey?.title}
           saveChanges={saveChanges}
         />
         <EditText
-          whatAttribute="description"
+          whatAttribute="Description"
           journey={journey}
           setJourney={setJourney}
           text={journey?.description}
           saveChanges={saveChanges}
         />
         <EditText
-          whatAttribute="cost"
+          whatAttribute="Cost"
           journey={journey}
           setJourney={setJourney}
           text={journey?.cost.toString()}

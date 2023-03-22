@@ -49,7 +49,7 @@ function EditText({
         />
       ) : (
         <Textarea
-          className={"mt-10 h-auto"}
+          className={"mt-10 h-auto disabled:text-black"}
           height="auto"
           value={text}
           disabled={!isEditing}
