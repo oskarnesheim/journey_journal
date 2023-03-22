@@ -3,6 +3,7 @@ import { getFirestore, collection } from "@firebase/firestore";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { doc, getDoc, getDocs, query } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import { IRating } from "./interfaces/Interfaces";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -62,6 +63,8 @@ export const getJourneysRef = getCollection("journeys");
 export const getStoredJRef = getCollection("storedJourneys");
 export const getUsersRef = getCollection("users");
 export const getRatingsRef = getCollection("ratingJourneys");
+
+export const storage = getStorage();
 
 export async function getAllRatings() {
   try {

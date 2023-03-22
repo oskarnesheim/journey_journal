@@ -1,4 +1,3 @@
-import { Grid, GridItem } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import {
@@ -14,17 +13,9 @@ import {
   getUsersRef,
 } from "../firebase-config";
 import "../components/css/components.css";
-import JourneyCard from "../components/JourneyCard";
 import FilterBox from "../components/Home/FilterBox";
 import SortingBox from "../components/SortingBox";
 import ShowJourneys from "../components/ShowJourneys";
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  list,
-  listAll,
-} from "firebase/storage";
 
 export interface filterType {
   text: string;
@@ -34,20 +25,11 @@ export interface filterType {
   maxPriceActive: boolean;
 }
 
-export interface journeyImgURL {
-  journeyID: string;
-  imgURLs: string[];
-}
-
 export default function Home() {
   const [journeys, setJourneys] = useState<Ijourney[]>([]);
   const [storedJData, setStoredJData] = useState<IStoredJourney[]>([]);
   const [users, setUsers] = useState<Iuser[]>([]);
   const [ratings, setRatings] = useState<IRating[]>([]);
-
-  const [imgURLs, setImgURLs] = useState<journeyImgURL[]>([]);
-  const storage = getStorage();
-  const folderRef = ref(storage, "journeys/");
 
   const [whatToSortBy, setWhatToSortBy] = useState<string>("");
   const [searchInput, setSearchInput] = useState<filterType>({
@@ -91,28 +73,11 @@ export default function Home() {
 
     const usersData = await getDocs(getUsersRef);
     setUsers(usersData.docs.map((user) => ({ ...user.data() } as Iuser)));
-
-    localJourneys.forEach((journey) => {
-      const journeyRef = ref(storage, `journeys/${journey.journeyID}`);
-      listAll(journeyRef).then((response) => {
-        const urls: string[] = [];
-        response.items.forEach((item) => {
-          getDownloadURL(item).then((url) => {
-            urls.push(url);
-          });
-        });
-        setImgURLs((prev) => [
-          ...prev,
-          { journeyID: journey.journeyID, imgURLs: urls },
-        ]);
-      });
-    });
   };
 
   return (
     <div className="content-container ">
       <ShowJourneys
-        imgURLs={imgURLs}
         ratings={ratings}
         journeys={journeys}
         storedJData={storedJData}

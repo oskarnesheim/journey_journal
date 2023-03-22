@@ -33,3 +33,8 @@ export interface IRating{
     uid: string,
     journeyID: string
 }
+
+export interface journeyImgURL {
+  journeyID: string;
+  imgURLs: string[];
+}

@@ -1,12 +1,12 @@
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react";
-import { getAllRatings } from "../firebase-config";
+import { getAllRatings, storage } from "../firebase-config";
 import {
   Ijourney,
   IRating,
   IStoredJourney,
   Iuser,
 } from "../interfaces/Interfaces";
-import { journeyImgURL } from "../pages/Home";
 import JourneyCard from "./JourneyCard";
 
 type showJourneyProps = {
@@ -22,7 +22,6 @@ type showJourneyProps = {
     maxPriceActive: boolean;
   };
   whatToSortBy: string;
-  imgURLs: journeyImgURL[];
 };
 
 function ShowJourneys({
@@ -32,7 +31,6 @@ function ShowJourneys({
   searchInput,
   whatToSortBy,
   ratings,
-  imgURLs,
 }: showJourneyProps) {
   const [sortedJourneys, setSortedJourneys] = useState<Ijourney[]>([]);
 
@@ -185,13 +183,11 @@ function ShowJourneys({
     setSortedJourneys([]);
     setSortedJourneys([...sortedJourneys]);
   }
+
   return (
     <div>
       {sortedJourneys?.map((journey) => (
         <JourneyCard
-          images={imgURLs.find(
-            (imgURL) => imgURL.journeyID === journey.journeyID
-          )}
           authorUsername={getAuthorName(journey)!}
           fromWhatPage="home"
           key={journey.journeyID}

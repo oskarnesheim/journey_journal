@@ -11,12 +11,14 @@ import {
   getJourneysRef,
   getStoredJRef,
   getUsersRef,
+  storage,
 } from "../firebase-config";
 import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
 import { StoredUserJourneys, UserState } from "../recoil/atoms";
 import "../components/css/components.css";
 import GeneralButton from "../components/GeneralButton";
 import { ShowJourneysProfile } from "../components/Profile/ShowJourneysProfile";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 
 export default function Profile() {
   const [newPostToggle, setNewPostToggle] = useState(false); //? Velger om man skal lage en ny post eller ikke
@@ -93,7 +95,10 @@ export default function Profile() {
   };
 
   return (
-    <div className="dark:text-theme-dark dark:bg-theme-dark profilePage">
+    <div
+      className="dark:text-theme-dark dark:bg-theme-dark profilePage"
+      style={{ height: "fit-content" }}
+    >
       <div>
         <h1 className="font-semibold text-xl dark:text-theme-green pt-10">
           {" "}
@@ -101,7 +106,8 @@ export default function Profile() {
             ? "Hello, " +
               currentUser?.firstname +
               " " +
-              currentUser?.lastname + "!"
+              currentUser?.lastname +
+              "!"
             : ""}
         </h1>
         {newPostToggle && (
