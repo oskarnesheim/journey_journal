@@ -22,6 +22,14 @@ import "../components/css/components.css";
 import EditCountryList from "../components/EditCountryList";
 import GeneralButton from "../components/GeneralButton";
 import EditText from "../components/EditText";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  list,
+  listAll,
+} from "firebase/storage";
+import { ViewPictures } from "../components/Profile/ViewPictures";
 
 type JourneyProps = {
   journey: Ijourney | undefined;
@@ -34,6 +42,10 @@ const JourneyPage = (props: JourneyProps) => {
   const navigate = useNavigate();
   const [isJourneyRated, setIsJourneyRated] = useState<boolean>();
   const [user, setUser] = useRecoilState(UserState);
+
+  const [imgURLs, setImgURLs] = useState<string[]>([]);
+
+  const storage = getStorage();
 
   const getAverageRating = async (journeyID: string) => {
     const ratingsRef = collection(database, "ratingJourneys");
@@ -53,17 +65,27 @@ const JourneyPage = (props: JourneyProps) => {
     if (numRatings === 0) {
       return 0;
     } else {
-      return totalRating / numRatings;
+      const averageRating = totalRating / numRatings;
+      return Number(averageRating.toFixed(2));
     }
   };
 
   if (journey != undefined) {
     useEffect(() => {
+      const folderRef = ref(storage, `journeys/${journey.journeyID}`);
+
       const fetchAverageRating = async () => {
         const rating = await getAverageRating(journey.journeyID);
         setAverageRating(rating);
       };
       fetchAverageRating();
+      listAll(folderRef).then((response) => {
+        response.items.forEach((item) => {
+          getDownloadURL(item).then((url) => {
+            setImgURLs((prev) => [...prev, url]);
+          });
+        });
+      });
     }, [journey.journeyID]);
   } else {
     console.log("Error");
@@ -77,6 +99,7 @@ const JourneyPage = (props: JourneyProps) => {
       countries: journey.countries,
       uid: journey.uid,
       journeyID: journey.journeyID,
+      pictures: journey.pictures,
     };
     try {
       await setDoc(
@@ -161,6 +184,8 @@ const JourneyPage = (props: JourneyProps) => {
   return (
     <div className="viewJourney">
       <div className=" dark:bg-theme-dark dark:text-theme-green align-top justify-center flex flex-col p-10 ml-20 mr-20">
+        <ViewPictures imgURLs={imgURLs} />
+
         <EditText
           whatAttribute="title"
           journey={journey}
@@ -218,7 +243,7 @@ const JourneyPage = (props: JourneyProps) => {
           saveChanges={saveChanges}
         />
       </div>
-      <GeneralButton description="home" onClick={() => navigate("/home")} />
+      <GeneralButton description="Home" onClick={() => navigate("/home")} />
       {auth.currentUser?.uid === journey?.uid ? (
         <GeneralButton
           description="Profile"
@@ -251,7 +276,8 @@ export const getAverageRating = async (journeyID: string) => {
   if (numRatings === 0) {
     return 0;
   } else {
-    return totalRating / numRatings;
+    const averageRating = totalRating / numRatings;
+    return Number(averageRating.toFixed(2));
   }
 };
 

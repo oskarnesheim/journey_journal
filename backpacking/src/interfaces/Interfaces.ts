@@ -18,7 +18,8 @@ export interface Ijourney{
     cost: number,
     uid: string,
     countries: string[],
-    journeyID : string
+    journeyID : string,
+    pictures: string[],
 }
 
 export type IStoredJourney = {
@@ -31,4 +32,9 @@ export interface IRating{
     rating: number,
     uid: string,
     journeyID: string
+}
+
+export interface journeyImgURL {
+  journeyID: string;
+  imgURLs: string[];
 }

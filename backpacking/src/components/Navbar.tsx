@@ -40,7 +40,7 @@ const Navbar = () => {
         </li>
         {user && (
           <li>
-            <p>{"Hello " + user?.firstname+ "!"}</p>
+            <p>{"Hello, " + user?.firstname+ "!"}</p>
           </li>
         )}
         <li className="hover:text-pink-500 absolute right-10">

@@ -29,7 +29,6 @@ const FilterBox = (props: FilterBoxProps) => {
       <SearchBar setSearch={props.text} />
       <Heading size={"md"}>Filter your search</Heading>
       <Stack spacing={5} direction="column">
-        <Stack spacing={5} direction="row"></Stack>
         <Checkbox
           onChange={() => {
             setMinPriceActive(!minPriceActive);

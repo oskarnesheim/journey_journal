@@ -8,6 +8,14 @@ import { Ijourney } from "../../interfaces/Interfaces";
 import "../css/components.css";
 import GeneralButton from "../GeneralButton";
 import { useNavigate } from "react-router-dom";
+import { UploadPictures } from "./UploadPictures";
+import { getStorage, uploadBytes, ref } from "firebase/storage";
+// import { ref } from "firebase/database";
+
+export type newImages = {
+  id: string;
+  file: File;
+};
 
 type CreateJourneyProps = {
   setRefreshPosts: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,6 +23,7 @@ type CreateJourneyProps = {
   newPostToggle: boolean;
   setNewPostToggle: React.Dispatch<React.SetStateAction<boolean>>;
 };
+
 
 const CreateJourney = ({
   setRefreshPosts,
@@ -29,19 +38,25 @@ const CreateJourney = ({
     uid: "",
     countries: [],
     description: "",
-    journeyID: "",
+    journeyID: firestoreAutoId(),
+    pictures: [],
   });
+  const storage = getStorage();
 
-  const addJourney = (e: React.FormEvent<HTMLFormElement>): void => {
+  const addJourney = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     try {
+      await uploadImages();
       const newJourneyPost: Ijourney = {
         title: journeyForm.title,
         description: journeyForm.description,
         cost: journeyForm.cost,
         uid: auth.currentUser?.uid!,
         countries: journeyForm.countries,
-        journeyID: firestoreAutoId(),
+        pictures: journeyForm.pictures,
+        journeyID: journeyForm.journeyID,
       };
       setDoc(
         doc(database, "journeys/", newJourneyPost.journeyID),
@@ -55,6 +70,7 @@ const CreateJourney = ({
         uid: "",
         countries: [],
         journeyID: "",
+        pictures: [],
       } as Ijourney);
 
       setRefreshPosts(!refreshPosts);
@@ -62,6 +78,24 @@ const CreateJourney = ({
       alert("Your journey has been created!");
     } catch (error) {
       setStatusMessage("Something went wrong, please try again");
+    }
+  };
+
+  const [images, setImages] = useState<newImages[]>([]);
+
+  const uploadImages = () => {
+    if (images.length === 0) return;
+    try {
+      images.forEach((image) => {
+        const imageRef = ref(
+          storage,
+          `journeys/${journeyForm.journeyID}/${image.id}`
+        );
+
+        uploadBytes(imageRef, image.file);
+      });
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -122,11 +156,17 @@ const CreateJourney = ({
             Select your countries
           </FormLabel>
           <div className="w-[90%] ml-[150px] dark:text-theme-dark">
-            <SelectedCountries
+            <SelectedCountries 
               journey={journeyForm}
               setJourney={setJourneyForm}
             />
           </div>
+          <UploadPictures
+            images={images}
+            journey={journeyForm}
+            setJourney={setJourneyForm}
+            setImages={setImages}
+          />
           <GeneralButton description="Post" type="submit" />
         </FormControl>
       </form>

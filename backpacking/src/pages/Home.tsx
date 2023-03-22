@@ -1,4 +1,3 @@
-import { Grid, GridItem } from "@chakra-ui/react";
 import { getDocs } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import {
@@ -14,7 +13,6 @@ import {
   getUsersRef,
 } from "../firebase-config";
 import "../components/css/components.css";
-import JourneyCard from "../components/JourneyCard";
 import FilterBox from "../components/Home/FilterBox";
 import SortingBox from "../components/SortingBox";
 import ShowJourneys from "../components/ShowJourneys";
@@ -44,13 +42,17 @@ export default function Home() {
 
   useEffect(() => {
     try {
-      getUsers();
+      const getData = async () => {
+        await getUsersAndJourneys();
+        // getPictures();
+      };
+      getData();
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-  const getUsers = async () => {
+  const getUsersAndJourneys = async () => {
     const storedJData = await getDocs(getStoredJRef);
     setStoredJData(
       storedJData.docs.map(
@@ -62,6 +64,9 @@ export default function Home() {
     setRatings(ratings!);
 
     const journeyData = await getDocs(getJourneysRef);
+    const localJourneys = journeyData.docs.map(
+      (journey) => ({ ...journey.data() } as Ijourney)
+    );
     setJourneys(
       journeyData.docs.map((journey) => ({ ...journey.data() } as Ijourney))
     );
@@ -81,7 +86,7 @@ export default function Home() {
         whatToSortBy={whatToSortBy}
       />
 
-      <div className="fixed top-28 right-5 shadow-2xl w-1/3 p-5 min-h-3/4 dark:bg-theme-dark2 dark:text-theme-green rounded-md hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)]">
+      <div className="fixed top-28 right-5 shadow-2xl w-1/5 p-5 min-h-3/4 dark:bg-theme-dark2 dark:text-theme-green rounded-md hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)]">
         <FilterBox
           maxPriceActive={setSearchInput}
           minPriceActive={setSearchInput}

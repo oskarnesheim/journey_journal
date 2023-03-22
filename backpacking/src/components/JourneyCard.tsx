@@ -10,12 +10,20 @@ import { getDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { auth, database } from "../firebase-config";
+import { auth, database, storage } from "../firebase-config";
 import { Ijourney, IStoredJourney } from "../interfaces/Interfaces";
 import JourneyPage from "../pages/JourneyPage";
 import { JourneyState, UserState } from "../recoil/atoms";
 import { getAverageRating } from "../pages/JourneyPage";
 import GeneralButton from "./GeneralButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faStar as fasFaStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farFaStar } from "@fortawesome/free-regular-svg-icons";
+import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+library.add(fasFaStar, farFaStar, faStarHalfAlt);
+import { ViewPictures } from "./Profile/ViewPictures";
+import { ref, listAll, getDownloadURL } from "firebase/storage";
 
 type JourneyCardProps = {
   journey: Ijourney;
@@ -31,7 +39,7 @@ const JourneyCard = (props: JourneyCardProps) => {
   const [isJourneyStored, setIsJourneyStored] = useState<boolean>();
   const [storeCount, setStoreCount] = useState<number>(0);
   const [averageRating, setAverageRating] = useState<number>(0);
-  const [globalUser, setGlobalUser] = useRecoilState(UserState);
+  const [imgURLs, setImgURLs] = useState<string[]>([]);
 
   const [updateMessage, setUpdateMessage] = useState<string>("");
 
@@ -44,7 +52,19 @@ const JourneyCard = (props: JourneyCardProps) => {
     setJourney(props.journey);
     setIsJourneyStored(currentUserHaveStoredJourney());
     setStoreCount(numberOfUsersThatStoredJourney());
+    getPictures();
   }, []);
+
+  function getPictures() {
+    const folderRef = ref(storage, `journeys/${props.journey.journeyID}`);
+    listAll(folderRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setImgURLs((prev) => [...prev, url]);
+        });
+      });
+    });
+  }
 
   const storeJourneyToUser = async () => {
     const data = {
@@ -84,6 +104,39 @@ const JourneyCard = (props: JourneyCardProps) => {
     }
   };
 
+  function getStarRating(averageRating: number): JSX.Element {
+    const totalStars = 5;
+    const fullStars = Math.floor(averageRating);
+    const halfStar = Math.round(averageRating - fullStars) === 1;
+    const emptyStars = totalStars - fullStars - (halfStar ? 1 : 0);
+    const starElement = <FontAwesomeIcon icon={fasFaStar} />;
+    const halfStarElement = <FontAwesomeIcon icon={faStarHalfAlt} />;
+    const emptyStarElement = <FontAwesomeIcon icon={["far", "star"]} />;
+
+    const stars: JSX.Element[] = [];
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push(starElement);
+    }
+
+    if (halfStar) {
+      stars.push(halfStarElement);
+    }
+
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(emptyStarElement);
+    }
+
+    const rating = averageRating.toFixed(2);
+
+    return (
+      <div>
+        <span>{stars}</span>
+        <span>({rating})</span>
+      </div>
+    );
+  }
+
   const currentUserHaveStoredJourney = () => {
     const currentUserHaveStoredJourney = props.usersThatStoredJourney.filter(
       (storedJ) => storedJ.uid === auth.currentUser?.uid
@@ -116,9 +169,9 @@ const JourneyCard = (props: JourneyCardProps) => {
     var countries = "";
 
     journey.countries.forEach((country) => {
-      countries += country + " -> ";
+      countries += country + " \u2192 ";
     });
-    countries = countries.slice(0, -4);
+    countries = countries.slice(0, -3);
     return countries;
   }
 
@@ -136,46 +189,52 @@ const JourneyCard = (props: JourneyCardProps) => {
         </Heading>
       </CardHeader>
 
+      {imgURLs && <ViewPictures imgURLs={imgURLs} />}
       <CardBody className="dark:text-theme-green" onClick={showJourneyPage}>
-        <p className="dark:text-theme-green">
-          Description : {journey.description}
-        </p>
+        <Heading size="sm">{getStarRating(averageRating)}</Heading>
         <p className="dark:text-theme-green">Cost : {journey.cost} kr</p>
-        <p>
-          Rating :{" "}
-          {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}{" "}
-        </p>
         <p className="dark:text-theme-green">Countries: {countriesList()}</p>
-        <p className="dark:text-theme-green">
-          Number of users that stored this journey : {storeCount}
-        </p>
       </CardBody>
       <CardFooter>
         {updateMessage}
-        {auth.currentUser?.uid === journey.uid || auth.currentUser === null ? (
-          <></>
-        ) : (
-          <div className="absolute right-5 bottom-5">
-            <GeneralButton
-              onClick={
-                isJourneyStored ? unstoreJourneyToUser : storeJourneyToUser
-              }
-              description={
-                isJourneyStored
-                  ? editJourneyButton("../../images/cancelIcon.png", "Cancel")
-                  : editJourneyButton("../../images/likeIcon.png", "Store")
-              }
-            />
-          </div>
-        )}
-        <br />
-        <br />
-        <p className="absolute right-5 bottom-5 dark:text-theme-green">
-          Author:{" "}
-          {auth.currentUser?.uid === journey.uid
-            ? "You!"
-            : props.authorUsername}
-        </p>
+        <div>
+          {auth.currentUser?.uid === journey.uid ||
+          auth.currentUser === null ? (
+            <div className="absolute right-6 bottom-5">
+              <p className="dark:text-theme-green bottom-7 right-0 absolute text-2xl">
+                {storeCount}
+              </p>
+            </div>
+          ) : (
+            <div className="absolute right-6 bottom-5">
+              <div className="relative">
+                <GeneralButton
+                  onClick={
+                    isJourneyStored ? unstoreJourneyToUser : storeJourneyToUser
+                  }
+                  description={
+                    isJourneyStored
+                      ? editJourneyButton(
+                          "../../images/cancelIcon.png",
+                          "Cancel"
+                        )
+                      : editJourneyButton("../../images/likeIcon.png", "Store")
+                  }
+                />
+                <p className="dark:text-theme-green bottom-7 right-0 absolute text-2xl">
+                  {storeCount}
+                </p>
+              </div>
+            </div>
+          )}
+          <br />
+          <br />
+          <p className="absolute right-10 bottom-5 dark:text-theme-green underline underline-offset-auto ">
+            {auth.currentUser?.uid === journey.uid
+              ? "You!"
+              : props.authorUsername}
+          </p>
+        </div>
       </CardFooter>
     </Card>
   );
