@@ -6,7 +6,7 @@ import {
   Ijourney,
   IRating,
   IStoredJourney,
-  Iuser
+  Iuser,
 } from "../interfaces/Interfaces";
 import { getAverageRating } from "../pages/JourneyPage";
 import { UserState } from "../recoil/atoms";
@@ -40,11 +40,12 @@ function ShowJourneys({
 
   useEffect(() => {
     if (user !== undefined) {
-      const tailoredJourneys: Ijourney[] = getTailoredPosts();
+      getTailoredPosts().then((data) => {
+        setSortedJourneys(data);
+      });
 
-      setSortedJourneys(tailoredJourneys);
-    }
-    else {
+      // setSortedJourneys(tailoredJourneys);
+    } else {
       setSortedJourneys(journeys);
     }
   }, [journeys]);
@@ -131,7 +132,7 @@ function ShowJourneys({
   };
 
   async function getUserSavedJourneys() {
-    const likedJourneyID: string[] = []; 
+    const likedJourneyID: string[] = [];
     const likedJourneyIDRef = collection(database, "storedJourneys");
     const querySnapshot = await getDocs(
       query(likedJourneyIDRef, where("uid", "==", user?.uid))
@@ -140,35 +141,40 @@ function ShowJourneys({
       const likedCountriesData = doc.data();
       likedJourneyID.push(likedCountriesData.journeyID);
     });
-    console.log(likedJourneyID)
-    return likedJourneyID
-  };
+    console.log(likedJourneyID);
+    return likedJourneyID;
+  }
 
   async function getStoredCountries() {
     const likedJourneyID: string[] = await getUserSavedJourneys();
     const likedCountries: string[] = [];
 
     const journeysRef = collection(database, "journeys");
-    const querySnapshot = await getDocs(query(journeysRef, where("journeyID", "in", likedJourneyID)));
-  
+    const querySnapshot = await getDocs(
+      query(journeysRef, where("journeyID", "in", likedJourneyID))
+    );
+
     const countryArrays = querySnapshot.docs.map((doc) => {
       const journeyData = doc.data();
       return journeyData.countries;
     });
-  
+
     const flattenedCountryArray = countryArrays.flat();
     const uniqueCountries = [...new Set(flattenedCountryArray)];
 
-    console.log(uniqueCountries)
+    console.log(uniqueCountries);
     return uniqueCountries;
-  };
+  }
 
   async function getTailoredPosts() {
     const storedCountries: string[] = await getStoredCountries();
-    const tailoredJourneys: Ijourney[] = []
+    const tailoredJourneys: Ijourney[] = [];
 
     const querySnapshot = await getDocs(
-      query(collection(database, "journeys"), where("countries", "array-contains-any", storedCountries))
+      query(
+        collection(database, "journeys"),
+        where("countries", "array-contains-any", storedCountries)
+      )
     );
     querySnapshot.forEach((doc) => {
       const tailoredJourney = doc.data();
@@ -180,10 +186,10 @@ function ShowJourneys({
         countries: tailoredJourney.countries,
         journeyID: tailoredJourney.journeyID,
       };
-      tailoredJourneys.push(myJourney)
+      tailoredJourneys.push(myJourney);
     });
-    return tailoredJourneys
-  };
+    return tailoredJourneys;
+  }
 
   //? Sort functions
 
@@ -237,7 +243,7 @@ function ShowJourneys({
       if (numberOfRatings === 0) return -1;
       return avg / numberOfRatings;
     };
-   
+
     const sortedJourneys = journeys.sort((a, b) => {
       const averageA = averageRating(a);
       const averageB = averageRating(b);
