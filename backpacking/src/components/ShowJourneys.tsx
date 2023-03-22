@@ -177,7 +177,8 @@ function ShowJourneys({
     const querySnapshot = await getDocs(
       query(
         collection(database, "journeys"),
-        where("countries", "array-contains-any", storedCountries)
+        where("countries", "array-contains-any", storedCountries),
+        where("uid","!=",user?.uid)
       )
     );
     querySnapshot.forEach((doc) => {
