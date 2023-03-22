@@ -17,17 +17,20 @@ import { JourneyState, UserState } from "../recoil/atoms";
 import { getAverageRating } from "../pages/JourneyPage";
 import GeneralButton from "./GeneralButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faStar as fasFaStar } from '@fortawesome/free-solid-svg-icons'
-import { faStar as farFaStar } from '@fortawesome/free-regular-svg-icons'
-import { faStarHalfAlt} from "@fortawesome/free-solid-svg-icons";
-library.add(fasFaStar, farFaStar, faStarHalfAlt)
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faStar as fasFaStar } from "@fortawesome/free-solid-svg-icons";
+import { faStar as farFaStar } from "@fortawesome/free-regular-svg-icons";
+import { faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+library.add(fasFaStar, farFaStar, faStarHalfAlt);
+import { journeyImgURL } from "../pages/Home";
+import { ViewPictures } from "./Profile/ViewPictures";
 
 type JourneyCardProps = {
   journey: Ijourney;
   usersThatStoredJourney: IStoredJourney[];
   fromWhatPage: string;
   authorUsername: string;
+  images: journeyImgURL | undefined;
 };
 
 const JourneyCard = (props: JourneyCardProps) => {
@@ -98,23 +101,23 @@ const JourneyCard = (props: JourneyCardProps) => {
     const starElement = <FontAwesomeIcon icon={fasFaStar} />;
     const halfStarElement = <FontAwesomeIcon icon={faStarHalfAlt} />;
     const emptyStarElement = <FontAwesomeIcon icon={["far", "star"]} />;
-  
+
     const stars: JSX.Element[] = [];
-  
+
     for (let i = 0; i < fullStars; i++) {
       stars.push(starElement);
     }
-  
+
     if (halfStar) {
       stars.push(halfStarElement);
     }
-  
+
     for (let i = 0; i < emptyStars; i++) {
       stars.push(emptyStarElement);
     }
-  
+
     const rating = averageRating.toFixed(2);
-  
+
     return (
       <div>
         <span>{stars}</span>
@@ -122,9 +125,6 @@ const JourneyCard = (props: JourneyCardProps) => {
       </div>
     );
   }
-  
-  
-  
 
   const currentUserHaveStoredJourney = () => {
     const currentUserHaveStoredJourney = props.usersThatStoredJourney.filter(
@@ -177,7 +177,19 @@ const JourneyCard = (props: JourneyCardProps) => {
           {journey.title}
         </Heading>
       </CardHeader>
-
+      <ViewPictures imgURLs={props.images?.imgURLs!} />
+      {/* <div className="flex flex-col overflow-y-auto">
+        {props.images?.imgURLs.map((imgURL) => {
+          return (
+            <img
+              key={imgURL}
+              className="max-h-60"
+              src={imgURL}
+              alt="Journey image"
+            />
+          );
+        })}
+      </div> */}
       <CardBody className="dark:text-theme-green" onClick={showJourneyPage}>
         <p className="dark:text-theme-green">
           Description : {journey.description}

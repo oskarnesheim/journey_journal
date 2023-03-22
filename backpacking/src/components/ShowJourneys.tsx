@@ -6,7 +6,7 @@ import {
   IStoredJourney,
   Iuser,
 } from "../interfaces/Interfaces";
-import { getAverageRating } from "../pages/JourneyPage";
+import { journeyImgURL } from "../pages/Home";
 import JourneyCard from "./JourneyCard";
 
 type showJourneyProps = {
@@ -22,6 +22,7 @@ type showJourneyProps = {
     maxPriceActive: boolean;
   };
   whatToSortBy: string;
+  imgURLs: journeyImgURL[];
 };
 
 function ShowJourneys({
@@ -31,6 +32,7 @@ function ShowJourneys({
   searchInput,
   whatToSortBy,
   ratings,
+  imgURLs,
 }: showJourneyProps) {
   const [sortedJourneys, setSortedJourneys] = useState<Ijourney[]>([]);
 
@@ -187,6 +189,9 @@ function ShowJourneys({
     <div>
       {sortedJourneys?.map((journey) => (
         <JourneyCard
+          images={imgURLs.find(
+            (imgURL) => imgURL.journeyID === journey.journeyID
+          )}
           authorUsername={getAuthorName(journey)!}
           fromWhatPage="home"
           key={journey.journeyID}

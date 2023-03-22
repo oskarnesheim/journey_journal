@@ -72,7 +72,7 @@ const JourneyPage = (props: JourneyProps) => {
 
   if (journey != undefined) {
     useEffect(() => {
-      const folderRef = ref(storage, `images/${journey.journeyID}`);
+      const folderRef = ref(storage, `journeys/${journey.journeyID}`);
 
       const fetchAverageRating = async () => {
         const rating = await getAverageRating(journey.journeyID);

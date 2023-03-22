@@ -25,9 +25,6 @@ export function UploadPictures({
   images,
 }: UploadPicturesProps) {
   const [localImageUrls, setLocalImageUrls] = useState<string[]>([]);
-
-  // const imagesListRef = ref(storage, `images/${journey.journeyID}`);
-
   function handleNewPicture(event: React.ChangeEvent<HTMLInputElement>) {
     if (!event.target.files) return;
     const id = firestoreAutoId();

@@ -89,7 +89,7 @@ const CreateJourney = ({
       images.forEach((image) => {
         const imageRef = ref(
           storage,
-          `images/${journeyForm.journeyID}/${image.id}`
+          `journeys/${journeyForm.journeyID}/${image.id}`
         );
 
         uploadBytes(imageRef, image.file);
