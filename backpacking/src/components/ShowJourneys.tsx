@@ -1,3 +1,4 @@
+import { Grid, GridItem } from "@chakra-ui/react";
 import { ref, listAll, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { getAllRatings, storage } from "../firebase-config";
@@ -186,15 +187,19 @@ function ShowJourneys({
 
   return (
     <div>
-      {sortedJourneys?.map((journey) => (
-        <JourneyCard
-          authorUsername={getAuthorName(journey)!}
-          fromWhatPage="home"
-          key={journey.journeyID}
-          journey={journey}
-          usersThatStoredJourney={whoHaveStoredJourney(journey)}
-        />
-      ))}
+      <Grid templateColumns="repeat(2, 1fr)">
+        {sortedJourneys?.map((journey) => (
+          <GridItem>
+            <JourneyCard
+              authorUsername={getAuthorName(journey)!}
+              fromWhatPage="home"
+              key={journey.journeyID}
+              journey={journey}
+              usersThatStoredJourney={whoHaveStoredJourney(journey)}
+            />
+          </GridItem>
+        ))}
+      </Grid>
     </div>
   );
 }

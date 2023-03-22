@@ -39,7 +39,6 @@ const JourneyCard = (props: JourneyCardProps) => {
   const [isJourneyStored, setIsJourneyStored] = useState<boolean>();
   const [storeCount, setStoreCount] = useState<number>(0);
   const [averageRating, setAverageRating] = useState<number>(0);
-  const [globalUser, setGlobalUser] = useRecoilState(UserState);
   const [imgURLs, setImgURLs] = useState<string[]>([]);
 
   const [updateMessage, setUpdateMessage] = useState<string>("");
@@ -65,7 +64,6 @@ const JourneyCard = (props: JourneyCardProps) => {
         });
       });
     });
-    console.log(imgURLs);
   }
 
   const storeJourneyToUser = async () => {
