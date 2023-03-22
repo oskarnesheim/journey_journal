@@ -111,13 +111,23 @@ const JourneyCard = (props: JourneyCardProps) => {
     console.log("Error");
   }
 
+  function countriesList() {
+    if (!journey.countries) return "";
+    var countries = "";
+
+    journey.countries.forEach((country) => {
+      countries += country + " -> ";
+    });
+    countries = countries.slice(0, -4);
+    return countries;
+  }
+
   return (
     <Card
       paddingBottom={4}
-      onClick={showJourneyPage}
       margin={5}
-      boxShadow={"2xl"}
-      className="dark:bg-theme-dark2 hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)] "
+      boxShadow={"xl"}
+      className="hover:shadow-2xl dark:bg-theme-dark2 hover:dark:shadow-[0_35px_60px_-15px_rgba(201,239,199,0.3)] "
     >
       <CardHeader>
         <Heading className="dark:text-theme-green" size="md">
@@ -125,24 +135,22 @@ const JourneyCard = (props: JourneyCardProps) => {
           {journey.title}
         </Heading>
       </CardHeader>
-      <CardBody className="dark:text-theme-green">
+
+      <CardBody className="dark:text-theme-green" onClick={showJourneyPage}>
         <p className="dark:text-theme-green">
           Description : {journey.description}
         </p>
-        <p className="dark:text-theme-green">Cost : {journey.cost}</p>
+        <p className="dark:text-theme-green">Cost : {journey.cost} kr</p>
         <p>
           Rating :{" "}
           {averageRating === 0 ? "Not yet rated" : averageRating + "/5"}{" "}
         </p>
-        <p className="dark:text-theme-green">
-          Countries: {journey.countries ? journey.countries.join(", ") : ""}
-        </p>
+        <p className="dark:text-theme-green">Countries: {countriesList()}</p>
         <p className="dark:text-theme-green">
           Number of users that stored this journey : {storeCount}
         </p>
       </CardBody>
       <CardFooter>
-        {/* <GeneralButton onClick={showJourneyPage} description={"View journey"} /> */}
         {updateMessage}
         {auth.currentUser?.uid === journey.uid || auth.currentUser === null ? (
           <></>

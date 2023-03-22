@@ -221,8 +221,11 @@ font-weight: bold;
 }
 
 .createJourney {
-  height: 100vh;
-  width: 100vw;
+  flex-direction: column;
+  /* box-shadow: 20px; */
+  align-items: center;
+  justify-items: center;
+  margin: 0% 10% 0% 10%;
 }
 
 @media screen and (max-width: 1000px) {

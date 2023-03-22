@@ -16,6 +16,7 @@ import { Ijourney, IStoredJourney, Iuser } from "../interfaces/Interfaces";
 import { StoredUserJourneys, UserState } from "../recoil/atoms";
 import "../components/css/components.css";
 import GeneralButton from "../components/GeneralButton";
+import { ShowJourneysProfile } from "../components/Profile/ShowJourneysProfile";
 
 export default function Profile() {
   const [newPostToggle, setNewPostToggle] = useState(false); //? Velger om man skal lage en ny post eller ikke
@@ -91,69 +92,6 @@ export default function Profile() {
     }
   };
 
-  const CreateJourneyFunc = () => {
-    if (newPostToggle) {
-      return (
-        <CreateJourney
-          refreshPosts={refreshPosts}
-          setRefreshPosts={setRefreshPosts}
-        />
-      );
-    }
-  };
-
-  const showJourneys = () => {
-    const journeyView = (fromList: Ijourney[]) => {
-      return Array.isArray(fromList) ? (
-        fromList.map((journey) => (
-          <JourneyCard
-            authorUsername={getAuthorName(journey)!}
-            fromWhatPage="profile"
-            key={journey.journeyID}
-            journey={journey}
-            usersThatStoredJourney={whoHaveStoredJourney(journey)}
-          />
-        ))
-      ) : (
-        <div>Her gikk noe galt.</div>
-      );
-    };
-
-    if (userPosts?.length === 0 && storedJourneys?.length === 0) {
-      return <h1>No journeys of your own or stored journeys</h1>;
-    }
-    return (
-      <div className="p-5 dark:text-theme-green dark:bg-theme-dark journeyOverview">
-        <h3 className="font-semibold text-xl">Overview:</h3>
-
-        <Tabs>
-          <TabList>
-            <Tab>Own Journeys</Tab>
-            <Tab>Stored Journeys</Tab>
-          </TabList>
-
-          <TabPanels className="dark:bg-theme-dark w-screen">
-            <TabPanel>
-              <div>{journeyView(userPosts)}</div>
-            </TabPanel>
-            <TabPanel>
-              <div>{journeyView(storedJourneys)}</div>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
-      </div>
-    );
-  };
-
-  const whoHaveStoredJourney = (journey: Ijourney) => {
-    return storedJData
-      .filter((storedJ) => storedJ.journeyID === journey.journeyID)
-      .map((storedJ) => storedJ);
-  };
-  const getAuthorName = (journey: Ijourney) => {
-    return users.find((user) => user.uid === journey.uid)?.username;
-  };
-
   return (
     <div className="dark:text-theme-dark dark:bg-theme-dark profilePage" style={{height: "fit-content"}}>
       <div>
@@ -166,7 +104,14 @@ export default function Profile() {
               currentUser?.lastname + "!"
             : ""}
         </h1>
-        {CreateJourneyFunc()}
+        {newPostToggle && (
+          <CreateJourney
+            refreshPosts={refreshPosts}
+            setRefreshPosts={setRefreshPosts}
+            newPostToggle={newPostToggle}
+            setNewPostToggle={setNewPostToggle}
+          />
+        )}
       </div>
       <GeneralButton
         description={
@@ -175,11 +120,16 @@ export default function Profile() {
         onClick={() => setNewPostToggle(!newPostToggle)}
       />
       <div className="journeyOverview">
-        {!newPostToggle &&
-          userPosts &&
-          storedJData &&
-          storedJourneys &&
-          showJourneys()}
+        {userPosts && storedJData && storedJourneys && (
+          <ShowJourneysProfile
+            storedJData={storedJData}
+            storedJourneys={storedJourneys}
+            users={users}
+            anyStoredJourneys={storedJourneys?.length !== 0}
+            anyUserPosts={userPosts?.length !== 0}
+            userPosts={userPosts}
+          />
+        )}
       </div>
     </div>
   );
