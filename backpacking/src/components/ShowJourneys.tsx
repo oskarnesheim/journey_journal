@@ -43,10 +43,12 @@ function ShowJourneys({
   useEffect(() => {
     if (user !== undefined) {
       getTailoredPosts().then((data) => {
-        setSortedJourneys(data);
+        if (data && data.length > 0) {
+          setSortedJourneys(data);
+        } else {
+          setSortedJourneys(journeys);
+        }
       });
-
-      // setSortedJourneys(tailoredJourneys);
     } else {
       setSortedJourneys(journeys);
     }
@@ -186,7 +188,7 @@ function ShowJourneys({
         cost: tailoredJourney.cost,
         uid: tailoredJourney.uid,
         countries: tailoredJourney.countries,
-        journeyID: tailoredJourney.journeyID,
+        journeyID: tailoredJourney.journeyID
       };
       tailoredJourneys.push(myJourney);
     });
