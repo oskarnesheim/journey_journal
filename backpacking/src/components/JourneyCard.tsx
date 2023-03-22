@@ -191,47 +191,50 @@ const JourneyCard = (props: JourneyCardProps) => {
 
       {imgURLs && <ViewPictures imgURLs={imgURLs} />}
       <CardBody className="dark:text-theme-green" onClick={showJourneyPage}>
-        {/* <p className="dark:text-theme-green">
-          Description : {journey.description}
-        </p> */}
-        <p className="dark:text-theme-green">Cost : {journey.cost} kr</p>
         <Heading size="sm">{getStarRating(averageRating)}</Heading>
+        <p className="dark:text-theme-green">Cost : {journey.cost} kr</p>
         <p className="dark:text-theme-green">Countries: {countriesList()}</p>
       </CardBody>
       <CardFooter>
         {updateMessage}
-        {auth.currentUser?.uid === journey.uid || auth.currentUser === null ? (
-          <div className="absolute right-6 bottom-5">
-            <p className="dark:text-theme-green bottom-7 right-0 absolute text-2xl">
-              {storeCount}
-            </p>
-          </div>
-        ) : (
-          <div className="absolute right-6 bottom-5">
-            <div className="relative">
-              <GeneralButton
-                onClick={
-                  isJourneyStored ? unstoreJourneyToUser : storeJourneyToUser
-                }
-                description={
-                  isJourneyStored
-                    ? editJourneyButton("../../images/cancelIcon.png", "Cancel")
-                    : editJourneyButton("../../images/likeIcon.png", "Store")
-                }
-              />
+        <div>
+          {auth.currentUser?.uid === journey.uid ||
+          auth.currentUser === null ? (
+            <div className="absolute right-6 bottom-5">
               <p className="dark:text-theme-green bottom-7 right-0 absolute text-2xl">
                 {storeCount}
               </p>
             </div>
-          </div>
-        )}
-        <br />
-        <br />
-        <p className="absolute right-10 bottom-5 dark:text-theme-green underline underline-offset-auto ">
-          {auth.currentUser?.uid === journey.uid
-            ? "You!"
-            : props.authorUsername}
-        </p>
+          ) : (
+            <div className="absolute right-6 bottom-5">
+              <div className="relative">
+                <GeneralButton
+                  onClick={
+                    isJourneyStored ? unstoreJourneyToUser : storeJourneyToUser
+                  }
+                  description={
+                    isJourneyStored
+                      ? editJourneyButton(
+                          "../../images/cancelIcon.png",
+                          "Cancel"
+                        )
+                      : editJourneyButton("../../images/likeIcon.png", "Store")
+                  }
+                />
+                <p className="dark:text-theme-green bottom-7 right-0 absolute text-2xl">
+                  {storeCount}
+                </p>
+              </div>
+            </div>
+          )}
+          <br />
+          <br />
+          <p className="absolute right-10 bottom-5 dark:text-theme-green underline underline-offset-auto ">
+            {auth.currentUser?.uid === journey.uid
+              ? "You!"
+              : props.authorUsername}
+          </p>
+        </div>
       </CardFooter>
     </Card>
   );

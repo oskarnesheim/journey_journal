@@ -243,7 +243,7 @@ const JourneyPage = (props: JourneyProps) => {
           saveChanges={saveChanges}
         />
       </div>
-      <GeneralButton description="home" onClick={() => navigate("/home")} />
+      <GeneralButton description="Home" onClick={() => navigate("/home")} />
       {auth.currentUser?.uid === journey?.uid ? (
         <GeneralButton
           description="Profile"
