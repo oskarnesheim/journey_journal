@@ -185,7 +185,6 @@ const JourneyPage = (props: JourneyProps) => {
     <div className="viewJourney">
       <div className=" dark:bg-theme-dark dark:text-theme-green align-top justify-center flex flex-col p-10 ml-20 mr-20">
         <ViewPictures imgURLs={imgURLs} />
-
         <EditText
           whatAttribute="Title"
           journey={journey}
