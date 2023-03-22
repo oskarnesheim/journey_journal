@@ -191,9 +191,9 @@ const JourneyCard = (props: JourneyCardProps) => {
 
       {imgURLs && <ViewPictures imgURLs={imgURLs} />}
       <CardBody className="dark:text-theme-green" onClick={showJourneyPage}>
-        <p className="dark:text-theme-green">
+        {/* <p className="dark:text-theme-green">
           Description : {journey.description}
-        </p>
+        </p> */}
         <p className="dark:text-theme-green">Cost : {journey.cost} kr</p>
         <Heading size="sm">{getStarRating(averageRating)}</Heading>
         <p className="dark:text-theme-green">Countries: {countriesList()}</p>
