@@ -43,10 +43,12 @@ const CreateJourney = ({
   });
   const storage = getStorage();
 
-  const addJourney = (e: React.FormEvent<HTMLFormElement>): void => {
+  const addJourney = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     try {
-      uploadImages();
+      await uploadImages();
       const newJourneyPost: Ijourney = {
         title: journeyForm.title,
         description: journeyForm.description,
@@ -82,7 +84,6 @@ const CreateJourney = ({
   const [images, setImages] = useState<newImages[]>([]);
 
   const uploadImages = () => {
-    console.log(images);
     if (images.length === 0) return;
     try {
       images.forEach((image) => {
@@ -91,14 +92,7 @@ const CreateJourney = ({
           `images/${journeyForm.journeyID}/${image.id}`
         );
 
-        uploadBytes(imageRef, image.file).then((snapshot) => {
-          console.log("Uploaded", snapshot);
-        });
-        const ids = images.map((image) => image.id);
-        setJourneyForm({
-          ...journeyForm,
-          pictures: ids,
-        });
+        uploadBytes(imageRef, image.file);
       });
     } catch (error) {
       console.log(error);

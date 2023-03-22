@@ -31,6 +31,12 @@ export function UploadPictures({
   function handleNewPicture(event: React.ChangeEvent<HTMLInputElement>) {
     if (!event.target.files) return;
     const id = firestoreAutoId();
+    setJourney((prev) => {
+      return {
+        ...prev,
+        pictures: [...prev.pictures, id],
+      };
+    });
     setImages([...images, { id: id, file: event.target.files[0] }]);
     var selectedFile = event.target.files[0];
     var url = URL.createObjectURL(selectedFile); // <-- create a local URL
@@ -44,9 +50,7 @@ export function UploadPictures({
       <input
         className="bg-theme-green hover:text-pink-500 font-bold py-2 px-4 rounded m-5 dark:text-theme-dark"
         type="file"
-        onChange={(event) => {
-          handleNewPicture(event);
-        }}
+        onChange={(event) => handleNewPicture(event)}
       />
       <div className="flex flex-row flex-wrap">
         {localImageUrls.map((image) => {
@@ -54,11 +58,11 @@ export function UploadPictures({
             <img
               className="h-52 p-2"
               src={image}
-              onClick={() => {
+              onClick={() =>
                 setLocalImageUrls((prev) =>
                   prev.filter((item) => item !== image)
-                );
-              }}
+                )
+              }
             />
           );
         })}
