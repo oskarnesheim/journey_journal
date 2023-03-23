@@ -43,10 +43,12 @@ function ShowJourneys({
   useEffect(() => {
     if (user !== undefined) {
       getTailoredPosts().then((data) => {
-        setSortedJourneys(data);
+        if (data && data.length > 0) {
+          setSortedJourneys(data);
+        } else {
+          setSortedJourneys(journeys);
+        }
       });
-
-      // setSortedJourneys(tailoredJourneys);
     } else {
       setSortedJourneys(journeys);
     }
@@ -163,33 +165,37 @@ function ShowJourneys({
 
     const flattenedCountryArray = countryArrays.flat();
     const uniqueCountries = [...new Set(flattenedCountryArray)];
+    const randomCountries = uniqueCountries.sort(() => 0.5 - Math.random()).slice(0, 10);
 
-    console.log(uniqueCountries);
-    return uniqueCountries;
+    console.log(randomCountries);
+    return randomCountries;
   }
 
   async function getTailoredPosts() {
     const storedCountries: string[] = await getStoredCountries();
     const tailoredJourneys: Ijourney[] = [];
 
-    const querySnapshot = await getDocs(
-      query(
-        collection(database, "journeys"),
-        where("countries", "array-contains-any", storedCountries)
-      )
-    );
-    querySnapshot.forEach((doc) => {
-      const tailoredJourney = doc.data();
-      const myJourney: Ijourney = {
-        title: tailoredJourney.title,
-        description: tailoredJourney.des,
-        cost: tailoredJourney.cost,
-        uid: tailoredJourney.uid,
-        countries: tailoredJourney.countries,
-        journeyID: tailoredJourney.journeyID,
-      };
-      tailoredJourneys.push(myJourney);
-    });
+    if (storedCountries.length > 0) {
+      const querySnapshot = await getDocs(
+        query(
+          collection(database, "journeys"),
+          where("countries", "array-contains-any", storedCountries)
+        )
+      );
+      querySnapshot.forEach((doc) => {
+        const tailoredJourney = doc.data();
+        const myJourney: Ijourney = {
+          title: tailoredJourney.title,
+          description: tailoredJourney.des,
+          cost: tailoredJourney.cost,
+          uid: tailoredJourney.uid,
+          countries: tailoredJourney.countries,
+          journeyID: tailoredJourney.journeyID
+        };
+        tailoredJourneys.push(myJourney);
+      });
+    }
+
     return tailoredJourneys;
   }
 

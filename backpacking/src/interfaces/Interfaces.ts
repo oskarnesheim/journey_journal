@@ -18,8 +18,7 @@ export interface Ijourney{
     cost: number,
     uid: string,
     countries: string[],
-    journeyID : string,
-    pictures: string[],
+    journeyID : string
 }
 
 export type IStoredJourney = {
