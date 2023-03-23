@@ -16,6 +16,7 @@ import "../components/css/components.css";
 import FilterBox from "../components/Home/FilterBox";
 import SortingBox from "../components/SortingBox";
 import ShowJourneys from "../components/ShowJourneys";
+import { DocumentData, QuerySnapshot } from "firebase/firestore";
 
 export interface filterType {
   text: string;
@@ -53,7 +54,12 @@ export default function Home() {
   }, []);
 
   const getUsersAndJourneys = async () => {
-    const storedJData = await getDocs(getStoredJRef);
+    const [storedJData, journeyData, usersData] = await Promise.all([
+      getDocs(getStoredJRef),
+      getDocs(getJourneysRef),
+      getDocs(getUsersRef),
+    ]);
+
     setStoredJData(
       storedJData.docs.map(
         (journey) => ({ ...journey.data() } as IStoredJourney)
@@ -63,7 +69,6 @@ export default function Home() {
     const ratings = await getAllRatings();
     setRatings(ratings!);
 
-    const journeyData = await getDocs(getJourneysRef);
     const localJourneys = journeyData.docs.map(
       (journey) => ({ ...journey.data() } as Ijourney)
     );
@@ -71,7 +76,6 @@ export default function Home() {
       journeyData.docs.map((journey) => ({ ...journey.data() } as Ijourney))
     );
 
-    const usersData = await getDocs(getUsersRef);
     setUsers(usersData.docs.map((user) => ({ ...user.data() } as Iuser)));
   };
 

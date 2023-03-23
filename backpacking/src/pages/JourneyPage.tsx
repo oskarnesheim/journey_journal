@@ -99,7 +99,6 @@ const JourneyPage = (props: JourneyProps) => {
       countries: journey.countries,
       uid: journey.uid,
       journeyID: journey.journeyID,
-      pictures: journey.pictures,
     };
     try {
       await setDoc(

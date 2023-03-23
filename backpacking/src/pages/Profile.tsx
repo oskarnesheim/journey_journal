@@ -50,9 +50,20 @@ export default function Profile() {
   const getJourneys = async () => {
     try {
       //? Henter alle brukerens poster
-      const q = query(getJourneysRef);
-      const data = await getDocs(q);
-      const journeys: Ijourney[] = data.docs.map(
+      const allJourneysQuery = query(getJourneysRef);
+      const storedJourneysQuery = query(
+        getStoredJRef,
+        where("uid", "==", auth.currentUser?.uid)
+      );
+
+      const [allJourneyData, allStoredJourneysData, usersData] =
+        await Promise.all([
+          getDocs(allJourneysQuery),
+          getDocs(storedJourneysQuery),
+          getDocs(getUsersRef),
+        ]);
+
+      const journeys: Ijourney[] = allJourneyData.docs.map(
         (journeyData) => ({ ...journeyData.data() } as Ijourney)
       );
 
@@ -61,14 +72,11 @@ export default function Profile() {
       );
 
       // //? Henter alle lagrede reiser sine IDer, hvem som la de ut og hvem som lagret dem
-      const q2 = query(
-        getStoredJRef,
-        where("uid", "==", auth.currentUser?.uid)
-      );
-      const data2 = await getDocs(q2);
-      const storedJourneysData: IStoredJourney[] = data2.docs.map(
-        (journeyData) => ({ ...journeyData.data() } as IStoredJourney)
-      );
+
+      const storedJourneysData: IStoredJourney[] =
+        allStoredJourneysData.docs.map(
+          (journeyData) => ({ ...journeyData.data() } as IStoredJourney)
+        );
 
       const newStoredJourneys: Ijourney[] = [];
       storedJourneysData.forEach((storeData) => {
@@ -78,8 +86,6 @@ export default function Profile() {
           }
         });
       });
-
-      const usersData = await getDocs(getUsersRef);
 
       setUsers(usersData.docs.map((user) => ({ ...user.data() } as Iuser)));
       setUserPosts(userJourneys.map((journey) => ({ ...journey } as Ijourney)));
