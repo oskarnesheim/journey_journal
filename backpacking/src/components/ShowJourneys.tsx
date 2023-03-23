@@ -82,7 +82,7 @@ function ShowJourneys({
       !searchInput.maxPriceActive &&
       !searchInput.minPriceActive
     )
-      return journeys;
+      return setSortedJourneys(journeys);
 
     const filteredBySearch = journeys
       .filter((jj) => {
@@ -166,7 +166,9 @@ function ShowJourneys({
 
     const flattenedCountryArray = countryArrays.flat();
     const uniqueCountries = [...new Set(flattenedCountryArray)];
-    const randomCountries = uniqueCountries.sort(() => 0.5 - Math.random()).slice(0, 10);
+    const randomCountries = uniqueCountries
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 10);
 
     console.log(randomCountries);
     return randomCountries;
@@ -191,7 +193,7 @@ function ShowJourneys({
           cost: tailoredJourney.cost,
           uid: tailoredJourney.uid,
           countries: tailoredJourney.countries,
-          journeyID: tailoredJourney.journeyID
+          journeyID: tailoredJourney.journeyID,
         };
         tailoredJourneys.push(myJourney);
       });
