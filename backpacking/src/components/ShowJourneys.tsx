@@ -151,11 +151,12 @@ function ShowJourneys({
 
   async function getStoredCountries() {
     const likedJourneyID: string[] = await getUserSavedJourneys();
+    const tenLikedJourneyIDs: string[] = likedJourneyID.slice(0, 10);
     const likedCountries: string[] = [];
 
     const journeysRef = collection(database, "journeys");
     const querySnapshot = await getDocs(
-      query(journeysRef, where("journeyID", "in", likedJourneyID))
+      query(journeysRef, where("journeyID", "in", tenLikedJourneyIDs))
     );
 
     const countryArrays = querySnapshot.docs.map((doc) => {
