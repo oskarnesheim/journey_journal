@@ -40,7 +40,7 @@ const Navbar = () => {
         </li>
         {user && (
           <li>
-            <p>{"Hello, " + user?.firstname+ "!"}</p>
+            <p>{"Hello, " + user?.firstname + "!"}</p>
           </li>
         )}
         <li className="hover:text-pink-500 absolute right-10">
@@ -59,10 +59,7 @@ const Navbar = () => {
           )}
         </li>
         <li>
-          <button
-            className="darkmode"
-            onClick={handleThemeSwitch}
-          >
+          <button className="darkmode" onClick={handleThemeSwitch}>
             {theme === "light" ? (
               <img src="../images/light-mode-icon.png" alt="Light" />
             ) : (
