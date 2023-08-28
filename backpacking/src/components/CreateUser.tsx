@@ -37,7 +37,6 @@ const CreateUser = () => {
     isAdmin: false,
     uid: "",
   } as Iuser);
-  
 
   const [globalUser, setGlobalUser] = useRecoilState(UserState);
   const [emailIsValid, setEmailIsValid] = useState(false);
@@ -85,6 +84,7 @@ const CreateUser = () => {
   return (
     <div className="createUser-container">
       <form onSubmit={(e) => addUser(e)}>
+        <FormControl></FormControl>
         <FormControl>
           <FormLabel>Firstname</FormLabel>
           <Input
@@ -157,7 +157,7 @@ const CreateUser = () => {
             <b> We'll never share your password or email</b>
           </FormHelperText>
           <br />
-          <GeneralButton type="submit" description={"Create"}/>
+          <GeneralButton type="submit" description={"Create"} />
         </FormControl>
       </form>
     </div>
