@@ -48,11 +48,13 @@ const Login = () => {
         emailSignIn,
         passwordSignIn
       );
+      console.log(userCredential);
       const user = userCredential.user;
       const userID = user.uid;
 
       const q = query(getUsersRef, where("uid", "==", userID));
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot);
 
       if (querySnapshot.empty) {
         console.log("No matching documents.");
@@ -69,12 +71,6 @@ const Login = () => {
       setErrorMessage("Invalid login");
     }
   };
-
-  // const handleKeypressPassword = (e: React.KeyboardEvent<HTMLDivElement>) => {
-  //   if (e.key === "Enter") {
-  //     signIn();
-  //   }
-  // };
 
   return (
     <div className="formControlLogin">
